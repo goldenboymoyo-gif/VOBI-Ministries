@@ -19,8 +19,7 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
     <section className="border-b border-line bg-paper py-20 md:py-28">
       <div className="shell">
         <SectionHead
-          index="04"
-          eyebrow="The library"
+          eyebrow="The latest sermon"
           title={
             <>
               The Word,
@@ -104,7 +103,15 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/sermons" className="btn btn-ink">
+              <Link
+                href={latest?.youtubeUrl ?? "/sermons"}
+                target={latest ? "_blank" : undefined}
+                rel={latest ? "noopener noreferrer" : undefined}
+                className="btn btn-gold"
+              >
+                Watch the message
+              </Link>
+              <Link href="/sermons" className="btn btn-ghost text-ink">
                 Open the library
               </Link>
             </div>

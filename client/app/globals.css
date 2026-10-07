@@ -258,6 +258,16 @@ h4 {
   background: currentColor;
 }
 
+.btn-gold {
+  background: var(--color-gold-bright);
+  color: var(--color-ink);
+  border-color: var(--color-gold-bright);
+}
+.btn-gold:hover {
+  background: transparent;
+  color: var(--color-gold-bright);
+}
+
 /* Image frames ----------------------------------------------------------- */
 
 .frame {

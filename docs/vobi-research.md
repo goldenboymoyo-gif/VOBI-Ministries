@@ -291,3 +291,13 @@ logo file · brand colour (sampled gold) · service time (Sunday 08:30, closing 
 
 **Blocked, must come from VOBI leadership (rendered as `CONTENT NEEDED — VOBI` in code, never shown to visitors):**
 brand type · official tagline · weekly schedule · founder story/founding date · leadership biography · WhatsApp number · giving/banking details · approved photography beyond published thumbnails · approved statements of faith / mission · approved testimonial quotes with names · parking, accessibility and children's information for Plan Your Visit · which ministries are official.
+
+---
+
+## 11. Production (Vercel) — 7 Oct 2026
+
+- **Project** `vobi-ministries` under team `box-arena` (id `prj_8yLhmkSruMBUzufBpEWHdB6eErlv`), GitHub-linked to `goldenboymoyo-gif/VOBI-Ministries`, `rootDirectory: client`, framework nextjs, hobby plan.
+- **Live URL:** `https://vobi-ministries-two.vercel.app` (canonical production alias). The plain name `vobi-ministries.vercel.app` is taken in the global Vercel namespace (owned by a third party) — that is why the project's import alias is `-two`.
+- **Deployment flow:** `vercel link` is committed at the repo **root** (`.vercel`), and deploys must run from the repo root (Vercel then builds `client/`). Deploy from inside `client/` fails because `rootDirectory: client` is already set.
+- **Design rules (user mandate, 7 Oct 2026):** ministries-grade layout modelled on SCOAN *structure only*; real VOBI media; centred nav HOME–ABOUT–MINISTRIES–SERMONS–LIVE–EVENTS–PRAYER with WATCH LIVE + PLAN YOUR VISIT actions; hero is real service video (dark overlay, tagline "Because of Christ, we are saved."); 12-section homepage; two-font system; gold/black/white palette from the logo; cinematic-only animation; no AI-pattern design (no giant overlapping type, no abstract gradients, no fake stats/testimonials).
+- **Forms backend (deferred by user):** the Next.js `/api/contact` + `/api/prayer` routes proxy to the Express `server/`, which Vercel does not host — so POSTs return 404 in production. Accepted state. Options on record for later: (a) host `server/` on Render/Railway and set `VOBI_API_URL` env on Vercel; (b) rewrite `/api/*` to Vercel Blob/KV for submission storage; (c) mailto fallback to `prophetpromise1@gmail.com`.

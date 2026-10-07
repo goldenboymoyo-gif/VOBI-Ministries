@@ -1,13 +1,13 @@
 import { Hero } from "@/components/sections/Hero";
-import { SundayService } from "@/components/sections/SundayService";
 import { AboutIntro } from "@/components/sections/AboutIntro";
-import { StoryStrip } from "@/components/sections/StoryStrip";
+import { AboutTheMinistry } from "@/components/sections/AboutTheMinistry";
+import { LeadershipSpotlight } from "@/components/sections/LeadershipSpotlight";
 import { Word } from "@/components/sections/Word";
-import { WorshipLife } from "@/components/sections/WorshipLife";
-import { MinistriesStrip } from "@/components/sections/MinistriesStrip";
-import { EventsSection } from "@/components/sections/EventsSection";
+import { SundayService } from "@/components/sections/SundayService";
 import { PrayerCTA } from "@/components/sections/PrayerCTA";
 import { Testimonies } from "@/components/sections/Testimonies";
+import { MinistriesStrip } from "@/components/sections/MinistriesStrip";
+import { EventsSection } from "@/components/sections/EventsSection";
 import { VisitSection } from "@/components/sections/VisitSection";
 
 import { getEvents, getMinistries, getSermons, getTestimonies } from "@/lib/data";
@@ -38,15 +38,15 @@ export default async function HomePage() {
             : "Soon"
         }
       />
-      <SundayService service={latestService} />
       <AboutIntro />
-      <StoryStrip />
+      <AboutTheMinistry />
+      <LeadershipSpotlight />
       <Word latest={latestSermon} total={sermons.length} />
-      <WorshipLife />
-      <MinistriesStrip ministries={ministries} />
-      <EventsSection events={events} />
+      <SundayService service={latestService} />
       <PrayerCTA />
       <Testimonies testimonies={testimonies} />
+      <MinistriesStrip ministries={ministries} />
+      <EventsSection events={events} />
       <VisitSection />
     </>
   );

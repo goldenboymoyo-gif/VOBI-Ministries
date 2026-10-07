@@ -55,6 +55,7 @@ export const nav = [
   },
   { label: "Ministries", href: "/ministries" },
   { label: "Sermons", href: "/sermons" },
+  { label: "Live", href: "/live" },
   { label: "Events", href: "/events" },
   { label: "Prayer", href: "/prayer" },
 ];

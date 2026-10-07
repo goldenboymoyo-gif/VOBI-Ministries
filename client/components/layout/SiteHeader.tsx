@@ -35,29 +35,35 @@ export function SiteHeader() {
     <>
       <header
         className={[
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,color,border-color] duration-500",
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,color,border-color,box-shadow] duration-500",
           solid
-            ? "border-b border-line bg-paper/95 text-ink backdrop-blur-md"
+            ? "border-b border-line bg-paper/95 text-ink shadow-[0_10px_30px_-18px_rgba(16,20,19,0.35)] backdrop-blur-md"
             : "border-b border-transparent text-paper",
         ].join(" ")}
       >
-        <div className="shell flex h-[76px] items-center justify-between gap-6 md:h-[92px]">
+        {!solid && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-28 bg-gradient-to-b from-ink/80 to-transparent"
+          />
+        )}
+        <div className="shell flex h-[76px] items-center justify-between gap-5 md:h-[88px]">
           <Link href="/" className="shrink-0" aria-label="VOBI — home">
             <Logo tone={isDark ? "reverse" : "solid"} variant="mark" />
           </Link>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-6 xl:flex" aria-label="Primary">
             {nav.map((item) =>
               item.children ? (
                 <div key={item.href} className="group relative">
                   <Link
                     href={item.href}
-                    className="link-underline py-6 text-[11px] font-semibold uppercase tracking-[0.2em]"
+                    className="link-underline py-6 text-[11px] font-semibold uppercase tracking-[0.18em]"
                   >
                     {item.label}
                   </Link>
-                  <div className="pointer-events-none absolute left-0 top-full w-52 border border-line bg-paper opacity-0 shadow-[0_18px_50px_-24px_rgba(16,20,19,0.5)] transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-                    <ul className="py-2 text-ink">
+                  <div className="pointer-events-none absolute left-1/2 top-full w-52 -translate-x-1/2 border border-line bg-paper text-ink opacity-0 shadow-[0_18px_50px_-24px_rgba(16,20,19,0.5)] transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                    <ul className="py-2">
                       {item.children.map((c) => (
                         <li key={c.href}>
                           <Link
@@ -75,7 +81,7 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="link-underline py-6 text-[11px] font-semibold uppercase tracking-[0.2em]"
+                  className="link-underline py-6 text-[11px] font-semibold uppercase tracking-[0.18em]"
                 >
                   {item.label}
                 </Link>
@@ -83,7 +89,7 @@ export function SiteHeader() {
             )}
           </nav>
 
-          <div className="hidden items-center gap-3 lg:flex">
+          <div className="hidden items-center gap-3 xl:flex">
             {navActions.map((a) => (
               <Link
                 key={a.href}
@@ -104,7 +110,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] lg:hidden"
+            className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
@@ -126,7 +132,7 @@ export function SiteHeader() {
         {open && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 flex flex-col justify-between bg-ink px-6 pb-10 pt-[96px] text-paper lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-between bg-ink px-6 pb-10 pt-[104px] text-paper xl:hidden"
             initial={{ opacity: 0, y: -14 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -14 }}
@@ -136,11 +142,11 @@ export function SiteHeader() {
               {nav.map((item, i) => (
                 <motion.div
                   key={item.href}
-                  initial={{ opacity: 0, y: 22 }}
+                  initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    delay: 0.07 + i * 0.055,
-                    duration: 0.55,
+                    delay: 0.07 + i * 0.045,
+                    duration: 0.5,
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   className="border-b border-line-dark"
@@ -148,12 +154,9 @@ export function SiteHeader() {
                   <Link
                     href={item.href}
                     onClick={closeMenu}
-                    className="flex items-baseline justify-between py-4 font-display text-[2rem] leading-none tracking-[-0.03em]"
+                    className="flex items-baseline justify-between py-4 font-display text-[1.5rem] leading-[1.1] tracking-[-0.02em]"
                   >
                     {item.label}
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] opacity-50">
-                      0{i + 1}
-                    </span>
                   </Link>
                   {item.children && (
                     <ul className="flex gap-5 pb-4">

@@ -1,7 +1,11 @@
 import type { ReactNode } from "react";
 
 type Props = {
-  index: string;
+  /**
+   * Kept for call-site compatibility. A ministry header does not number its
+   * sections, so the numeral is no longer rendered.
+   */
+  index?: string;
   eyebrow: string;
   title: ReactNode;
   tone?: "solid" | "reverse";
@@ -10,25 +14,23 @@ type Props = {
 };
 
 export function SectionHead({
-  index,
   eyebrow,
   title,
   tone = "solid",
   className = "",
   aside,
 }: Props) {
-  const dim = tone === "reverse" ? "text-paper/55" : "text-muted";
-  const ruleC = tone === "reverse" ? "bg-line-dark" : "bg-line";
+  const dim = tone === "reverse" ? "text-paper/60" : "text-muted";
+  const rule = tone === "reverse" ? "bg-gold-bright" : "bg-gold";
 
   return (
     <div className={`reveal ${className}`}>
-      <div className={`flex items-baseline gap-5 ${dim}`}>
-        <span className="numeral text-[11px] tracking-[0.2em]">{index}</span>
-        <span className={`h-px w-8 shrink-0 ${ruleC} translate-y-[-3px]`} aria-hidden />
-        <span className="eyebrow">{eyebrow}</span>
+      <div className="flex items-center gap-4">
+        <span className={`h-px w-10 shrink-0 ${rule}`} aria-hidden />
+        <span className={`eyebrow ${dim}`}>{eyebrow}</span>
       </div>
       <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <h2 className="display-lg max-w-[14ch]">{title}</h2>
+        <h2 className="display-md max-w-[22ch]">{title}</h2>
         {aside}
       </div>
     </div>

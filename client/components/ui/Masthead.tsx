@@ -13,16 +13,8 @@ type Props = {
 
 export function Masthead({ eyebrow, title, intro, crumbs = [], meta }: Props) {
   return (
-    <header className="relative overflow-hidden bg-ink text-paper">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(135deg, currentColor 0 1px, transparent 1px 24px)",
-        }}
-      />
-      <div className="shell relative pb-16 pt-32 md:pb-20 md:pt-44">
+    <header className="relative bg-ink text-paper">
+      <div className="shell relative pb-14 pt-32 md:pb-16 md:pt-44">
         {crumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
             {crumbs.map((c, i) => (
@@ -43,7 +35,7 @@ export function Masthead({ eyebrow, title, intro, crumbs = [], meta }: Props) {
         <p className="eyebrow text-gold-bright">{eyebrow}</p>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:gap-16">
-          <h1 className="display-lg lg:col-span-7">{title}</h1>
+          <h1 className="display-lg max-w-[20ch]">{title}</h1>
           {(intro || meta) && (
             <div className="lg:col-span-5 lg:pt-3">
               {intro && (

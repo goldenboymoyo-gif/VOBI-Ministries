@@ -11,8 +11,6 @@ import { thumb } from "@/lib/media";
 const HERO_VIDEO = "zS8NL8NMNlQ";
 const HERO_POSTER = thumb(HERO_VIDEO);
 
-const PILLARS = ["Word", "Prayer", "Worship", "Testimony"];
-
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Hero({ latestDate }: { latestDate: string }) {
@@ -28,6 +26,10 @@ export function Hero({ latestDate }: { latestDate: string }) {
     const id = window.setTimeout(() => setShowVideo(true), 1600);
     return () => window.clearTimeout(id);
   }, []);
+
+  const words = site.fullName.split(" ");
+  const lineOne = words.slice(0, 3).join(" ");
+  const lineTwo = words.slice(3).join(" ");
 
   return (
     <section className="relative isolate min-h-[100svh] overflow-hidden bg-ink text-paper">
@@ -54,83 +56,75 @@ export function Hero({ latestDate }: { latestDate: string }) {
             aria-hidden="true"
           />
         )}
-        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_75%_15%,rgba(16,20,19,0.15),rgba(16,20,19,0.85))]" />
-        <div className="absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-ink via-ink/85 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink/85 to-transparent" />
+        {/* Dark natural overlay so the text stays calm and readable */}
+        <div className="absolute inset-0 bg-ink/65" />
+        <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-ink via-ink/80 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-ink/70 to-transparent" />
       </div>
 
-      <div className="shell flex min-h-[100svh] flex-col justify-end pb-16 pt-32 md:pb-20 md:pt-40">
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
+      <div className="shell flex min-h-[100svh] flex-col justify-end pb-16 pt-36 md:pb-22 md:pt-44">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.25, duration: 0.8, ease }}
-          className="eyebrow text-paper/60"
+          className="flex items-center gap-4"
         >
-          {site.city} · {site.country}
-        </motion.p>
+          <span className="h-px w-10 bg-gold-bright" aria-hidden />
+          <p className="eyebrow text-gold-bright">
+            {site.city}, {site.country}
+          </p>
+        </motion.div>
 
-        <div className="mt-5 max-w-[16ch] overflow-hidden">
+        <div className="mt-7 max-w-[24ch]">
           <motion.h1
-            initial={{ y: "108%" }}
-            animate={{ y: 0 }}
-            transition={{ delay: 0.35, duration: 1.15, ease }}
-            className="display-xl"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 1, ease }}
+            className="display-lg"
           >
-            Because of Christ
-            <br />
-            we are saved.
+            <span className="block">{lineOne}</span>
+            <span className="block text-paper/50">{lineTwo}</span>
           </motion.h1>
         </div>
 
         <motion.p
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.9, ease }}
-          className="mt-7 max-w-xl text-[15px] leading-relaxed text-paper/70 md:text-base"
+          transition={{ delay: 0.75, duration: 0.9, ease }}
+          className="mt-8 flex max-w-xl items-baseline gap-4 font-display text-[1.35rem] leading-[1.3] tracking-[-0.02em] text-paper/90 md:text-[1.6rem]"
         >
-          {site.statements.welcome}
+          <span className="h-9 w-px shrink-0 bg-gold-bright/70" aria-hidden />
+          {site.statements.bioLine}
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.85, duration: 0.9, ease }}
-          className="mt-10 flex flex-col gap-7 border-t border-line-dark pt-7 sm:flex-row sm:items-center sm:justify-between"
+          transition={{ delay: 0.9, duration: 0.9, ease }}
+          className="mt-10 flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:gap-4"
         >
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/55 sm:gap-x-7">
-            {PILLARS.map((p) => (
-              <li key={p} className="flex items-center gap-5 sm:gap-7">
-                {p}
-                <span aria-hidden className="hidden h-px w-6 bg-paper/25 sm:block" />
-              </li>
-            ))}
-          </ul>
-
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href="/live" className="btn btn-solid">
-              Watch Live
-            </Link>
-            <Link href="/visit" className="btn btn-ghost">
-              Plan Your Visit
-            </Link>
-          </div>
+          <Link href="/live" className="btn btn-gold justify-center">
+            Watch Live
+          </Link>
+          <Link href="/visit" className="btn btn-ghost justify-center">
+            Plan Your Visit
+          </Link>
         </motion.div>
 
-        <motion.div
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.15, duration: 0.8 }}
-          className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] uppercase tracking-[0.18em] text-paper/45"
+          className="mt-10 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line-dark pt-6 text-[11px] uppercase tracking-[0.18em] text-paper/50"
         >
-          <span className="inline-flex items-center gap-2">
+          <span className="inline-flex items-center gap-2 text-paper/75">
             <span className="h-1.5 w-1.5 rounded-full bg-gold-bright" aria-hidden />
             Latest broadcast
           </span>
-          <span aria-hidden>·</span>
           <span>{latestDate}</span>
           <span aria-hidden>·</span>
           <span>{site.statements.distance}</span>
-        </motion.div>
+        </motion.p>
       </div>
     </section>
   );

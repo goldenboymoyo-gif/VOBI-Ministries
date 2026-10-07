@@ -29,13 +29,12 @@ export function SundayService({ service }: { service?: Sermon }) {
     <section className="relative overflow-hidden border-b border-line bg-paper py-20 md:py-28">
       <div className="shell">
         <SectionHead
-          index="01"
-          eyebrow="This Sunday"
+          eyebrow="Live services"
           title={
             <>
-              The latest
+              Worship live, from
               <br />
-              live service
+              Victoria Falls.
             </>
           }
           aside={
