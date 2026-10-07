@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+build/
+
+# server runtime data (message store)
+server/data/
+
+# env — never commit secrets (.env.example is committed)
+.env
+.env.*
+!.env.example
+
+# logs & os
+*.log
+npm-debug.log*
+.DS_Store
+
+# typescript
+*.tsbuildinfo
