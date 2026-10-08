@@ -20,14 +20,8 @@ export default async function TestimoniesPage() {
       <Masthead image="/photos/worship.jpg"
         eyebrow="Testimonies"
         crumbs={[{ label: "Home", href: "/" }, { label: "Testimonies" }]}
-        title={
-          <>
-            Their words,
-            <br />
-            not <em className="not-italic text-gold-bright">ours</em>.
-          </>
-        }
-        intro="Each card opens VOBI's own published video. Nothing here is rewritten, paraphrased or summarised on anyone's behalf — including the names, which are only shown where the ministry published them."
+        title="Testimonies"
+        intro="God is still working. Watch and be encouraged."
       />
 
       <section className="bg-paper py-20 md:py-28">
@@ -35,8 +29,7 @@ export default async function TestimoniesPage() {
           {testimonies.length === 0 ? (
             <div className="border border-line bg-paper-dim px-7 py-14 md:px-14">
               <p className="max-w-2xl font-display text-[clamp(1.4rem,2.6vw,2rem)] leading-[1.18] tracking-[-0.02em]">
-                Testimonies are published by VOBI on its official channels. As soon as the ministry
-                supplies them for this page, they will appear here.
+                New testimonies are added regularly. Watch more on our YouTube channel.
               </p>
               <div className="mt-8">
                 <Link href="/contact" className="btn btn-ink">
@@ -74,7 +67,7 @@ export default async function TestimoniesPage() {
                     <span className="mt-5 block font-display text-[1.2rem] leading-[1.18] tracking-[-0.02em] transition-transform duration-500 group-hover:translate-x-1">
                       {t.title}
                     </span>
-                    <span className="mt-3 block text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+                    <span className="mt-3 block text-sm font-semibold text-muted">
                       {t.person ? `${t.person}${t.location ? ` · ${t.location}` : ""}` : site.fullName}
                     </span>
                   </a>

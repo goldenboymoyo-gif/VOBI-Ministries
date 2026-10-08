@@ -78,7 +78,7 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
               <span className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/25" />
             </Link>
 
-            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-muted">
               <span>{latest ? fmtDate(latest.date) : "—"}</span>
               <span aria-hidden className="opacity-40">
                 ·

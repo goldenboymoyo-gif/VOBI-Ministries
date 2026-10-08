@@ -44,7 +44,7 @@ export function SiteHeader() {
         {!solid && (
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-24 bg-gradient-to-b from-ink/75 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-full bg-[#a38845] shadow-md"
           />
         )}
         <div className="shell flex h-[72px] items-center justify-between gap-5 md:h-[80px]">

@@ -25,10 +25,10 @@ const cards = [
 
 export function FeatureCards() {
   return (
-    <section className="bg-ink py-16 text-paper md:py-24">
+    <section className="bg-paper py-16 text-ink md:py-24">
       <div className="shell grid gap-6 md:grid-cols-3">
         {cards.map((c) => (
-          <Link key={c.title} href={c.href} className="group block bg-ink-800">
+          <Link key={c.title} href={c.href} className="group block bg-white shadow-md">
             <div className="frame aspect-video overflow-hidden">
               <Image
                 src={c.img}
@@ -41,8 +41,8 @@ export function FeatureCards() {
             </div>
             <div className="p-6">
               <h3 className="font-display text-2xl font-semibold">{c.title}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-paper/70">{c.text}</p>
-              <span className="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.18em] text-gold-bright">
+              <p className="mt-3 text-[15px] leading-relaxed text-muted">{c.text}</p>
+              <span className="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.18em] text-gold">
                 Learn more →
               </span>
             </div>

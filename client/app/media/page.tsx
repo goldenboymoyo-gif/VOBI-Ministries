@@ -44,16 +44,10 @@ export default async function MediaPage() {
   return (
     <>
       <Masthead image="/photos/praise.jpg"
-        eyebrow="Media"
+        eyebrow="VOBI TV"
         crumbs={[{ label: "Home", href: "/" }, { label: "Media" }]}
-        title={
-          <>
-            Watch
-            <br />
-            VOBI.
-          </>
-        }
-        intro="Everything VOBI broadcasts and publishes — services, sermons, prayer and testimonies — carried from Victoria Falls on the ministry's own channel."
+        title="Watch VOBI TV"
+        intro="Services, sermons, prayer and testimonies from Victoria Falls."
         meta={
           latest && (
             <div>
@@ -104,7 +98,7 @@ export default async function MediaPage() {
                 </Link>
               )}
               <p className="mt-4 text-[12px] text-muted-light">
-                Latest broadcast published by VOBI on its official channel.
+                Our latest broadcast.
               </p>
             </div>
 

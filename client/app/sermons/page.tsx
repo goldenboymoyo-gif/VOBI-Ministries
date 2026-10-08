@@ -18,16 +18,10 @@ export default async function SermonsPage() {
   return (
     <>
       <Masthead image="/photos/hero.jpg"
-        eyebrow="The library"
+        eyebrow="VOBI TV"
         crumbs={[{ label: "Home", href: "/" }, { label: "Sermons" }]}
-        title={
-          <>
-            Every message,
-            <br />
-            <em className="not-italic text-gold-bright">kept</em>.
-          </>
-        }
-        intro="Sermons, teachings, Sunday services and special gatherings — as VOBI published them, with the original titles, dates and durations."
+        title="Sermons & Services"
+        intro="Every message from Prophet Promise."
       />
 
       <section className="bg-paper py-16 md:py-24">

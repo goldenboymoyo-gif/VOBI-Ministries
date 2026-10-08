@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function BranchesPage() {
   return (
     <>
-      <Masthead eyebrow="Branches" title="Find VOBI" image="/photos/congregation.jpg" intro="Our church is in Mkhosana, Victoria Falls. Our outreach has reached Botswana and Zambia." />
+      <Masthead eyebrow="Branches" title="Find VOBI" image="/media/yBesC26mSSA-maxresdefault.jpg" intro="Our church is in Mkhosana, Victoria Falls. Our outreach has reached Botswana and Zambia." />
       <section className="bg-paper py-16 md:py-24">
         <div className="shell grid gap-10 lg:grid-cols-2">
           <div className="reveal">

@@ -15,16 +15,12 @@ function nextService(now: number): { start: number; live: boolean } {
   return { start: t, live: false };
 }
 
-export function Countdown() {
+export function Countdown({ variant = "dark" }: { variant?: "dark" | "card" }) {
   const [now, setNow] = useState<number | null>(null);
   useEffect(() => {
-    const tick = () => setNow(Date.now());
-    const first = requestAnimationFrame(tick);
-    const id = window.setInterval(tick, 1000);
-    return () => {
-      cancelAnimationFrame(first);
-      window.clearInterval(id);
-    };
+    setNow(Date.now());
+    const id = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(id);
   }, []);
 
   if (now === null) return <div className="h-[5.5rem]" aria-hidden />;
@@ -32,7 +28,7 @@ export function Countdown() {
 
   if (live) {
     return (
-      <a href="/live" className="inline-flex items-center gap-3 bg-red-600 px-6 py-4 text-sm font-bold uppercase tracking-[0.18em] text-white">
+      <a href="/live" className="inline-flex items-center gap-3 rounded bg-red-600 px-6 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white">
         <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-white" />
         We are live now — join the service
       </a>
@@ -46,20 +42,16 @@ export function Countdown() {
     ["Minutes", Math.floor(diff / 60000) % 60],
     ["Seconds", Math.floor(diff / 1000) % 60],
   ] as const;
+  const card = variant === "card";
 
   return (
-    <div>
-      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold-bright">
-        Next service · Sunday 08:30
-      </p>
-      <div className="flex gap-3 sm:gap-4" role="timer" aria-label="Time until the next Sunday service">
-        {parts.map(([label, v]) => (
-          <div key={label} className="min-w-[4.2rem] border border-paper/25 bg-ink/50 px-3 py-3 text-center backdrop-blur-sm sm:min-w-[5.5rem]">
-            <div className="font-display text-3xl font-semibold tabular-nums sm:text-5xl">{String(v).padStart(2, "0")}</div>
-            <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-paper/70">{label}</div>
-          </div>
-        ))}
-      </div>
+    <div className="flex gap-3" role="timer" aria-label="Time until the next Sunday service">
+      {parts.map(([label, v]) => (
+        <div key={label} className={`min-w-[4rem] rounded px-3 py-3 text-center sm:min-w-[5rem] ${card ? "bg-gold-bright text-ink" : "bg-ink/60 text-white"}`}>
+          <div className="text-3xl font-bold tabular-nums sm:text-4xl">{String(v).padStart(2, "0")}</div>
+          <div className={`mt-1 text-[11px] ${card ? "text-ink/70" : "text-white/70"}`}>{label}</div>
+        </div>
+      ))}
     </div>
   );
 }

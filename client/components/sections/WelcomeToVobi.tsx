@@ -59,7 +59,7 @@ export function WelcomeToVobi() {
                 key={f.k}
                 className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-line py-3.5 md:grid-cols-[9rem_1fr]"
               >
-                <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-light">
+                <dt className="text-sm font-semibold text-muted-light">
                   {f.k}
                 </dt>
                 <dd className="text-[14px] leading-relaxed text-ink">{f.v}</dd>

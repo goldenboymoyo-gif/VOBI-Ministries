@@ -47,7 +47,7 @@ export default function TermsPage() {
         eyebrow="Legal"
         crumbs={[{ label: "Home", href: "/" }, { label: "Terms of Service" }]}
         title="Terms of Service"
-        intro="The terms on which this website and the content published through it are made available."
+        intro="The terms for using this website."
       />
 
       <section className="border-b border-line bg-paper py-20 md:py-28">

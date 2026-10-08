@@ -72,15 +72,6 @@ export const nav = [
       { label: "Give & Partner", href: "/give" },
     ],
   },
-  { label: "Branches", href: "/branches" },
-  {
-    label: "Blog",
-    href: "/blog",
-    children: [
-      { label: "Latest Messages", href: "/blog" },
-      { label: "Devotionals", href: "/devotionals" },
-    ],
-  },
   { label: "Store", href: "/store" },
   { label: "Events", href: "/events" },
   {

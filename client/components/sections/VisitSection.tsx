@@ -15,13 +15,13 @@ export function VisitSection() {
 
           <dl className="mt-12 space-y-8 border-t border-line-dark pt-8">
             <div>
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
+              <dt className="text-sm font-semibold text-paper/45">
                 Address
               </dt>
               <dd className="mt-2 text-[15px] leading-relaxed text-paper/85">{site.address}</dd>
             </div>
             <div>
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
+              <dt className="text-sm font-semibold text-paper/45">
                 Telephone
               </dt>
               <dd className="mt-2">
@@ -34,7 +34,7 @@ export function VisitSection() {
               </dd>
             </div>
             <div>
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
+              <dt className="text-sm font-semibold text-paper/45">
                 Email
               </dt>
               <dd className="mt-2">
@@ -47,7 +47,7 @@ export function VisitSection() {
               </dd>
             </div>
             <div>
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
+              <dt className="text-sm font-semibold text-paper/45">
                 Prayer line
               </dt>
               <dd className="mt-2">
@@ -60,7 +60,7 @@ export function VisitSection() {
               </dd>
             </div>
             <div>
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
+              <dt className="text-sm font-semibold text-paper/45">
                 Service times
               </dt>
               <dd className="mt-2 max-w-md text-[15px] leading-relaxed text-paper/85">

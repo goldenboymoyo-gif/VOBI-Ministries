@@ -36,7 +36,7 @@ export function UpcomingEvents({ events }: { events: ChurchEvent[] }) {
             <ul className="mt-7 space-y-px border border-line bg-line">
               {events.map((e) => (
                 <li key={e.id} className="bg-paper-dim px-6 py-5">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gold">
+                  <p className="text-sm font-semibold text-gold">
                     {fmtDate(e.date)}
                   </p>
                   <p className="display-sm mt-2">{e.title}</p>

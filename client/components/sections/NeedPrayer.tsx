@@ -13,19 +13,13 @@ export function NeedPrayer() {
 
           <div className="mt-7 space-y-5 text-[15px] leading-relaxed text-muted md:text-base">
             <p>
-              Write your request below. It goes to the ministry directly — not to a public
-              list, not to a comment thread, and nowhere on this website. Requests are read by
-              the ministry and kept private.
-            </p>
+              Send your request. It is read in private and never published.</p>
             <p>
-              Mass Prayer has run in VOBI&apos;s public ministry since 2017, alongside
-              &ldquo;Pray Along with Prophet Promise&rdquo;. Requests are brought into that
-              same ministry of prayer.
-            </p>
+              We pray over every request in mass prayer and on the prayer line.</p>
           </div>
 
           <dl className="mt-8 border-t border-line pt-6">
-            <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-light">
+            <dt className="text-sm font-semibold text-muted-light">
               Prayer line
             </dt>
             <dd className="mt-2">

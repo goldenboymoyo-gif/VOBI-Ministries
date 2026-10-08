@@ -48,7 +48,7 @@ export default function PrivacyPage() {
         eyebrow="Legal"
         crumbs={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]}
         title="Privacy Policy"
-        intro="A plain account of what this website collects, who receives it, and what it is never used for."
+        intro="What this website collects and what it never does with it."
       />
 
       <section className="border-b border-line bg-paper py-20 md:py-28">

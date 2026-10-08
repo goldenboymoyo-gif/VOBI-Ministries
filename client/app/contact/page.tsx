@@ -19,14 +19,8 @@ export default function ContactPage() {
       <Masthead image="/photos/praise.jpg"
         eyebrow="Contact"
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
-        title={
-          <>
-            Talk to
-            <br />
-            the <em className="not-italic text-gold-bright">ministry</em>.
-          </>
-        }
-        intro="Send a message here and it goes straight to VOBI. For anything urgent, the church telephone is the fastest route."
+        title="Contact Us"
+        intro="Call, email or visit us in Victoria Falls."
       />
 
       <section className="bg-paper py-20 md:py-28">
@@ -43,7 +37,7 @@ export default function ContactPage() {
               <p className="eyebrow text-muted-light">Direct</p>
               <dl className="mt-6 space-y-6">
                 <div>
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
+                  <dt className="text-sm font-semibold text-muted-light">
                     Telephone
                   </dt>
                   <dd className="mt-2">
@@ -56,7 +50,7 @@ export default function ContactPage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
+                  <dt className="text-sm font-semibold text-muted-light">
                     Prayer line
                   </dt>
                   <dd className="mt-2">
@@ -69,13 +63,13 @@ export default function ContactPage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
+                  <dt className="text-sm font-semibold text-muted-light">
                     Address
                   </dt>
                   <dd className="mt-2 text-[15px] leading-relaxed text-ink">{site.address}</dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
+                  <dt className="text-sm font-semibold text-muted-light">
                     Email
                   </dt>
                   <dd className="mt-2">

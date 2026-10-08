@@ -10,7 +10,7 @@ export function Leadership() {
         <div className="reveal lg:col-span-5">
           <div className="frame aspect-video">
             <Image
-              src={thumb("GiScarDvZec")}
+              src={thumb("AeL-g0-o0u8")}
               alt="Prophet Promise ministering in a VOBI Sunday service"
               width={1280}
               height={720}

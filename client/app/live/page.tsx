@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Masthead } from "@/components/ui/Masthead";
 import Image from "next/image";
 
 import { getSermons } from "@/lib/data";
@@ -27,37 +28,18 @@ export default async function LivePage() {
 
   return (
     <>
-      <header className="relative overflow-hidden bg-ink text-paper">
-        <div className="shell pb-14 pt-32 md:pb-16 md:pt-44">
-          <p className="eyebrow text-gold-bright">Live from Victoria Falls</p>
-          <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:gap-16">
-            <h1 className="display-lg lg:col-span-7">
-              Watch the
-              <br />
-              service <em className="not-italic text-gold-bright">now</em>.
-            </h1>
-            <div className="lg:col-span-5 lg:pt-3">
-              <p className="text-[15px] leading-relaxed text-paper/70 md:text-base">
-                {site.statements.welcome}
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <a
-                  href={channelUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-solid"
-                >
-                  Open the channel
-                </a>
-                <Link href="/visit" className="btn btn-ghost">
-                  Visit in person
-                </Link>
-              </div>
-            </div>
+      <Masthead
+        image="/photos/congregation.jpg"
+        eyebrow="Live from Victoria Falls"
+        title="Watch the service"
+        intro={site.statements.welcome}
+        meta={
+          <div className="flex flex-wrap gap-3">
+            <a href={channelUrl} target="_blank" rel="noopener noreferrer" className="btn btn-gold">Open the channel</a>
+            <Link href="/visit" className="btn btn-ghost">Visit in person</Link>
           </div>
-        </div>
-        <div className="h-px w-full bg-line-dark" />
-      </header>
+        }
+      />
 
       <section className="bg-ink pb-6 pt-10 text-paper">
         <div className="shell-narrow">
@@ -82,7 +64,7 @@ export default async function LivePage() {
           </div>
           <div className="mt-6 flex flex-wrap items-baseline justify-between gap-4">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
+              <p className="text-sm font-semibold text-paper/45">
                 Most recent broadcast
               </p>
               <p className="mt-2 font-display text-[1.35rem] leading-[1.2] tracking-[-0.02em]">

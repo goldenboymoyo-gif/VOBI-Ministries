@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { Split } from "@/components/ui/Split";
 import { Masthead } from "@/components/ui/Masthead";
 import { ServiceTime } from "@/components/ui/ServiceTime";
 import { site, mapsDirectionsUrl, mapsEmbedUrl } from "@/config/site";
@@ -13,16 +14,16 @@ export const metadata: Metadata = {
 
 const expect = [
   {
-    title: "You are welcome, wherever you are",
-    body: "VOBI introduces every broadcast with the same line: viewers around the globe are welcomed into the service. Whether you are in Victoria Falls or watching from another country, you are being spoken to.",
+    title: "You are welcome",
+    body: "Whether you are in Victoria Falls or watching from another country, you are welcome. Come as you are.",
   },
   {
-    title: "The service is not rushed",
-    body: "Recent Sunday broadcasts have run past seven hours — teaching, worship, mass prayer and ministry to individuals. Come expecting to stay a while.",
+    title: "Come ready to stay",
+    body: "Our services are not rushed. Worship, the Word, mass prayer and ministry to individuals can take several hours.",
   },
   {
-    title: "Come with your request",
-    body: "Mass prayer is a regular part of the meeting. If you would rather send your request ahead of time, the prayer page keeps it private and unpublished.",
+    title: "Bring your request",
+    body: "Mass prayer is part of every meeting. You can also send your request ahead of time on the prayer page.",
   },
 ];
 
@@ -32,14 +33,8 @@ export default function VisitPage() {
       <Masthead image="/photos/congregation.jpg"
         eyebrow="Plan your visit"
         crumbs={[{ label: "Home", href: "/" }, { label: "Plan Your Visit" }]}
-        title={
-          <>
-            Find your
-            <br />
-            way to <em className="not-italic text-gold-bright">VOBI</em>.
-          </>
-        }
-        intro="The ministry gathers in the Mkhosana suburb of Victoria Falls, Matabeleland North, Zimbabwe."
+        title="Visit Us"
+        intro="Join us every Sunday at 08:30 in Mkhosana, Victoria Falls."
         meta={
           <div className="flex flex-wrap gap-3">
             <a
@@ -56,6 +51,15 @@ export default function VisitPage() {
           </div>
         }
       />
+
+      <Split
+        image="/media/yBesC26mSSA-maxresdefault.jpg"
+        alt="Prophet Promise walking through the VOBI church hall during a service"
+        title="Our church in Mkhosana"
+      >
+        <p>We meet in Mkhosana, Victoria Falls. The hall is open, the welcome is warm, and there is room for you and your family.</p>
+        <p>{site.service.day}s at {site.service.time}. Come early.</p>
+      </Split>
 
       <section className="border-b border-line bg-paper py-20 md:py-28">
         <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -75,7 +79,7 @@ export default function VisitPage() {
                 { k: "Email", v: site.email, href: `mailto:${site.email}` },
               ].map((r) => (
                 <div key={r.k} className="border-b border-line py-5">
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
+                  <dt className="text-sm font-semibold text-muted-light">
                     {r.k}
                   </dt>
                   <dd className="mt-2 text-[15px] leading-relaxed text-ink">
@@ -96,7 +100,7 @@ export default function VisitPage() {
                 </div>
               ))}
               <div className="border-b border-line py-5">
-                <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
+                <dt className="text-sm font-semibold text-muted-light">
                   Service times
                 </dt>
                 <dd className="mt-2 text-[15px] leading-relaxed text-muted">

@@ -40,7 +40,7 @@ export function SocialLinks({ links, tone = "solid", className = "", showLabel =
             href={l.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] transition-opacity hover:opacity-60"
+            className="group inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-60"
           >
             <SocialIcon platform={l.platform} />
             <span className={showLabel ? "" : "sr-only"}>{l.label}</span>

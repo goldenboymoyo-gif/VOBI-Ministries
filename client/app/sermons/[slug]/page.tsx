@@ -87,7 +87,7 @@ export default async function SermonPage({ params }: { params: Promise<Params> }
 
       <header className="relative overflow-hidden bg-ink text-paper">
         <div className="shell pb-14 pt-32 md:pb-16 md:pt-44">
-          <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
+          <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-2 text-sm font-semibold text-paper/45">
             <Link href="/" className="transition-colors hover:text-paper">Home</Link>
             <span aria-hidden className="opacity-40">/</span>
             <Link href="/sermons" className="transition-colors hover:text-paper">Sermons</Link>
@@ -108,7 +108,7 @@ export default async function SermonPage({ params }: { params: Promise<Params> }
               ...(sermon.views ? [{ k: "Views", v: sermon.views.toLocaleString("en-GB") }] : []),
             ].map((r) => (
               <div key={r.k}>
-                <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/45">
+                <dt className="text-sm font-semibold text-paper/45">
                   {r.k}
                 </dt>
                 <dd className="mt-1.5 text-[15px] text-paper/85">{r.v}</dd>
@@ -159,27 +159,27 @@ export default async function SermonPage({ params }: { params: Promise<Params> }
           <nav className="mt-14 grid gap-px border border-line-dark bg-line-dark sm:grid-cols-2" aria-label="Message navigation">
             {prev ? (
               <Link href={`/sermons/${prev.slug}`} className="group bg-ink px-6 py-7">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/45">Previous</span>
+                <span className="text-sm font-semibold text-paper/45">Previous</span>
                 <span className="mt-3 block display-sm transition-transform duration-500 group-hover:-translate-x-1">
                   {prev.title}
                 </span>
               </Link>
             ) : (
               <span className="bg-ink px-6 py-7 opacity-40">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/45">Previous</span>
+                <span className="text-sm font-semibold text-paper/45">Previous</span>
                 <span className="mt-3 block display-sm">Start of the library</span>
               </span>
             )}
             {next ? (
               <Link href={`/sermons/${next.slug}`} className="group bg-ink px-6 py-7 text-right sm:text-right">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/45">Next</span>
+                <span className="text-sm font-semibold text-paper/45">Next</span>
                 <span className="mt-3 block display-sm transition-transform duration-500 group-hover:translate-x-1">
                   {next.title}
                 </span>
               </Link>
             ) : (
               <span className="bg-ink px-6 py-7 text-right opacity-40">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/45">Next</span>
+                <span className="text-sm font-semibold text-paper/45">Next</span>
                 <span className="mt-3 block display-sm">End of the library</span>
               </span>
             )}

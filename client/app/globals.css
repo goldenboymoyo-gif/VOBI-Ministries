@@ -15,8 +15,8 @@
   --color-ink-600: #2c3532;
 
   /* Paper / light surfaces */
-  --color-paper: #f4f0e8;
-  --color-paper-dim: #e8e2d6;
+  --color-paper: #fbf7ec;
+  --color-paper-dim: #f1e9d2;
   --color-paper-deep: #ddd5c6;
 
   /* Accent — VOBI gold. One accent only, two depths for contrast:
@@ -101,8 +101,8 @@ h4 {
   font-family: var(--font-display);
   font-weight: 800;
   text-transform: uppercase;
-  font-size: clamp(2.25rem, 5vw, 4.5rem);
-  line-height: 1;
+  font-size: clamp(1.9rem, 4vw, 3.25rem);
+  line-height: 1.08;
   letter-spacing: -0.025em;
 }
 
@@ -110,7 +110,7 @@ h4 {
   font-family: var(--font-display);
   font-weight: 800;
   text-transform: uppercase;
-  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
   line-height: 1.08;
   letter-spacing: -0.02em;
 }
@@ -131,10 +131,10 @@ h4 {
 
 .eyebrow {
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 1.05rem;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.01em;
 }
 
 .numeral {
@@ -202,10 +202,11 @@ h4 {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.95rem 1.6rem;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  padding: 0.85rem 1.6rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: 3px;
   text-transform: uppercase;
   border: 1px solid currentColor;
   transition:
@@ -340,3 +341,5 @@ a.group:hover h3 { color: var(--color-gold-bright); }
   .fade-up { opacity: 1; animation: none; }
   .kenburns { animation: none; }
 }
+
+.gold-wash { background: linear-gradient(180deg, #a38845 0%, #d9c27a 100%); }

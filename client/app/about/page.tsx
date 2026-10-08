@@ -25,7 +25,7 @@ export default function AboutPage() {
         cta={{ label: "Meet the Prophet", href: "/about/leadership" }}>
         <p>Prophet Promise ministers at every Sunday service, mass prayer and deliverance gathering. His messages are published on the ministry&apos;s own channel for anyone to watch.</p>
       </Split>
-      <Split image="/photos/praise.jpg" alt="Praise at a VOBI service" title="Come as you are"
+      <Split image="/media/78sc4pcwrHA-maxresdefault.jpg" alt="The congregation gathered for the Sunday service" title="Come as you are"
         cta={{ label: "Plan your visit", href: "/visit" }}>
         <p>You do not need to be a member or dress a certain way. Come early, bring your family, and expect the service to go on until the Holy Spirit gives the signal to end.</p>
       </Split>

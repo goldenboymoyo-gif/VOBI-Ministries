@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function StoryPage() {
   return (
     <>
-      <Masthead eyebrow="Our story" title="From Victoria Falls to the world" image="/photos/hero.jpg"
+      <Masthead eyebrow="Our story" title="From Victoria Falls to the world" image="/media/pWvcKKfaXPs-maxresdefault.jpg"
         intro="Sunday services, mass prayer, testimonies and outreach — recorded and shared year after year." crumbs={[{ label: "About", href: "/about" }, { label: "Our story" }]} />
       <section className="bg-paper py-16 md:py-24">
         <div className="shell-narrow">

@@ -71,7 +71,7 @@ export function SermonLibrary({ sermons }: { sermons: Sermon[] }) {
                 aria-selected={on}
                 onClick={() => setCategory(t.key)}
                 className={[
-                  "border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors",
+                  "border px-4 py-2.5 text-sm font-semibold transition-colors",
                   on
                     ? "border-ink bg-ink text-paper"
                     : "border-line text-muted hover:border-ink hover:text-ink",
@@ -96,7 +96,7 @@ export function SermonLibrary({ sermons }: { sermons: Sermon[] }) {
         </label>
       </div>
 
-      <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-light">
+      <p className="mt-6 text-sm font-semibold text-muted-light">
         {filtered.length} {filtered.length === 1 ? "message" : "messages"}
       </p>
 
@@ -125,11 +125,11 @@ export function SermonLibrary({ sermons }: { sermons: Sermon[] }) {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover"
                   />
-                  <span className="absolute bottom-3 right-3 bg-ink/85 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-paper">
+                  <span className="absolute bottom-3 right-3 bg-ink/85 px-2 py-1 text-sm font-semibold text-paper">
                     {duration(s.durationSeconds) ?? "Watch"}
                   </span>
                 </span>
-                <span className="mt-5 block text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
+                <span className="mt-5 block text-sm font-semibold text-gold">
                   {sermonCategories.find((c) => c.key === s.category)?.label}
                 </span>
                 <span className="mt-2.5 block font-display text-[1.25rem] leading-[1.15] tracking-[-0.02em] transition-transform duration-500 group-hover:translate-x-1">

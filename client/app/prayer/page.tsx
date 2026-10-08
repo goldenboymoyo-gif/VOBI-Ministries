@@ -33,14 +33,8 @@ export default function PrayerPage() {
       <Masthead image="/photos/hero.jpg"
         eyebrow="Prayer"
         crumbs={[{ label: "Home", href: "/" }, { label: "Prayer" }]}
-        title={
-          <>
-            Send us what
-            <br />
-            you are <em className="not-italic text-gold-bright">carrying</em>.
-          </>
-        }
-        intro="Write your request below. It goes to the ministry directly — not to a public list, not to a comment thread, and nowhere on this website."
+        title="Prayer Request"
+        intro="Tell us what you need prayer for. We pray over every request."
       />
 
       <section className="border-b border-line bg-paper py-20 md:py-28">
@@ -66,7 +60,7 @@ export default function PrayerPage() {
               <p className="eyebrow text-muted-light">Rather speak to someone</p>
               <dl className="mt-6 space-y-6">
                 <div>
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
+                  <dt className="text-sm font-semibold text-muted-light">
                     Prayer line
                   </dt>
                   <dd className="mt-2">
@@ -79,7 +73,7 @@ export default function PrayerPage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
+                  <dt className="text-sm font-semibold text-muted-light">
                     Email
                   </dt>
                   <dd className="mt-2">

@@ -20,14 +20,8 @@ export default async function MinistriesPage() {
       <Masthead image="/photos/worship.jpg"
         eyebrow="Ministries"
         crumbs={[{ label: "Home", href: "/" }, { label: "Ministries" }]}
-        title={
-          <>
-            The works
-            <br />
-            we can <em className="not-italic text-gold-bright">evidence</em>.
-          </>
-        }
-        intro="Worship, prayer, deliverance and outreach — the ways VOBI serves the people of Victoria Falls and beyond."
+        title="Our Ministries"
+        intro="Worship, prayer, deliverance and outreach."
       />
 
       <section className="bg-paper py-20 md:py-28">

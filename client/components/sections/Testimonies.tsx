@@ -19,9 +19,7 @@ export function Testimonies({ testimonies }: { testimonies: Testimony[] }) {
           }
           aside={
             <p className="max-w-md text-[15px] leading-relaxed text-muted">
-              Every testimony on this site links to a video published by VOBI. Nothing is
-              rewritten, paraphrased or summarised on anyone&apos;s behalf.
-            </p>
+              Real people, real stories. Watch what God has done.</p>
           }
         />
 
@@ -54,7 +52,7 @@ export function Testimonies({ testimonies }: { testimonies: Testimony[] }) {
               <span className="mt-5 block display-sm transition-transform duration-500 group-hover:translate-x-1">
                 {t.title}
               </span>
-              <span className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+              <span className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-muted">
                 {t.person && <span>{t.person}</span>}
                 {t.location && <span className="text-muted-light">· {t.location}</span>}
                 {!t.person && !t.location && <span className="text-gold">VOBI Ministries</span>}

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function CtaBand({ title, text, href, label }: { title: string; text: string; href: string; label: string }) {
   return (
-    <section className="bg-gold-bright text-ink">
+    <section className="gold-wash text-ink">
       <div className="shell flex flex-col items-start justify-between gap-6 py-14 md:flex-row md:items-center">
         <div className="reveal max-w-2xl">
           <h2 className="display-md">{title}</h2>
