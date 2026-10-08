@@ -70,32 +70,13 @@ export default function VisitPage() {
                 { k: "Address", v: site.address },
                 { k: "City", v: `${site.city}, Matabeleland North` },
                 { k: "Country", v: site.country },
-                { k: "Telephone", v: site.phone, href: `tel:${site.phone.replace(/\s+/g, "")}` },
-                {
-                  k: "Prayer line",
-                  v: site.prayerPhone,
-                  href: `tel:${site.prayerPhone.replace(/\s+/g, "")}`,
-                },
-                { k: "Email", v: site.email, href: `mailto:${site.email}` },
-              ].map((r) => (
+                ].map((r) => (
                 <div key={r.k} className="border-b border-line py-5">
                   <dt className="text-sm font-semibold text-muted-light">
                     {r.k}
                   </dt>
                   <dd className="mt-2 text-[15px] leading-relaxed text-ink">
-                    {r.href ? (
-                      r.href.startsWith("/") ? (
-                        <Link href={r.href} className="link-underline">
-                          {r.v}
-                        </Link>
-                      ) : (
-                        <a href={r.href} className="link-underline">
-                          {r.v}
-                        </a>
-                      )
-                    ) : (
-                      r.v
-                    )}
+                    {r.v}
                   </dd>
                 </div>
               ))}

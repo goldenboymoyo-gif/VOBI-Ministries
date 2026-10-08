@@ -96,9 +96,5 @@ export function mapsDirectionsUrl(): string {
 
 export function mapsEmbedUrl(): string {
   const { lat, lng } = site.coordinates;
-  const d = 0.012;
-  const bbox = `${lng - d},${lat - d / 1.6},${lng + d},${lat + d / 1.6}`;
-  return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(
-    bbox,
-  )}&layer=mapnik&marker=${lat},${lng}`;
+  return `https://maps.google.com/maps?q=${lat},${lng}&z=16&output=embed`;
 }

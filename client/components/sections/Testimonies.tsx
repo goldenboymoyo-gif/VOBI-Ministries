@@ -27,9 +27,7 @@ export function Testimonies({ testimonies }: { testimonies: Testimony[] }) {
           {featured.map((t) => (
             <Link
               key={t.id}
-              href={t.youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/testimonies/${t.slug}`}
               className="group reveal block"
             >
               <span className="frame frame-hover relative block aspect-video">

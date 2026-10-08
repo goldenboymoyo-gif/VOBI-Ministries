@@ -60,7 +60,7 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
             </h3>
 
             <Link
-              href={latest?.youtubeUrl ?? "/sermons"}
+              href={latest ? `/sermons/${latest.slug}` : "/sermons"}
               target={latest ? "_blank" : undefined}
               rel={latest ? "noopener noreferrer" : undefined}
               className="group mt-8 block frame frame-hover aspect-video"
@@ -92,7 +92,7 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href={latest?.youtubeUrl ?? "/sermons"}
+                href={latest ? `/sermons/${latest.slug}` : "/sermons"}
                 target={latest ? "_blank" : undefined}
                 rel={latest ? "noopener noreferrer" : undefined}
                 className="btn btn-gold"

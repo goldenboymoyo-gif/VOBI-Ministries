@@ -6,8 +6,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Word } from "@/components/sections/Word";
 import { Leadership } from "@/components/sections/Leadership";
 import { Testimonies } from "@/components/sections/Testimonies";
-import { NeedPrayer } from "@/components/sections/NeedPrayer";
-import { VisitSection } from "@/components/sections/VisitSection";
+import { CtaBand } from "@/components/ui/CtaBand";
 
 import { getSermons, getTestimonies } from "@/lib/data";
 
@@ -30,8 +29,7 @@ export default async function HomePage() {
       <Testimonies testimonies={testimonies} />
       <BrandVideo />
       <FollowWatch />
-      <NeedPrayer />
-      <VisitSection />
+      <CtaBand title="Need prayer?" text="Send your request. It is read in private and never published." href="/prayer" label="Send a request" />
     </>
   );
 }

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import { getSermon, getSermons } from "@/lib/data";
 import { seedSermons, seedServices, sermonCategories } from "@/content/sermons";
+import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { SectionHead } from "@/components/ui/SectionHead";
 
 type Params = { slug: string };
@@ -121,20 +122,11 @@ export default async function SermonPage({ params }: { params: Promise<Params> }
 
       <section className="bg-ink pb-20 text-paper">
         <div className="shell-narrow">
-          <div className="relative aspect-video w-full overflow-hidden border border-line-dark bg-black">
-            {id ? (
-              <iframe
-                className="absolute inset-0 h-full w-full border-0"
-                src={`https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`}
-                title={sermon.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-              />
-            ) : (
-              <Image src={sermon.thumbnail} alt={sermon.title} fill className="object-cover" sizes="100vw" />
-            )}
-          </div>
+          {id ? (
+            <VideoPlayer id={id} title={sermon.title} poster={sermon.thumbnail} />
+          ) : (
+            <div className="relative aspect-video w-full bg-black"><Image src={sermon.thumbnail} alt={sermon.title} fill className="object-cover" sizes="100vw" /></div>
+          )}
 
           {sermon.description && (
             <p className="mt-8 max-w-3xl text-[15px] leading-relaxed text-paper/70">
@@ -143,14 +135,6 @@ export default async function SermonPage({ params }: { params: Promise<Params> }
           )}
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href={sermon.youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-solid"
-            >
-              Open on YouTube
-            </a>
             <Link href="/sermons" className="btn btn-ghost">
               Back to library
             </Link>

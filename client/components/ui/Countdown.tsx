@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 // Services: Sundays 08:30 Africa/Harare (UTC+2, no DST) = 06:30 UTC.
-const LIVE_WINDOW_MS = 5 * 60 * 60 * 1000;
+const LIVE_WINDOW_MS = 8 * 60 * 60 * 1000;
 
-function nextService(now: number): { start: number; live: boolean } {
+export function nextService(now: number): { start: number; live: boolean } {
   const d = new Date(now);
   const start = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 6, 30);
   const daysToSunday = (7 - d.getUTCDay()) % 7;

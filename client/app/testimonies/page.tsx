@@ -42,9 +42,7 @@ export default async function TestimoniesPage() {
               {testimonies.map((t) => (
                 <li key={t.id} className="reveal">
                   <a
-                    href={t.youtubeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={`/testimonies/${t.slug}`}
                     className="group block"
                   >
                     <span className="frame frame-hover relative block aspect-video">

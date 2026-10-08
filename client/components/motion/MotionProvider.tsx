@@ -1,73 +1,24 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 
-/**
- * Motion system.
- *
- * GSAP ScrollTrigger drives the editorial scroll choreography; Lenis provides
- * the smooth scroll. Framer Motion handles component-level UI transitions.
- * Everything is disabled under prefers-reduced-motion.
- */
+/** Fades sections in as they scroll into view. Content is visible by default if scripts fail. */
 export function MotionProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-
-    let cleaned = false;
-    let dispose: (() => void) | undefined;
-
-    const boot = async () => {
-      const gsap = (await import("gsap")).default;
-      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-      const Lenis = (await import("lenis")).default;
-      if (cleaned) return;
-
-      gsap.registerPlugin(ScrollTrigger);
-
-      const lenis = new Lenis({
-        duration: 1.05,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 1.4,
-      });
-
-      lenis.on("scroll", ScrollTrigger.update);
-      const tick = (time: number) => lenis.raf(time * 1000);
-      gsap.ticker.add(tick);
-      gsap.ticker.lagSmoothing(0);
-
-      const ctx = gsap.context(() => {
-        // Block reveals
-        gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 1.05,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          });
-        });
-      });
-
-      // Elements that were already in view when JS took over
-      ScrollTrigger.refresh();
-
-      dispose = () => {
-        ctx.revert();
-        gsap.ticker.remove(tick);
-        lenis.destroy();
-        ScrollTrigger.getAll().forEach((t) => t.kill());
-      };
-    };
-
-    boot();
-
-    return () => {
-      cleaned = true;
-      dispose?.();
-    };
-  }, []);
+    document.documentElement.classList.add("js");
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".reveal:not(.in)"));
+    if (!("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return; }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }),
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+    );
+    els.forEach((e) => io.observe(e));
+    const failsafe = window.setTimeout(() => els.forEach((e) => e.classList.add("in")), 4000);
+    return () => { io.disconnect(); window.clearTimeout(failsafe); };
+  }, [pathname]);
 
   return <>{children}</>;
 }

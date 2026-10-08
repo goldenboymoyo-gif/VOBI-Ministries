@@ -11,12 +11,34 @@ import { SocialLinks } from "@/components/ui/SocialLinks";
 
 export function SiteHeader() {
   const [solid, setSolid] = useState(false);
+  const [tone, setTone] = useState<{ bg: string; fg: string; dark: boolean } | null>(null);
   const [open, setOpen] = useState(false);
 
   const closeMenu = () => setOpen(false);
 
   useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 64);
+    const rgba = (c: string) => {
+      const cv = document.createElement("canvas"); cv.width = cv.height = 1;
+      const cx = cv.getContext("2d", { willReadFrequently: true }); if (!cx) return null;
+      cx.clearRect(0, 0, 1, 1); cx.fillStyle = c; cx.fillRect(0, 0, 1, 1);
+      const d = cx.getImageData(0, 0, 1, 1).data; return [d[0], d[1], d[2], d[3] / 255];
+    };
+    const onScroll = () => {
+      setSolid(window.scrollY > 24);
+      if (window.scrollY <= 24) return;
+      const hdr = document.querySelector("[data-site-header]");
+      for (const el of document.elementsFromPoint(window.innerWidth / 2, 110)) {
+        if (hdr && hdr.contains(el)) continue;
+        for (let n: Element | null = el; n; n = n.parentElement) {
+          const p = rgba(getComputedStyle(n).backgroundColor);
+          if (p && p[3] > 0.9) {
+            const lum = (0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2]) / 255;
+            setTone({ bg: `rgb(${p[0]},${p[1]},${p[2]})`, fg: lum < 0.55 ? "#ffffff" : "#101413", dark: lum < 0.55 });
+            return;
+          }
+        }
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -29,23 +51,20 @@ export function SiteHeader() {
     };
   }, [open]);
 
-  const isDark = !solid;
+  const isDark = !solid || (tone?.dark ?? false);
 
   return (
     <>
       <header
+        data-site-header
+        style={solid && tone ? { backgroundColor: tone.bg, color: tone.fg } : undefined}
         className={[
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,color,border-color,box-shadow] duration-500",
-          solid
-            ? "border-b border-line bg-paper/95 text-ink backdrop-blur-md"
-            : "border-b border-transparent text-paper",
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,color,box-shadow] duration-300",
+          solid ? "shadow-sm" : "text-white",
         ].join(" ")}
       >
         {!solid && (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-full bg-[#a38845] shadow-md"
-          />
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-[140%] bg-gradient-to-b from-black/55 to-transparent" />
         )}
         <div className="shell flex h-[72px] items-center justify-between gap-5 md:h-[80px]">
           <Link href="/" className="shrink-0" aria-label="VOBI — home">

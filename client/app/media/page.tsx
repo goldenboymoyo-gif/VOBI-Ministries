@@ -82,9 +82,7 @@ export default async function MediaPage() {
             <div className="lg:col-span-7">
               {latest && (
                 <Link
-                  href={latest.youtubeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/sermons/${latest.slug}`}
                   className="group block frame frame-hover aspect-video"
                 >
                   <Image

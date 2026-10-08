@@ -1,6 +1,6 @@
 import { site } from "@/config/site";
 
-const API = process.env.VOBI_API_URL ?? "http://localhost:4000";
+const API = process.env.VOBI_API_URL;
 
 export type InquiryKind = "contact" | "prayer";
 
@@ -66,6 +66,7 @@ export async function forward(
   kind: InquiryKind,
   payload: Record<string, string>,
 ): Promise<{ status: number; body: unknown }> {
+  if (!API) return sendByEmail(kind, payload);
   try {
     const res = await fetch(`${API}/api/${kind === "prayer" ? "prayer-requests" : "contacts"}`, {
       method: "POST",
@@ -91,4 +92,30 @@ function safeJson(text: string): unknown {
   } catch {
     return { raw: text };
   }
+}
+
+/** No backend configured: deliver the message to the ministry's inbox through FormSubmit. */
+async function sendByEmail(
+  kind: InquiryKind,
+  payload: Record<string, string>,
+): Promise<{ status: number; body: unknown }> {
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${site.email}`, {
+      method: "POST",
+      headers: { "content-type": "application/json", accept: "application/json" },
+      body: JSON.stringify({
+        _subject: kind === "prayer" ? "VOBI website: prayer request" : "VOBI website: message",
+        _template: "table",
+        _captcha: "false",
+        name: payload.name || "Not given",
+        contact: payload.contact || "Not given",
+        subject: payload.subject || "-",
+        message: payload.message,
+      }),
+      signal: AbortSignal.timeout(10000),
+    });
+    const data = (await res.json().catch(() => null)) as { success?: string } | null;
+    if (res.ok && String(data?.success) === "true") return { status: 200, body: { ok: true } };
+  } catch {}
+  return { status: 503, body: { error: "We could not send that just now. Please call the church instead." } };
 }
