@@ -38,7 +38,7 @@ export function MotionProvider({ children }: { children: ReactNode }) {
       gsap.ticker.lagSmoothing(0);
 
       const ctx = gsap.context(() => {
-        // Headline / block reveals
+        // Block reveals
         gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
           gsap.to(el, {
             opacity: 1,
@@ -47,53 +47,6 @@ export function MotionProvider({ children }: { children: ReactNode }) {
             ease: "power3.out",
             scrollTrigger: { trigger: el, start: "top 88%", once: true },
           });
-        });
-
-        // Image clip reveals
-        gsap.utils.toArray<HTMLElement>(".reveal-clip").forEach((el) => {
-          gsap.to(el, {
-            clipPath: "inset(0% 0% 0% 0%)",
-            duration: 1.35,
-            ease: "power4.out",
-            scrollTrigger: { trigger: el, start: "top 85%", once: true },
-          });
-        });
-
-        // Slow parallax on framed imagery
-        gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
-          const amount = Number(el.dataset.parallax) || 8;
-          gsap.fromTo(
-            el,
-            { yPercent: -amount },
-            {
-              yPercent: amount,
-              ease: "none",
-              scrollTrigger: {
-                trigger: el.parentElement ?? el,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true,
-              },
-            },
-          );
-        });
-
-        // Oversized numerals drift
-        gsap.utils.toArray<HTMLElement>("[data-drift]").forEach((el) => {
-          gsap.fromTo(
-            el,
-            { xPercent: Number(el.dataset.drift) || -6 },
-            {
-              xPercent: 0,
-              ease: "none",
-              scrollTrigger: {
-                trigger: el,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1,
-              },
-            },
-          );
         });
       });
 

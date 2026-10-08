@@ -19,7 +19,7 @@ const archivo = Archivo({
   display: "swap",
 });
 
-const SITE_URL = "https://vobiministries.org";
+const SITE_URL = "https://vobi-ministries-two.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

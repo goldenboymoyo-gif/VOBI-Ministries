@@ -19,14 +19,10 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
     <section className="border-b border-line bg-paper py-20 md:py-28">
       <div className="shell">
         <SectionHead
-          eyebrow="The latest sermon"
+          eyebrow="Sermons"
           title={
             <>
-              The Word,
-              <br />
-              kept for
-              <br />
-              later.
+              The Word.
             </>
           }
         />
@@ -34,20 +30,13 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
         <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="reveal lg:col-span-5">
             <ul className="border-t border-line">
-              {sermonCategories.map((c, i) => (
+              {sermonCategories.map((c) => (
                 <li key={c.key}>
                   <Link
                     href={`/sermons?category=${c.key}`}
-                    className="group flex items-baseline justify-between gap-6 border-b border-line py-6"
+                    className="group flex items-baseline justify-between gap-6 border-b border-line py-5"
                   >
-                    <span className="flex items-baseline gap-5">
-                      <span className="numeral text-[11px] tracking-[0.2em] text-muted-light">
-                        0{i + 1}
-                      </span>
-                      <span className="display-sm transition-transform duration-500 group-hover:translate-x-1.5">
-                        {c.label}
-                      </span>
-                    </span>
+                    <span className="text-[15px] font-medium">{c.label}</span>
                     <svg
                       viewBox="0 0 24 24"
                       className="h-5 w-5 shrink-0 stroke-current fill-none stroke-[1.5] transition-transform duration-500 group-hover:translate-x-1"

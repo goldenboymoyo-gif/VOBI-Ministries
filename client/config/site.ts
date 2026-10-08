@@ -51,13 +51,24 @@ export const nav = [
     children: [
       { label: "Our Story", href: "/about/story" },
       { label: "Leadership", href: "/about/leadership" },
+      { label: "What We Believe", href: "/about/what-we-believe" },
     ],
   },
   { label: "Ministries", href: "/ministries" },
   { label: "Sermons", href: "/sermons" },
-  { label: "Live", href: "/live" },
+  {
+    label: "Media",
+    href: "/media",
+    children: [
+      { label: "Sermons", href: "/sermons?category=sermon" },
+      { label: "Sunday Services", href: "/sermons?category=service" },
+      { label: "Testimonies", href: "/testimonies" },
+      { label: "Watch Live", href: "/live" },
+    ],
+  },
   { label: "Events", href: "/events" },
   { label: "Prayer", href: "/prayer" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const navActions = [

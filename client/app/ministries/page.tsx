@@ -32,18 +32,13 @@ export default async function MinistriesPage() {
 
       <section className="bg-paper py-20 md:py-28">
         <div className="shell space-y-px">
-          {ministries.map((m, i) => (
+          {ministries.map((m) => (
             <article key={m.id} className="reveal border-b border-line first:border-t">
               <Link
                 href={`/ministries/${m.slug}`}
                 className="group grid gap-6 py-9 md:grid-cols-12 md:items-center md:gap-10 md:py-12"
               >
-                <div className="md:col-span-1">
-                  <span className="numeral text-[11px] tracking-[0.2em] text-muted-light">
-                    0{i + 1}
-                  </span>
-                </div>
-                <div className="md:col-span-5">
+                <div className="md:col-span-6">
                   <h2 className="display-md transition-transform duration-500 group-hover:translate-x-1.5">
                     {m.name}
                   </h2>

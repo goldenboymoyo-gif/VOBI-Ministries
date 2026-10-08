@@ -37,38 +37,38 @@ export function SiteHeader() {
         className={[
           "fixed inset-x-0 top-0 z-50 transition-[background-color,color,border-color,box-shadow] duration-500",
           solid
-            ? "border-b border-line bg-paper/95 text-ink shadow-[0_10px_30px_-18px_rgba(16,20,19,0.35)] backdrop-blur-md"
+            ? "border-b border-line bg-paper/95 text-ink backdrop-blur-md"
             : "border-b border-transparent text-paper",
         ].join(" ")}
       >
         {!solid && (
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-28 bg-gradient-to-b from-ink/80 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-24 bg-gradient-to-b from-ink/75 to-transparent"
           />
         )}
-        <div className="shell flex h-[76px] items-center justify-between gap-5 md:h-[88px]">
+        <div className="shell flex h-[72px] items-center justify-between gap-5 md:h-[80px]">
           <Link href="/" className="shrink-0" aria-label="VOBI — home">
             <Logo tone={isDark ? "reverse" : "solid"} variant="mark" />
           </Link>
 
-          <nav className="hidden items-center gap-6 xl:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-7 xl:flex" aria-label="Primary">
             {nav.map((item) =>
               item.children ? (
                 <div key={item.href} className="group relative">
                   <Link
                     href={item.href}
-                    className="link-underline py-6 text-[11px] font-semibold uppercase tracking-[0.18em]"
+                    className="link-underline py-6 text-[13.5px] font-medium"
                   >
                     {item.label}
                   </Link>
-                  <div className="pointer-events-none absolute left-1/2 top-full w-52 -translate-x-1/2 border border-line bg-paper text-ink opacity-0 shadow-[0_18px_50px_-24px_rgba(16,20,19,0.5)] transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                  <div className="pointer-events-none absolute left-0 top-full w-56 border border-line bg-paper text-ink opacity-0 shadow-[0_18px_50px_-24px_rgba(16,20,19,0.5)] transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
                     <ul className="py-2">
                       {item.children.map((c) => (
                         <li key={c.href}>
                           <Link
                             href={c.href}
-                            className="block px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors hover:bg-paper-dim"
+                            className="block px-5 py-2.5 text-[13.5px] transition-colors hover:bg-paper-dim"
                           >
                             {c.label}
                           </Link>
@@ -81,7 +81,7 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="link-underline py-6 text-[11px] font-semibold uppercase tracking-[0.18em]"
+                  className="link-underline py-6 text-[13.5px] font-medium"
                 >
                   {item.label}
                 </Link>
@@ -110,7 +110,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] xl:hidden"
+            className="flex items-center gap-3 text-[13.5px] font-medium xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
@@ -154,18 +154,18 @@ export function SiteHeader() {
                   <Link
                     href={item.href}
                     onClick={closeMenu}
-                    className="flex items-baseline justify-between py-4 font-display text-[1.5rem] leading-[1.1] tracking-[-0.02em]"
+                    className="flex items-baseline justify-between py-4 text-[1.1rem] font-medium"
                   >
                     {item.label}
                   </Link>
                   {item.children && (
-                    <ul className="flex gap-5 pb-4">
+                    <ul className="flex flex-wrap gap-x-5 gap-y-2 pb-4">
                       {item.children.map((c) => (
                         <li key={c.href}>
                           <Link
                             href={c.href}
                             onClick={closeMenu}
-                            className="text-[11px] font-semibold uppercase tracking-[0.16em] opacity-70"
+                            className="text-[13.5px] opacity-70"
                           >
                             {c.label}
                           </Link>

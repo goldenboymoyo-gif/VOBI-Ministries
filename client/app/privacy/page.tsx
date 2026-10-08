@@ -1,0 +1,81 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+
+import { Masthead } from "@/components/ui/Masthead";
+import { site } from "@/config/site";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: `How Valley of Blessings International Ministries handles the information you share through this website.`,
+  alternates: { canonical: "/privacy" },
+};
+
+const sections = [
+  {
+    title: "What this website collects",
+    body: [
+      "This website collects only what you choose to type into its contact and prayer request forms — your name, your contact details, and your message.",
+      "The website itself does not use advertising trackers, profiling cookies or analytics scripts.",
+    ],
+  },
+  {
+    title: "How your message is used",
+    body: [
+      "Messages and prayer requests are sent to the ministry so that the ministry can respond to you. Prayer requests are held privately by the ministry and are never published, listed or shared on this website.",
+      "Your details are not sold, traded or used for marketing of any kind.",
+    ],
+  },
+  {
+    title: "Third-party services",
+    body: [
+      "This website embeds video from YouTube and a map from the OpenStreetMap project, and is hosted on Vercel. Those services handle data under their own privacy policies.",
+      "Links to VOBI's official social channels open those platforms directly.",
+    ],
+  },
+  {
+    title: "Contact",
+    body: [
+      `Questions about this policy can be sent to ${site.email}, or by telephone on ${site.phone}.`,
+      "Final policy text is subject to approval by Valley of Blessings International Ministries.",
+    ],
+  },
+];
+
+export default function PrivacyPage() {
+  return (
+    <>
+      <Masthead
+        eyebrow="Legal"
+        crumbs={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]}
+        title="Privacy Policy"
+        intro="A plain account of what this website collects, who receives it, and what it is never used for."
+      />
+
+      <section className="border-b border-line bg-paper py-20 md:py-28">
+        <div className="shell-narrow">
+          <div className="reveal space-y-12">
+            {sections.map((s) => (
+              <div key={s.title}>
+                <h2 className="display-sm">{s.title}</h2>
+                <div className="mt-5 space-y-4 text-[15.5px] leading-relaxed text-muted">
+                  {s.body.map((p) => (
+                    <p key={p.slice(0, 32)}>{p}</p>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="reveal mt-14 flex flex-wrap gap-3">
+            <Link href="/contact" className="btn btn-ink">
+              Contact the ministry
+            </Link>
+            <Link href="/terms" className="btn btn-ghost text-ink">
+              Terms of Service
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

@@ -54,10 +54,9 @@ export default function PrayerPage() {
 
           <aside className="reveal lg:col-span-5">
             <div className="space-y-px border border-line bg-line">
-              {notes.map((n, i) => (
+              {notes.map((n) => (
                 <div key={n.title} className="bg-paper px-7 py-8">
-                  <p className="numeral text-[11px] tracking-[0.2em] text-muted-light">0{i + 1}</p>
-                  <h2 className="display-sm mt-3">{n.title}</h2>
+                  <h2 className="display-sm">{n.title}</h2>
                   <p className="mt-3 text-[14px] leading-relaxed text-muted">{n.body}</p>
                 </div>
               ))}

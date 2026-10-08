@@ -139,10 +139,9 @@ export default function VisitPage() {
         <div className="shell">
           <p className="eyebrow text-gold">What to expect</p>
           <div className="mt-8 grid gap-px border border-line bg-line md:grid-cols-3">
-            {expect.map((e, i) => (
+            {expect.map((e) => (
               <article key={e.title} className="reveal bg-paper-dim px-7 py-9 md:px-8 md:py-11">
-                <p className="numeral text-[11px] tracking-[0.2em] text-muted-light">0{i + 1}</p>
-                <h2 className="display-sm mt-4">{e.title}</h2>
+                <h2 className="display-sm">{e.title}</h2>
                 <p className="mt-4 text-[14px] leading-relaxed text-muted">{e.body}</p>
               </article>
             ))}

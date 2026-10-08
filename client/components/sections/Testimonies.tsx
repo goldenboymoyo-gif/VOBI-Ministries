@@ -11,13 +11,10 @@ export function Testimonies({ testimonies }: { testimonies: Testimony[] }) {
     <section className="border-b border-line bg-paper py-20 md:py-28">
       <div className="shell">
         <SectionHead
-          index="07"
           eyebrow="Testimonies"
           title={
             <>
-              In their own
-              <br />
-              words.
+              Testimonies.
             </>
           }
           aside={

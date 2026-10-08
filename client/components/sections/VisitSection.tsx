@@ -10,12 +10,8 @@ export function VisitSection() {
     <section id="visit" className="relative overflow-hidden bg-ink text-paper">
       <div className="grid lg:grid-cols-2">
         <div className="reveal px-[max(1.25rem,4vw)] py-20 md:py-28 lg:pl-[max(4.5rem,4vw)] lg:pr-16">
-          <p className="eyebrow text-gold-bright">Plan your visit</p>
-          <h2 className="display-lg mt-6 max-w-[12ch]">
-            Come and
-            <br />
-            see us.
-          </h2>
+          <p className="eyebrow text-gold-bright">Visit</p>
+          <h2 className="display-md mt-6 max-w-[14ch]">Plan your visit</h2>
 
           <dl className="mt-12 space-y-8 border-t border-line-dark pt-8">
             <div>
@@ -74,17 +70,17 @@ export function VisitSection() {
           </dl>
 
           <div className="mt-10 flex flex-wrap gap-3">
-            <Link href="/visit" className="btn btn-solid">
-              Plan your visit
-            </Link>
             <a
               href={mapsDirectionsUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-ghost"
+              className="btn btn-solid"
             >
               Get directions
             </a>
+            <Link href="/live" className="btn btn-ghost">
+              Watch live
+            </Link>
             <Link href="/contact" className="btn btn-ghost">
               Contact us
             </Link>
@@ -102,14 +98,6 @@ export function VisitSection() {
             referrerPolicy="no-referrer-when-downgrade"
           />
           <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-line-dark" />
-          <div className="absolute bottom-4 left-4 border border-line-dark bg-ink/85 px-4 py-3 backdrop-blur-sm">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/50">
-              Mkhosana · {site.city}
-            </p>
-            <p className="numeral mt-1 text-sm text-paper/85">
-              {site.coordinates.lat.toFixed(4)}, {site.coordinates.lng.toFixed(4)}
-            </p>
-          </div>
         </div>
       </div>
     </section>
