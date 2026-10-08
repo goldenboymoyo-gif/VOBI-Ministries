@@ -17,7 +17,7 @@ export default async function SermonsPage() {
 
   return (
     <>
-      <Masthead
+      <Masthead image="/photos/hero.jpg"
         eyebrow="The library"
         crumbs={[{ label: "Home", href: "/" }, { label: "Sermons" }]}
         title={

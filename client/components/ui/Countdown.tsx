@@ -18,9 +18,13 @@ function nextService(now: number): { start: number; live: boolean } {
 export function Countdown() {
   const [now, setNow] = useState<number | null>(null);
   useEffect(() => {
-    setNow(Date.now());
-    const id = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(id);
+    const tick = () => setNow(Date.now());
+    const first = requestAnimationFrame(tick);
+    const id = window.setInterval(tick, 1000);
+    return () => {
+      cancelAnimationFrame(first);
+      window.clearInterval(id);
+    };
   }, []);
 
   if (now === null) return <div className="h-[5.5rem]" aria-hidden />;

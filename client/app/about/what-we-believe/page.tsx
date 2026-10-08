@@ -1,97 +1,41 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { Masthead } from "@/components/ui/Masthead";
+import { CtaBand } from "@/components/ui/CtaBand";
 import { site } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "What We Believe",
-  description:
-    "The statement of faith of Valley of Blessings International Ministries will be published here exactly as the ministry confirms it.",
+  title: "Statement of Faith",
+  description: "What Valley of Blessings International Ministries believes and teaches.",
   alternates: { canonical: "/about/what-we-believe" },
 };
 
-export default function WhatWeBelievePage() {
+const beliefs = [
+  { n: "01", t: "Salvation in Christ", d: `${site.statements.bioLine} We believe that salvation is God's gift through Jesus Christ, and that no one earns it.` },
+  { n: "02", t: "The Word of God", d: "Every service is preached from the Scriptures. We believe the Bible is the final word for faith and life." },
+  { n: "03", t: "The Holy Spirit", d: "We believe the Holy Spirit leads the church. Our services are not rushed: they begin at 08:30 and end when the Holy Spirit gives a signal." },
+  { n: "04", t: "Prayer", d: "We pray together, in mass prayer and on the prayer line, and we believe God answers prayer." },
+  { n: "05", t: "Healing and deliverance", d: "We believe Jesus still heals the sick and sets people free. Hundreds of testimonies are on our channel." },
+  { n: "06", t: "One church, everywhere", d: `${site.statements.distance} Wherever you watch from, you are part of the service.` },
+];
+
+export default function BelievePage() {
   return (
     <>
-      <Masthead
-        eyebrow="Statement of faith"
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "About", href: "/about" },
-          { label: "What We Believe" },
-        ]}
-        title={
-          <>
-            What we
-            <br />
-            believe.
-          </>
-        }
-        intro="The full statement of faith of Valley of Blessings International Ministries will be published on this page exactly as the ministry confirms it."
-      />
-
-      <section className="border-b border-line bg-paper py-20 md:py-28">
-        <div className="shell-narrow grid gap-14 lg:grid-cols-12 lg:gap-16">
-          <div className="reveal lg:col-span-7">
-            <p className="eyebrow text-gold">Currently published</p>
-
-            <div className="mt-8 space-y-7 text-[16px] leading-relaxed text-muted">
-              <p className="font-display text-[clamp(1.5rem,2.6vw,2.1rem)] leading-[1.25] tracking-[-0.02em] text-ink">
-                &ldquo;{site.statements.bioLine}&rdquo;
-              </p>
-              <p>
-                That line is taken verbatim from the ministry&apos;s official biography. It is
-                the only statement of belief VOBI has published about itself that can be
-                quoted here.
-              </p>
-              <p>
-                Until the ministry supplies its full statement of faith, no creed, article or
-                doctrine is written on VOBI&apos;s behalf. Nothing on this page is a summary,
-                paraphrase or interpretation of what the ministry believes.
-              </p>
-              <p>
-                The teaching itself is the clearest account available: every sermon and
-                service ministered by Prophet Promise is published in full on the
-                ministry&apos;s official channel and can be watched through this site.
-              </p>
+      <Masthead eyebrow="Statement of faith" title="What we believe" image="/photos/praise.jpg"
+        intro={site.statements.bioLine} crumbs={[{ label: "About", href: "/about" }, { label: "Statement of faith" }]} />
+      <section className="bg-paper py-16 md:py-24">
+        <div className="shell grid gap-px bg-line md:grid-cols-2 lg:grid-cols-3">
+          {beliefs.map((b) => (
+            <div key={b.n} className="reveal bg-paper p-8 md:p-10">
+              <p className="font-display text-5xl font-extrabold text-gold-bright">{b.n}</p>
+              <h2 className="display-sm mt-4">{b.t}</h2>
+              <p className="mt-3 leading-relaxed text-muted">{b.d}</p>
             </div>
-
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link href="/sermons" className="btn btn-ink">
-                Watch the teaching
-              </Link>
-              <Link href="/about" className="btn btn-ghost text-ink">
-                About the ministry
-              </Link>
-              <Link href="/contact" className="btn btn-ghost text-ink">
-                Contact VOBI
-              </Link>
-            </div>
-          </div>
-
-          <aside className="reveal lg:col-span-5">
-            <div className="border border-line bg-paper-dim px-7 py-9">
-              <p className="eyebrow text-muted-light">Ministry confirmation</p>
-              <p className="mt-6 text-[14.5px] leading-relaxed text-muted">
-                When Valley of Blessings International Ministries supplies its statement of
-                faith, it will replace this notice word for word — approved text only, with no
-                editorial additions.
-              </p>
-            </div>
-
-            <div className="mt-6 border border-line px-7 py-9">
-              <p className="eyebrow text-muted-light">In the ministry&apos;s own words</p>
-              <p className="mt-6 font-display text-[1.35rem] leading-[1.28] tracking-[-0.02em] text-ink">
-                &ldquo;{site.statements.distance}&rdquo;
-              </p>
-              <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-light">
-                Recurring line in VOBI&apos;s own titles and descriptions
-              </p>
-            </div>
-          </aside>
+          ))}
         </div>
       </section>
+      <CtaBand title="Hear it preached" text="Watch the teaching from Prophet Promise." href="/sermons" label="Watch sermons" />
     </>
   );
 }

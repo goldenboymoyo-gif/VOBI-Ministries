@@ -1,4 +1,5 @@
 import { FeatureCards } from "@/components/sections/FeatureCards";
+import { BrandVideo } from "@/components/sections/BrandVideo";
 import { FollowWatch } from "@/components/sections/FollowWatch";
 import { Hero } from "@/components/sections/Hero";
 import { Word } from "@/components/sections/Word";
@@ -24,6 +25,7 @@ export default async function HomePage() {
       <Word latest={latestSermon} total={sermons.length} />
       <Leadership />
       <Testimonies testimonies={testimonies} />
+      <BrandVideo />
       <FollowWatch />
       <NeedPrayer />
       <VisitSection />

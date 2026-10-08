@@ -17,7 +17,7 @@ export default async function TestimoniesPage() {
 
   return (
     <>
-      <Masthead
+      <Masthead image="/photos/worship.jpg"
         eyebrow="Testimonies"
         crumbs={[{ label: "Home", href: "/" }, { label: "Testimonies" }]}
         title={

@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/ministries",
     "/sermons",
     "/events",
-    "/prayer",
+    "/prayer", "/blog", "/devotionals", "/branches", "/give", "/store",
     "/testimonies",
     "/live",
     "/visit",

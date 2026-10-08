@@ -49,8 +49,7 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
               ))}
             </ul>
             <p className="mt-6 text-[13px] leading-relaxed text-muted">
-              {total} verified messages, services and special gatherings, indexed by VOBI&apos;s own
-              categories.
+              {total} messages, services and special gatherings on VOBI TV.
             </p>
           </div>
 

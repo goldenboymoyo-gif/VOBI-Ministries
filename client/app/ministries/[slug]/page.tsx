@@ -44,7 +44,7 @@ export default async function MinistryPage({ params }: { params: Promise<Params>
 
   return (
     <>
-      <Masthead
+      <Masthead image="/photos/worship.jpg"
         eyebrow="Ministries"
         crumbs={[
           { label: "Home", href: "/" },
@@ -72,17 +72,6 @@ export default async function MinistryPage({ params }: { params: Promise<Params>
                 </p>
               ))}
             </div>
-
-            {!ministry.gathering && (
-              <div className="mt-10 border border-line bg-paper-dim px-7 py-8">
-                <p className="eyebrow text-gold">Meeting times</p>
-                <p className="mt-4 text-[14px] leading-relaxed text-muted">
-                  VOBI has not published a recurring meeting time for this ministry. Add it here
-                  and this page will show it — until then, everything is streamed on the official
-                  channels.
-                </p>
-              </div>
-            )}
 
             <div className="mt-10 flex flex-wrap gap-3">
               <Link href="/live" className="btn btn-ink">

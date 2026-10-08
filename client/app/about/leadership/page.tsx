@@ -1,118 +1,31 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
 
 import { Masthead } from "@/components/ui/Masthead";
-
-import { thumb } from "@/lib/media";
+import { Split } from "@/components/ui/Split";
+import { CtaBand } from "@/components/ui/CtaBand";
+import { site } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Leadership — Prophet Promise",
-  description:
-    "Prophet Promise leads Valley of Blessings International Ministries in Victoria Falls, Zimbabwe. This page contains only what the ministry has published about itself.",
+  title: "Prophet Promise",
+  description: "Prophet Promise, lead minister of Valley of Blessings International Ministries in Victoria Falls.",
   alternates: { canonical: "/about/leadership" },
 };
-
-const known = [
-  { k: "Name", v: "Prophet Promise" },
-  { k: "Role", v: "Lead minister of Valley of Blessings International Ministries" },
-  { k: "Published under", v: "PROPHET PROMISE MINISTRIES (official YouTube channel)" },
-  { k: "Ministry base", v: "Victoria Falls, Matabeleland North, Zimbabwe" },
-  { k: "Message archive", v: "882 videos published on the official channel" },
-];
 
 export default function LeadershipPage() {
   return (
     <>
-      <Masthead
-        eyebrow="Leadership"
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "About", href: "/about" },
-          { label: "Leadership" },
-        ]}
-        title={
-          <>
-            Prophet
-            <br />
-            <em className="not-italic text-gold-bright">Promise</em>.
-          </>
-        }
-        intro="The ministry VOBI publishes — every sermon, service and prayer on the official channel is ministered by Prophet Promise."
-      />
-
-      <section className="border-b border-line bg-paper py-20 md:py-28">
-        <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="reveal lg:col-span-7">
-            <div className="frame aspect-video">
-              <Image
-                src={thumb("GiScarDvZec")}
-                alt="Prophet Promise ministering in a VOBI Sunday service from Victoria Falls"
-                width={1280}
-                height={720}
-                sizes="(max-width: 1024px) 100vw, 56vw"
-                className="object-cover"
-              />
-            </div>
-            <p className="mt-4 text-[12px] text-muted-light">
-              Prophet Promise ministering in a VOBI Sunday service, published by the ministry on
-              its official channel.
-            </p>
-
-            <div className="mt-10 space-y-6 text-[15px] leading-relaxed text-muted md:text-base">
-              <p className="font-display text-[clamp(1.3rem,2.2vw,1.85rem)] leading-[1.25] tracking-[-0.02em] text-ink">
-                {`"Viewers around the globe, welcome to the Sunday service in the presence of God Almighty in VOBI Ministries with the man of God Prophet Promise."`}
-              </p>
-              <p>
-                That is how the ministry introduces its own Sunday broadcasts — in its own words,
-                on its own channel.
-              </p>
-              <p>
-                Prophet Promise teaches through the full Sunday service, the mass prayer gatherings
-                and the sermon library: recent messages include{" "}
-                <span className="text-ink">Power In The Mouth</span>,{" "}
-                <span className="text-ink">How to get your prayers answered</span> and{" "}
-                <span className="text-ink">If God has said it no one can stop it</span>.
-              </p>
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link href="/sermons" className="btn btn-ink">
-                Messages by Prophet Promise
-              </Link>
-              <Link href="/live" className="btn btn-ghost text-ink">
-                Watch live
-              </Link>
-            </div>
-          </div>
-
-          <aside className="reveal lg:col-span-5">
-            <div className="border border-line bg-paper-dim px-7 py-9">
-              <p className="eyebrow text-gold">What is published</p>
-              <dl className="mt-6">
-                {known.map((r) => (
-                  <div key={r.k} className="border-b border-line py-4 last:border-0">
-                    <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-light">
-                      {r.k}
-                    </dt>
-                    <dd className="mt-1.5 text-[14px] leading-relaxed text-ink">{r.v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
-            <div className="mt-6 border border-line px-7 py-9">
-              <p className="eyebrow text-muted-light">Not yet published</p>
-              <p className="mt-5 text-[14px] leading-relaxed text-muted">
-                A ministry-approved portrait, a full biography, and the story of Prophet
-                Promise&apos;s calling have not been released publicly. This page will carry them
-                exactly as
-                VOBI supplies them — no biography will be written on the ministry&apos;s behalf.
-              </p>
-            </div>
-          </aside>
-        </div>
-      </section>
+      <Masthead eyebrow="Our Prophet" title="Prophet Promise" image="/photos/hero.jpg"
+        intro="Lead minister, Valley of Blessings International Ministries." crumbs={[{ label: "About", href: "/about" }, { label: "Prophet Promise" }]} />
+      <Split image="/photos/hero.jpg" alt="Prophet Promise praying for a member of the congregation" title="A shepherd to the people"
+        cta={{ label: "Watch his messages", href: "/sermons" }} cta2={{ label: "Testimonies", href: "/testimonies" }}>
+        <p>Prophet Promise leads {site.fullName}. He preaches at every Sunday service, leads mass prayer and ministers to people one by one: laying hands on the sick, praying for the burdened and standing with those who need a breakthrough.</p>
+        <p>He opens each Sunday broadcast the same way: &ldquo;{site.statements.welcome}&rdquo;</p>
+      </Split>
+      <Split dark reverse image="/photos/praise.jpg" alt="Praise in the VOBI service" title="His message"
+        cta={{ label: "Latest sermon", href: "/sermons?category=sermon" }}>
+        <p>Recent teachings include <em>Power In The Mouth</em> and <em>Calmness Brings Victory Over Temptation</em>. Every message is on the ministry&apos;s channel, free to watch.</p>
+      </Split>
+      <CtaBand title="Need prayer?" text="Send your request. It is read in private and never published." href="/prayer" label="Send a request" />
     </>
   );
 }

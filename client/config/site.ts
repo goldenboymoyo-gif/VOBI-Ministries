@@ -49,26 +49,48 @@ export const nav = [
     label: "About",
     href: "/about",
     children: [
+      { label: "Statement of Faith", href: "/about/what-we-believe" },
+      { label: "Prophet Promise", href: "/about/leadership" },
       { label: "Our Story", href: "/about/story" },
-      { label: "Leadership", href: "/about/leadership" },
-      { label: "What We Believe", href: "/about/what-we-believe" },
     ],
   },
-  { label: "Ministries", href: "/ministries" },
-  { label: "Sermons", href: "/sermons" },
   {
-    label: "Media",
-    href: "/media",
+    label: "VOBI TV",
+    href: "/sermons",
     children: [
-      { label: "Sermons", href: "/sermons?category=sermon" },
-      { label: "Sunday Services", href: "/sermons?category=service" },
-      { label: "Testimonies", href: "/testimonies" },
       { label: "Watch Live", href: "/live" },
+      { label: "Sunday Services", href: "/sermons?category=service" },
+      { label: "Sermons", href: "/sermons?category=sermon" },
+      { label: "Testimonies", href: "/testimonies" },
     ],
   },
+  {
+    label: "Ministries",
+    href: "/ministries",
+    children: [
+      { label: "All Ministries", href: "/ministries" },
+      { label: "Give & Partner", href: "/give" },
+    ],
+  },
+  { label: "Branches", href: "/branches" },
+  {
+    label: "Blog",
+    href: "/blog",
+    children: [
+      { label: "Latest Messages", href: "/blog" },
+      { label: "Devotionals", href: "/devotionals" },
+    ],
+  },
+  { label: "Store", href: "/store" },
   { label: "Events", href: "/events" },
-  { label: "Prayer", href: "/prayer" },
-  { label: "Contact", href: "/contact" },
+  {
+    label: "Contact",
+    href: "/contact",
+    children: [
+      { label: "Prayer Request", href: "/prayer" },
+      { label: "Plan Your Visit", href: "/visit" },
+    ],
+  },
 ];
 
 export const navActions = [

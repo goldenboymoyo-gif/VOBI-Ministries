@@ -1,23 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { thumb } from "@/lib/media";
 
 const cards = [
   {
-    img: "u-fmfu7Kov0",
+    img: "/photos/congregation.jpg",
     title: "What We Believe",
     text: "Because of Christ we are saved. This is the foundation of everything we teach and everything we do.",
     href: "/about/what-we-believe",
   },
   {
-    img: "KRoODbK1al8",
+    img: "/photos/praise.jpg",
     title: "VOBI Ministries",
     text: "A church in Mkhosana, Victoria Falls, under Prophet Promise — healing, deliverance, prayer and the Word every week.",
     href: "/about/story",
   },
   {
-    img: "GiScarDvZec",
+    img: "/photos/worship.jpg",
     title: "VOBI TV",
     text: "Sunday services, sermons and testimonies from our own channel, free to watch anywhere in the world.",
     href: "/sermons",
@@ -32,8 +31,8 @@ export function FeatureCards() {
           <Link key={c.title} href={c.href} className="group block bg-ink-800">
             <div className="frame aspect-video overflow-hidden">
               <Image
-                src={thumb(c.img)}
-                alt={c.title}
+                src={c.img}
+                alt={`${c.title} at VOBI`}
                 width={1280}
                 height={720}
                 sizes="(max-width: 768px) 100vw, 33vw"

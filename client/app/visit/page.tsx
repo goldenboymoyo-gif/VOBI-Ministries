@@ -29,7 +29,7 @@ const expect = [
 export default function VisitPage() {
   return (
     <>
-      <Masthead
+      <Masthead image="/photos/congregation.jpg"
         eyebrow="Plan your visit"
         crumbs={[{ label: "Home", href: "/" }, { label: "Plan Your Visit" }]}
         title={

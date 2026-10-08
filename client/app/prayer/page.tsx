@@ -30,7 +30,7 @@ const notes = [
 export default function PrayerPage() {
   return (
     <>
-      <Masthead
+      <Masthead image="/photos/hero.jpg"
         eyebrow="Prayer"
         crumbs={[{ label: "Home", href: "/" }, { label: "Prayer" }]}
         title={

@@ -43,7 +43,7 @@ export default async function MediaPage() {
 
   return (
     <>
-      <Masthead
+      <Masthead image="/photos/praise.jpg"
         eyebrow="Media"
         crumbs={[{ label: "Home", href: "/" }, { label: "Media" }]}
         title={

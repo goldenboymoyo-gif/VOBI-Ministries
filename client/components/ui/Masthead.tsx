@@ -9,11 +9,18 @@ type Props = {
   intro?: ReactNode;
   crumbs?: Crumb[];
   meta?: ReactNode;
+  image?: string;
 };
 
-export function Masthead({ eyebrow, title, intro, crumbs = [], meta }: Props) {
+export function Masthead({ eyebrow, title, intro, crumbs = [], meta, image = "/photos/hero.jpg" }: Props) {
   return (
-    <header className="relative bg-ink text-paper">
+    <header className="relative isolate overflow-hidden bg-ink text-paper">
+      <div className="absolute inset-0 -z-10" aria-hidden>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image} alt="" className="kenburns h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-ink/75" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink to-transparent" />
+      </div>
       <div className="shell relative pb-14 pt-32 md:pb-16 md:pt-44">
         {crumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/45">
@@ -32,10 +39,10 @@ export function Masthead({ eyebrow, title, intro, crumbs = [], meta }: Props) {
           </nav>
         )}
 
-        <p className="eyebrow text-gold-bright">{eyebrow}</p>
+        <p className="eyebrow fade-up text-gold-bright">{eyebrow}</p>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:gap-16">
-          <h1 className="display-lg max-w-[20ch]">{title}</h1>
+          <h1 className="display-lg fade-up max-w-[20ch]" style={{ animationDelay: "0.15s" }}>{title}</h1>
           {(intro || meta) && (
             <div className="lg:col-span-5 lg:pt-3">
               {intro && (

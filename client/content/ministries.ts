@@ -59,7 +59,7 @@ export const seedMinistries: Ministry[] = [
     body: [
       "VOBI has published a humanitarian documentary, a standing 'Humanitarian Program', and outreach recordings under titles including 'Botswana Outreach' and 'Zambia KuChalo!'.",
       "A visitor review on the ministry's public listing, dated April 2019, describes the work as 'touching lives in Zambia, Botswana, Namibia'.",
-      "Current outreach activity, partner organisations and details of how to support the programme have not been published yet. This page will carry them exactly as the ministry releases them.",
+      "To support or partner with the outreach, contact the ministry on the Give page.",
     ],
     image: thumb("km9II2XvBiY"),
     gathering: null,

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <Masthead
+      <Masthead image="/photos/praise.jpg"
         eyebrow="Contact"
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
         title={

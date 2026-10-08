@@ -6,11 +6,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 import { site } from "@/config/site";
-import { thumb } from "@/lib/media";
 import { Countdown } from "@/components/ui/Countdown";
 
 const HERO_VIDEO = "zS8NL8NMNlQ";
-const HERO_POSTER = thumb(HERO_VIDEO);
+const HERO_POSTER = "/photos/hero.jpg";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -34,12 +33,12 @@ export function Hero() {
       <div className="absolute inset-0 -z-10">
         <Image
           src={HERO_POSTER}
-          alt="VOBI Sunday service in Victoria Falls, Zimbabwe"
+          alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill
           priority
           sizes="100vw"
           quality={82}
-          className="object-cover object-center"
+          className="kenburns object-cover object-center"
         />
         {showVideo && (
           <iframe
