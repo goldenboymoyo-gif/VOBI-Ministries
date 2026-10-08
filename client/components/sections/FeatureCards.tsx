@@ -1,0 +1,55 @@
+import Link from "next/link";
+import Image from "next/image";
+
+import { thumb } from "@/lib/media";
+
+const cards = [
+  {
+    img: "u-fmfu7Kov0",
+    title: "What We Believe",
+    text: "Because of Christ we are saved. This is the foundation of everything we teach and everything we do.",
+    href: "/about/what-we-believe",
+  },
+  {
+    img: "KRoODbK1al8",
+    title: "VOBI Ministries",
+    text: "A church in Mkhosana, Victoria Falls, under Prophet Promise — healing, deliverance, prayer and the Word every week.",
+    href: "/about/story",
+  },
+  {
+    img: "GiScarDvZec",
+    title: "VOBI TV",
+    text: "Sunday services, sermons and testimonies from our own channel, free to watch anywhere in the world.",
+    href: "/sermons",
+  },
+];
+
+export function FeatureCards() {
+  return (
+    <section className="bg-ink py-16 text-paper md:py-24">
+      <div className="shell grid gap-6 md:grid-cols-3">
+        {cards.map((c) => (
+          <Link key={c.title} href={c.href} className="group block bg-ink-800">
+            <div className="frame aspect-video overflow-hidden">
+              <Image
+                src={thumb(c.img)}
+                alt={c.title}
+                width={1280}
+                height={720}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
+            <div className="p-6">
+              <h3 className="font-display text-2xl font-semibold">{c.title}</h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-paper/70">{c.text}</p>
+              <span className="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.18em] text-gold-bright">
+                Learn more →
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}

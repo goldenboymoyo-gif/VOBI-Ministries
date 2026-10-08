@@ -21,7 +21,7 @@ export function Leadership() {
         </div>
 
         <div className="reveal lg:col-span-7">
-          <p className="eyebrow text-gold">Leadership</p>
+          <p className="eyebrow text-gold">Our Prophet</p>
           <h2 className="display-md mt-6">Prophet Promise</h2>
           <p className="mt-4 text-[14px] font-medium text-muted">
             Lead minister, Valley of Blessings International Ministries
@@ -33,16 +33,9 @@ export function Leadership() {
               of God Almighty in VOBI Ministries with the man of God Prophet Promise.&rdquo;
             </p>
             <p>
-              That is how the ministry introduces its own Sunday broadcasts — in its own
-              words, on its own channel. Every sermon, service and prayer published by VOBI is
-              ministered by Prophet Promise, including recent messages such as{" "}
-              <span className="text-ink">Power In The Mouth</span> and{" "}
-              <span className="text-ink">If God has said it no one can stop it</span>.
-            </p>
-            <p>
-              A ministry-approved portrait, a full biography and the story of his calling have
-              not been released publicly. This site carries them exactly as VOBI supplies
-              them.
+              Prophet Promise leads Valley of Blessings International Ministries in Victoria
+              Falls. Every Sunday he ministers the Word, prays for the sick and stands with
+              people in need of a breakthrough — in the church and online around the world.
             </p>
           </div>
 
