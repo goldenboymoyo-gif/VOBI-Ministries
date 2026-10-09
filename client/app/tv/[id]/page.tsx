@@ -7,6 +7,13 @@ import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { Engage } from "@/components/ui/Engage";
 import { tvItems, tvLabels } from "@/content/vobitv";
 import { thumb } from "@/lib/media";
+import { getSettings } from "@/lib/settings";
+
+type Item = { id: string; title: string; cat: string };
+async function allItems(): Promise<Item[]> {
+  const s = await getSettings();
+  return [...(s.videos ?? []), ...tvItems];
+}
 
 type Params = { id: string };
 
@@ -16,18 +23,19 @@ export async function generateStaticParams(): Promise<Params[]> {
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { id } = await params;
-  return { title: tvItems.find((i) => i.id === id)?.title ?? "VOBI TV" };
+  return { title: (await allItems()).find((i) => i.id === id)?.title ?? "VOBI TV" };
 }
 
 export default async function TvPage({ params }: { params: Promise<Params> }) {
   const { id } = await params;
-  const item = tvItems.find((i) => i.id === id);
+  const items = await allItems();
+  const item = items.find((i) => i.id === id);
   if (!item) notFound();
-  const same = tvItems.filter((i) => i.cat === item.cat);
+  const same = items.filter((i) => i.cat === item.cat);
   const n = same[same.findIndex((i) => i.id === item.id) + 1];
   return (
     <>
-      <Masthead image="/photos/worship.jpg" eyebrow={tvLabels[item.cat]} title={item.title}
+      <Masthead image="/photos/worship.jpg" eyebrow={tvLabels[item.cat] ?? "Video"} title={item.title}
         crumbs={[{ label: "VOBI TV", href: "/sermons" }, { label: "Watch" }]} />
       <section className="gold-wash py-12 md:py-16">
         <div className="shell-narrow">

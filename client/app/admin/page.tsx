@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 
 type C = { id: string; name: string; text: string; at: number };
 type Ev = { id: string; title: string; date: string; time?: string | null; location?: string | null; description?: string };
+type Vid = { id: string; title: string; cat: string };
+type Cfg = { heroVideo?: string; heroImage?: string; announcement?: string; aboutWho?: string; videos?: Vid[] };
 type Data = { comments: Record<string, C[]>; chat: C[]; likes: Record<string, number> };
 
 export default function AdminPage() {
@@ -11,6 +13,27 @@ export default function AdminPage() {
   const [pw, setPw] = useState("");
   const [msg, setMsg] = useState("");
   const [events, setEvents] = useState<Ev[]>([]);
+  const [cfg, setCfg] = useState<Cfg>({});
+  const [nv, setNv] = useState({ url: "", title: "", cat: "sermons" });
+  const [saved, setSaved] = useState("");
+  const loadCfg = useCallback(async () => {
+    const r = await fetch("/api/admin/settings", { cache: "no-store" });
+    if (r.ok) setCfg((await r.json()).settings);
+  }, []);
+  async function post(body: object) {
+    const r = await fetch("/api/admin/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok) { setCfg(j.settings); return true; }
+    alert(j.error ?? "Could not save"); return false;
+  }
+  async function saveCfg(e: React.FormEvent) {
+    e.preventDefault();
+    if (await post({ action: "save", ...cfg })) { setSaved("Saved. The site updates within a minute or two."); window.setTimeout(() => setSaved(""), 5000); }
+  }
+  async function addVideo(e: React.FormEvent) {
+    e.preventDefault();
+    if (await post({ action: "addVideo", ...nv })) setNv({ url: "", title: "", cat: nv.cat });
+  }
   const [f, setF] = useState({ title: "", date: "", time: "", location: "", description: "" });
   const loadEvents = useCallback(async () => {
     const r = await fetch("/api/admin/events", { cache: "no-store" });
@@ -31,7 +54,7 @@ export default function AdminPage() {
     const r = await fetch("/api/admin/data", { cache: "no-store" });
     if (r.ok) setData(await r.json()); else setData(null);
   }, []);
-  useEffect(() => { void load(); void loadEvents(); }, [load, loadEvents]);
+  useEffect(() => { void load(); void loadEvents(); void loadCfg(); }, [load, loadEvents, loadCfg]);
 
   async function login(e: React.FormEvent) {
     e.preventDefault(); setMsg("");
@@ -61,6 +84,45 @@ export default function AdminPage() {
     <main className="bg-paper px-4 pb-20 pt-36">
       <div className="mx-auto max-w-4xl space-y-12">
         <h1 className="text-3xl font-extrabold uppercase">Manage the site</h1>
+        <section>
+          <h2 className="text-xl font-bold">Home page and About</h2>
+          <form onSubmit={saveCfg} className="mt-3 grid gap-3 bg-white p-5 shadow-sm">
+            <label className="text-sm font-semibold">Hero video (YouTube link)
+              <input value={cfg.heroVideo ?? ""} onChange={(e) => setCfg({ ...cfg, heroVideo: e.target.value })} placeholder="https://www.youtube.com/watch?v=..." className="mt-1 w-full rounded border border-line px-3 py-2 font-normal" />
+            </label>
+            <label className="text-sm font-semibold">Hero picture (image link starting with https://)
+              <input value={cfg.heroImage ?? ""} onChange={(e) => setCfg({ ...cfg, heroImage: e.target.value })} placeholder="https://..." className="mt-1 w-full rounded border border-line px-3 py-2 font-normal" />
+            </label>
+            <label className="text-sm font-semibold">Announcement bar on the home page (leave empty to hide)
+              <input value={cfg.announcement ?? ""} onChange={(e) => setCfg({ ...cfg, announcement: e.target.value })} maxLength={200} className="mt-1 w-full rounded border border-line px-3 py-2 font-normal" />
+            </label>
+            <label className="text-sm font-semibold">About page, “Who we are” text (separate paragraphs with a blank line; leave empty for the default)
+              <textarea value={cfg.aboutWho ?? ""} onChange={(e) => setCfg({ ...cfg, aboutWho: e.target.value })} rows={6} className="mt-1 w-full rounded border border-line px-3 py-2 font-normal" />
+            </label>
+            <div className="flex items-center gap-4"><button className="btn btn-ink" type="submit">Save</button>{saved && <p className="text-sm text-green-700">{saved}</p>}</div>
+          </form>
+        </section>
+        <section>
+          <h2 className="text-xl font-bold">Videos on VOBI TV</h2>
+          <form onSubmit={addVideo} className="mt-3 grid gap-3 bg-white p-5 shadow-sm md:grid-cols-2">
+            <input required value={nv.url} onChange={(e) => setNv({ ...nv, url: e.target.value })} placeholder="YouTube link" className="rounded border border-line px-3 py-2 md:col-span-2" />
+            <input required value={nv.title} onChange={(e) => setNv({ ...nv, title: e.target.value })} placeholder="Title" className="rounded border border-line px-3 py-2" />
+            <select value={nv.cat} onChange={(e) => setNv({ ...nv, cat: e.target.value })} className="rounded border border-line px-3 py-2">
+              <option value="sermons">Sermons</option><option value="testimony">Testimony</option><option value="prophecy">Prophecy</option>
+              <option value="massprayer">Mass Prayer</option><option value="funny">Funny Moments</option>
+            </select>
+            <button className="btn btn-ink md:col-span-2" type="submit">Add video</button>
+          </form>
+          <ul className="mt-3 divide-y divide-line bg-white shadow-sm">
+            {(cfg.videos ?? []).map((v) => (
+              <li key={v.id} className="flex items-start justify-between gap-4 p-4 text-sm">
+                <span><b>{v.title}</b> · {v.cat}</span>
+                <button type="button" onClick={async () => { if (confirm("Remove this video?")) await post({ action: "removeVideo", id: v.id }); }} className="shrink-0 font-bold text-red-600">Remove</button>
+              </li>
+            ))}
+            {!(cfg.videos ?? []).length && <li className="p-4 text-sm text-muted">No videos added here yet.</li>}
+          </ul>
+        </section>
         <section>
           <h2 className="text-xl font-bold">Events</h2>
           <form onSubmit={addEvent} className="mt-3 grid gap-3 bg-white p-5 shadow-sm md:grid-cols-2">

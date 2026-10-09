@@ -5,6 +5,7 @@ import { Split } from "@/components/ui/Split";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { site } from "@/config/site";
 import { story } from "@/content/story";
+import { getSettings } from "@/lib/settings";
 
 export const metadata: Metadata = {
   title: "About",
@@ -21,7 +22,9 @@ const beliefs = [
   { t: "One church, everywhere", d: `${site.statements.distance} Wherever you watch from, you are part of the service.` },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await getSettings();
+  const who = settings.aboutWho?.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   return (
     <>
       <Masthead eyebrow="About" title="The church that Christ built" image="/photos/congregation.jpg"
@@ -29,8 +32,10 @@ export default function AboutPage() {
 
       <Split image="/photos/congregation.jpg" alt="The VOBI congregation in worship" title="Who we are"
         cta={{ label: "Plan your visit", href: "/visit" }}>
+        {who?.length ? who.map((p, k) => <p key={k}>{p}</p>) : <>
         <p>VOBI is a church in Mkhosana, Victoria Falls, under the leadership of Prophet Promise. Every Sunday the congregation gathers at {site.service.time} for worship, the Word, prayer and ministry to the sick and the burdened.</p>
         <p>The service is live to the world, so a family in Victoria Falls and a viewer in another country worship together. {site.statements.distance}</p>
+        </>}
       </Split>
 
       <section id="story" className="bg-paper py-16 md:py-24">

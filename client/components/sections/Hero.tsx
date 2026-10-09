@@ -10,7 +10,7 @@ import { site } from "@/config/site";
 const HERO_VIDEO = "d5NuEDZKcZg"; // "Highlight | Power in Presence" — a short highlight, not a full service
 const ease = [0.16, 1, 0.3, 1] as const;
 
-export function Hero() {
+export function Hero({ video = HERO_VIDEO, image }: { video?: string; image?: string }) {
   const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
@@ -25,13 +25,13 @@ export function Hero() {
   return (
     <section className="relative isolate h-[100svh] min-h-[560px] overflow-hidden bg-ink text-white">
       <div className="absolute inset-0 -z-10">
-        <Image src="/photos/hero.jpg" alt="Prophet Promise praying for a member of the congregation during a VOBI service"
+        <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className="kenburns object-cover object-center" />
         {showVideo && (
           <iframe
             className="absolute left-1/2 top-1/2 border-0"
             style={{ width: "max(100vw, 177.78svh)", height: "max(56.25vw, 100svh)", transform: "translate(-50%, -50%)" }}
-            src={`https://www.youtube.com/embed/${HERO_VIDEO}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&vq=hd1080`}
+            src={`https://www.youtube.com/embed/${video}?autoplay=1&mute=1&loop=1&playlist=${video}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&vq=hd1080`}
             title="VOBI service footage" allow="autoplay; encrypted-media" tabIndex={-1} aria-hidden="true"
           />
         )}
