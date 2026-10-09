@@ -12,7 +12,8 @@ import { getSettings } from "@/lib/settings";
 type Item = { id: string; title: string; cat: string; src?: string; poster?: string };
 async function allItems(): Promise<Item[]> {
   const s = await getSettings();
-  return [...(s.videos ?? []), ...tvItems];
+  const hidden = new Set(s.hiddenVideos ?? []);
+  return [...(s.videos ?? []), ...tvItems.filter((t) => !hidden.has(t.id))];
 }
 
 type Params = { id: string };

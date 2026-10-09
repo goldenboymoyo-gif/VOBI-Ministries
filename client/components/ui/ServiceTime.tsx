@@ -2,7 +2,7 @@ import { site } from "@/config/site";
 
 /**
  * The service time VOBI supplied, held in one place so every page agrees.
- * Renders nothing until a time exists — it never guesses one.
+ * Renders nothing until a time exists, it never guesses one.
  */
 export function ServiceTime({ className = "" }: { className?: string }) {
   const { day, time, note } = site.service;

@@ -12,7 +12,7 @@ const cards = [
   {
     img: "/photos/praise.jpg",
     title: "VOBI Ministries",
-    text: "A church in Mkhosana, Victoria Falls, under Prophet Promise — healing, deliverance, prayer and the Word every week.",
+    text: "A church in Mkhosana, Victoria Falls, under Prophet Promise, healing, deliverance, prayer and the Word every week.",
     href: "/about/story",
   },
   {

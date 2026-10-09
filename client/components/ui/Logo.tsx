@@ -13,7 +13,7 @@ type Props = {
   className?: string;
 };
 
-/** Built from images/Logo.jpeg — black background removed, edges re-matted. */
+/** Built from images/Logo.jpeg, black background removed, edges re-matted. */
 const CANDIDATES: Record<NonNullable<Props["variant"]>, string[]> = {
   mark: ["/brand/logo-mark.png", "/brand/logo.png"],
   full: ["/brand/logo.png", "/brand/logo-mark.png"],
@@ -22,7 +22,7 @@ const CANDIDATES: Record<NonNullable<Props["variant"]>, string[]> = {
 /**
  * The real VOBI logo. Nothing here draws, generates or substitutes a mark:
  * it loads the supplied file from /public/brand. If no file has been supplied
- * yet it renders a typographic lockup instead — never an invented symbol.
+ * yet it renders a typographic lockup instead, never an invented symbol.
  */
 export function Logo({ tone = "solid", variant = "full", className = "" }: Props) {
   const [failed, setFailed] = useState<Record<string, boolean>>({});

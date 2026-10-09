@@ -196,7 +196,8 @@ function HomeEditor({ c, set, notify, blob }: any) {
       <Card title="Hero">
         <ImageField label="Hero picture (shown while the video loads, or when there is no video)" value={c.heroImage} notify={notify} onChange={(v: string) => set((n: C) => { n.heroImage = v; })} />
         <VideoUploadField label="Hero video file (optional, plays instead of the YouTube video)" value={c.heroVideoFile} blob={blob} notify={notify} onChange={(v: string) => set((n: C) => { n.heroVideoFile = v; })} />
-        <Field label="Hero video from YouTube (optional)" hint="Paste a YouTube link. Leave empty to use the current highlight video." value={c.heroVideo} onChange={(v: string) => set((n: C) => { n.heroVideo = v; })} />
+        <Field label="Hero video from YouTube (optional)" hint="This is the video playing on the site now. Paste another YouTube link to change it." value={c.heroVideo} onChange={(v: string) => set((n: C) => { n.heroVideo = v; })} />
+        {ytIdOf(c.heroVideo) ? <div className="adm-field"><label>Current hero video</label><img className="adm-yt" src={`https://img.youtube.com/vi/${ytIdOf(c.heroVideo)}/mqdefault.jpg`} alt="" /></div> : null}
       </Card>
       <Card title="Announcement bar">
         <Field label="Message" hint="Leave empty to hide the bar." value={c.announcement} onChange={(v: string) => set((n: C) => { n.announcement = v; })} />
@@ -238,6 +239,7 @@ function VideosEditor({ c, set, notify, blob }: any) {
         {nv.src ? <ImageField label="Cover picture" value={nv.poster} notify={notify} onChange={(v: string) => setNv({ ...nv, poster: v })} /> : null}
         <button type="button" className="adm-btn" onClick={add}>Add video</button>
       </Card>
+      <h3 className="adm-sub">Videos you added</h3>
       <ListEditor items={c.videos || []} onChange={(v: any) => set((n: C) => { n.videos = v; })} itemTitle={(v: C) => v.title || "Video"} addLabel="" renderItem={(v: C, up: any) => (
         <>
           <Field label="Title" value={v.title} onChange={(t: string) => up({ ...v, title: t })} />
@@ -247,6 +249,20 @@ function VideosEditor({ c, set, notify, blob }: any) {
           <p className="adm-hint">{v.src ? "Uploaded video file" : `YouTube video ${v.id}`}</p>
         </>
       )} newItem={{ id: "", title: "", cat: "sermons" }} />
+      <h3 className="adm-sub">Videos already on the site ({(c.tv || []).length - (c.hiddenVideos || []).length} showing)</h3>
+      <p className="adm-hint">Press Hide to take a video off VOBI TV, or Show to bring it back. Then press Publish.</p>
+      <div className="adm-tv">
+        {(c.tv || []).map((v: C) => {
+          const off = (c.hiddenVideos || []).includes(v.id);
+          return (
+            <div key={v.id} className={`adm-tv-item ${off ? "off" : ""}`}>
+              <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt="" loading="lazy" />
+              <div><b>{v.title}</b><span>{CATS.find(([k]) => k === v.cat)?.[1] || v.cat}</span></div>
+              <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => set((n: C) => { const h = new Set(n.hiddenVideos || []); if (h.has(v.id)) h.delete(v.id); else h.add(v.id); n.hiddenVideos = [...h]; })}>{off ? "Show" : "Hide"}</button>
+            </div>
+          );
+        })}
+      </div>
     </Panel>
   );
 }
@@ -446,7 +462,7 @@ export default function AdminApp() {
       const pick = (k: string) => (s[k]?.length ? s[k] : d[k]);
       const toBody = (m: C) => ({ ...m, body: Array.isArray(m.body) ? m.body : [m.body || ""] });
       setContent({
-        heroVideo: s.heroVideo || "", heroImage: s.heroImage || "", heroVideoFile: s.heroVideoFile || "", announcement: s.announcement || "", aboutWho: s.aboutWho || "",
+        heroVideo: s.heroVideo || d.hero.video, heroImage: s.heroImage || d.hero.image, hiddenVideos: s.hiddenVideos || [], tv: d.tv, heroDefault: d.hero, heroVideoFile: s.heroVideoFile || "", announcement: s.announcement || "", aboutWho: s.aboutWho || "",
         videos: s.videos || [], events: events || [], ministries: pick("ministries").map(toBody), story: pick("story"), beliefs: pick("beliefs"), menu: pick("menu"),
         pages: (s.pages || []).map(toBody), contact: { ...d.contact, ...Object.fromEntries(Object.entries(s.contact || {}).filter(([, v]) => v)) }, notes: s.notes || {},
       });

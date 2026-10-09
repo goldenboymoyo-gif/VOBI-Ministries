@@ -25,8 +25,8 @@ const SITE_URL = "https://vobi-ministries-two.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${site.fullName} — ${site.city}, ${site.country}`,
-    template: `%s — ${site.shortName}`,
+    default: `${site.fullName}, ${site.city}, ${site.country}`,
+    template: `%s, ${site.shortName}`,
   },
   description: `${site.fullName} (VOBI) in ${site.city}, ${site.country}. Sunday services, sermons, prayer and testimonies with Prophet Promise. Watch services live and plan your visit.`,
   keywords: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: site.fullName,
-    title: `${site.fullName} — ${site.city}, ${site.country}`,
+    title: `${site.fullName}, ${site.city}, ${site.country}`,
     description:
       "Sunday services, sermons, prayer and testimonies with Prophet Promise. Watch live from Victoria Falls, Zimbabwe.",
     images: [{ url: "/media/zS8NL8NMNlQ-maxresdefault.jpg", width: 1280, height: 720 }],

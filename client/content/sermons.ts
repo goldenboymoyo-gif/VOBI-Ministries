@@ -8,7 +8,7 @@ function yt(id: string) {
 }
 
 /**
- * Verified sermon data — real titles, real publish dates, real durations,
+ * Verified sermon data, real titles, real publish dates, real durations,
  * sourced from VOBI's official YouTube channel (docs/vobi-research.md §7.2).
  * Speaker is taken from VOBI's own title convention
  * "Sermon | <Title> | Prophet Promise".
@@ -41,7 +41,7 @@ export const seedSermons: Sermon[] = [
   {
     id: "VY_YMo1UpGw",
     slug: "how-to-get-your-prayers-answered-part-2",
-    title: "How to get your prayers answered — Part 2",
+    title: "How to get your prayers answered, Part 2",
     speaker: "Prophet Promise",
     date: "2026-09-08",
     thumbnail: thumb("VY_YMo1UpGw"),
@@ -197,7 +197,7 @@ export const seedSermons: Sermon[] = [
   {
     id: "sInoJId6apc",
     slug: "ministering-spirits-angels-of-god-part-1",
-    title: "Ministering Spirits (Angels of God) — Part 1",
+    title: "Ministering Spirits (Angels of God), Part 1",
     speaker: "Prophet Promise",
     date: "2026-03-11",
     thumbnail: thumb("sInoJId6apc"),
@@ -280,12 +280,12 @@ export const seedSermons: Sermon[] = [
   },
 ];
 
-/** Verified live services — real dates and durations (research §7.3). */
+/** Verified live services, real dates and durations (research §7.3). */
 export const seedServices: Sermon[] = [
   {
     id: "zS8NL8NMNlQ",
     slug: "sunday-live-service-04-october-2026",
-    title: "Sunday Live Service — 04 October 2026",
+    title: "Sunday Live Service, 04 October 2026",
     speaker: "Prophet Promise",
     date: "2026-10-04",
     thumbnail: thumb("zS8NL8NMNlQ"),
@@ -297,7 +297,7 @@ export const seedServices: Sermon[] = [
   {
     id: "KRoODbK1al8",
     slug: "sunday-live-service-27-september-2026",
-    title: "Sunday Live Service — 27 September 2026",
+    title: "Sunday Live Service, 27 September 2026",
     speaker: "Prophet Promise",
     date: "2026-09-27",
     thumbnail: thumb("KRoODbK1al8"),
@@ -309,7 +309,7 @@ export const seedServices: Sermon[] = [
   {
     id: "RQYNQSq-tFU",
     slug: "sunday-service-06-september-2026",
-    title: "Sunday Service — 06 September 2026",
+    title: "Sunday Service, 06 September 2026",
     speaker: "Prophet Promise",
     date: "2026-09-07",
     thumbnail: thumb("RQYNQSq-tFU"),
@@ -321,7 +321,7 @@ export const seedServices: Sermon[] = [
   {
     id: "7PQllxO7OWQ",
     slug: "sunday-live-service-16-august-2026",
-    title: "Sunday Live Service — 16 August 2026",
+    title: "Sunday Live Service, 16 August 2026",
     speaker: "Prophet Promise",
     date: "2026-08-16",
     thumbnail: thumb("7PQllxO7OWQ"),
@@ -333,7 +333,7 @@ export const seedServices: Sermon[] = [
   {
     id: "GiScarDvZec",
     slug: "live-from-victoria-falls",
-    title: "Live from Victoria Falls, Zimbabwe — VOBI Sunday Service with Prophet Promise",
+    title: "Live from Victoria Falls, Zimbabwe, VOBI Sunday Service with Prophet Promise",
     speaker: "Prophet Promise",
     date: "2025-06-01",
     thumbnail: thumb("GiScarDvZec"),
@@ -359,7 +359,7 @@ export const seedServices: Sermon[] = [
   {
     id: "MdM0beIv8Ok",
     slug: "mercy-land-sunday-service-20-september-2026",
-    title: "Mercy Land Sunday Service — 20 September 2026",
+    title: "Mercy Land Sunday Service, 20 September 2026",
     speaker: "Prophet Promise",
     date: "2026-09-20",
     thumbnail: thumb("MdM0beIv8Ok"),
@@ -371,7 +371,7 @@ export const seedServices: Sermon[] = [
   {
     id: "-lt-j9iBDx4",
     slug: "the-night-of-exodus-2025-2026",
-    title: "The Night of Exodus 2025-26 — Crossover Candlelight Service",
+    title: "The Night of Exodus 2025-26, Crossover Candlelight Service",
     speaker: "Prophet Promise",
     date: "2025-12-31",
     thumbnail: thumb("-lt-j9iBDx4"),
@@ -381,7 +381,7 @@ export const seedServices: Sermon[] = [
   {
     id: "aCLyo-8DdaM",
     slug: "week-for-testimonies-mass-prayer",
-    title: "May this week be a week for testimonies — Mass Prayer",
+    title: "May this week be a week for testimonies, Mass Prayer",
     speaker: "Prophet Promise",
     date: "2025-10-01",
     thumbnail: thumb("aCLyo-8DdaM"),

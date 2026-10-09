@@ -23,7 +23,7 @@ const notes = [
   },
   {
     title: "Teaching on prayer",
-    body: "The library holds a two-part teaching series on prayer — 'How to get your prayers answered' — for those who want to go further.",
+    body: "The library holds a two-part teaching series on prayer, 'How to get your prayers answered', for those who want to go further.",
   },
 ];
 

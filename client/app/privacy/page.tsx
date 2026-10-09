@@ -14,7 +14,7 @@ const sections = [
   {
     title: "What this website collects",
     body: [
-      "This website collects only what you choose to type into its contact and prayer request forms — your name, your contact details, and your message.",
+      "This website collects only what you choose to type into its contact and prayer request forms, your name, your contact details, and your message.",
       "The website itself does not use advertising trackers, profiling cookies or analytics scripts.",
     ],
   },

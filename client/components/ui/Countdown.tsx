@@ -30,7 +30,7 @@ export function Countdown({ variant = "dark" }: { variant?: "dark" | "card" }) {
     return (
       <a href="/live" className="inline-flex items-center gap-3 rounded bg-red-600 px-6 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white">
         <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-white" />
-        We are live now — join the service
+        We are live now, join the service
       </a>
     );
   }

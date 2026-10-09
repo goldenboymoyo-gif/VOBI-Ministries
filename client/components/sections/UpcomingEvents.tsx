@@ -79,7 +79,7 @@ export function UpcomingEvents({ events }: { events: ChurchEvent[] }) {
             ))}
           </ul>
           <p className="mt-6 text-[13px] leading-relaxed text-muted-light">
-            Dated events are published only when VOBI announces them — this site does not
+            Dated events are published only when VOBI announces them, this site does not
             create dates, venues or registrations of its own.
           </p>
         </div>

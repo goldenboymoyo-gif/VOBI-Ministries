@@ -15,6 +15,7 @@ export type Settings = {
   announcement?: string;
   aboutWho?: string;
   videos?: VideoEntry[];
+  hiddenVideos?: string[];
   contact?: { phone?: string; prayerPhone?: string; email?: string; address?: string; serviceTime?: string };
   notes?: { store?: string; give?: string; visit?: string };
   ministries?: Ministry[];

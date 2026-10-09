@@ -7,6 +7,7 @@ import { site, nav } from "@/config/site";
 import { seedMinistries } from "@/content/ministries";
 import { story } from "@/content/story";
 import { beliefs } from "@/content/beliefs";
+import { tvItems } from "@/content/vobitv";
 import type { ChurchEvent } from "@/types";
 
 const FILE = "settings.json";
@@ -50,7 +51,7 @@ export async function GET(req: Request) {
   if (!isAdmin(req)) return NextResponse.json({ error: "No" }, { status: 401 });
   const [settings, events] = await Promise.all([load<Settings>(FILE, {}), load<ChurchEvent[]>("events.json", [])]);
   const defaults = {
-    ministries: seedMinistries, story, beliefs,
+    ministries: seedMinistries, story, beliefs, tv: tvItems, hero: { image: "/photos/hero.jpg", video: "d5NuEDZKcZg" },
     menu: nav.map((n) => ({ label: n.label, href: n.href })),
     contact: { phone: site.phone, prayerPhone: site.prayerPhone, email: site.email, address: site.address, serviceTime: site.service.time },
   };
@@ -82,7 +83,7 @@ export async function PUT(req: Request) {
   const dMenu = lists({ menu: nav.map((x) => ({ label: x.label, href: x.href })) }).menu;
 
   const next: Settings = {
-    heroVideo, heroImage, heroVideoFile, announcement: clean(b.announcement, 200), aboutWho: String(b.aboutWho ?? "").slice(0, 3000), videos,
+    heroVideo, heroImage, heroVideoFile, hiddenVideos: (Array.isArray(b.hiddenVideos) ? (b.hiddenVideos as unknown[]) : []).map(String).filter((x) => /^[\w-]{6,24}$/.test(x)).slice(0, 400), announcement: clean(b.announcement, 200), aboutWho: String(b.aboutWho ?? "").slice(0, 3000), videos,
     contact: { phone: clean(c.phone, 30), prayerPhone: clean(c.prayerPhone, 30), email: clean(c.email, 80), address: clean(c.address, 160), serviceTime: clean(c.serviceTime, 10) },
     notes: { store: String(n.store ?? "").slice(0, 800), give: String(n.give ?? "").slice(0, 800), visit: String(n.visit ?? "").slice(0, 800) },
     ministries: same(L.ministries, dMin) ? [] : (L.ministries as Settings["ministries"]),

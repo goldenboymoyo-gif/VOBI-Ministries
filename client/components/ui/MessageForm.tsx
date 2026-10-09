@@ -49,7 +49,7 @@ export function MessageForm({ variant, className = "" }: Props) {
     return (
       <div className={`border border-line bg-paper-dim px-7 py-12 ${className}`} role="status">
         <p className="display-sm">
-          {isPrayer ? "Your request has been received." : "Thank you — your message has been sent."}
+          {isPrayer ? "Your request has been received." : "Thank you, your message has been sent."}
         </p>
         <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted">
           {isPrayer

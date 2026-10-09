@@ -18,7 +18,7 @@ export const site: SiteSettings = {
   address: "8875 CBZ, Mkhosana, Victoria Falls, Zimbabwe",
   phone: "+263 713 901 112",
 
-  // Supplied directly by VOBI (research §5) — used for prayer and general contact.
+  // Supplied directly by VOBI (research §5), used for prayer and general contact.
   email: "prophetpromise1@gmail.com",
   prayerPhone: "+263 713 901 112",
 

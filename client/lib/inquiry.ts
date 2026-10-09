@@ -43,7 +43,7 @@ export function validate(
   if (body.length < 10) {
     return { ok: false, error: "Please write a little more so the ministry can help." };
   }
-  if (body.length > 5000) return { ok: false, error: "That is too long — please shorten it." };
+  if (body.length > 5000) return { ok: false, error: "That is too long, please shorten it." };
 
   return {
     ok: true,

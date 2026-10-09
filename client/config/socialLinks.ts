@@ -5,7 +5,7 @@ import type { SocialLink } from "@/types";
  *
  * ONLY verified official accounts belong here. Evidence is documented in
  * docs/vobi-research.md §6. If an account cannot be verified it is not
- * listed — the footer renders only what exists in this array.
+ * listed, the footer renders only what exists in this array.
  *
  * Adding a platform here automatically surfaces it in the footer.
  */

@@ -53,7 +53,7 @@ export function WatchVobi({ services }: { services: Sermon[] }) {
             <h2 className="display-md mt-6 max-w-[16ch]">Watch VOBI</h2>
           </div>
           <p className="max-w-md text-[15px] leading-relaxed text-paper/70">
-            Services, sermons, prayer and testimonies from Victoria Falls — carried live and
+            Services, sermons, prayer and testimonies from Victoria Falls, carried live and
             published by the ministry on its own channel.
           </p>
         </div>

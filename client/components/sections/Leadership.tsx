@@ -35,7 +35,7 @@ export function Leadership() {
             <p>
               Prophet Promise leads Valley of Blessings International Ministries in Victoria
               Falls. Every Sunday he ministers the Word, prays for the sick and stands with
-              people in need of a breakthrough — in the church and online around the world.
+              people in need of a breakthrough, in the church and online around the world.
             </p>
           </div>
 

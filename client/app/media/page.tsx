@@ -9,7 +9,7 @@ import { channelUrl } from "@/content/sermons";
 export const metadata: Metadata = {
   title: "Media",
   description:
-    "Watch Valley of Blessings International Ministries — Sunday services, sermons, prayer and testimonies published by the ministry from Victoria Falls, Zimbabwe.",
+    "Watch Valley of Blessings International Ministries, Sunday services, sermons, prayer and testimonies published by the ministry from Victoria Falls, Zimbabwe.",
   alternates: { canonical: "/media" },
 };
 
@@ -104,7 +104,7 @@ export default async function MediaPage() {
               <p className="eyebrow text-gold">Official channel</p>
               <p className="mt-6 text-[15px] leading-relaxed text-muted">
                 VOBI publishes every service, sermon and testimony on its official YouTube
-                channel — 882 videos to date. Subscribing there is the surest way to be told
+                channel, 882 videos to date. Subscribing there is the surest way to be told
                 when the next broadcast begins.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">

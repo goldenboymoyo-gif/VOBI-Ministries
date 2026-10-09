@@ -118,7 +118,7 @@ export default async function VisitPage() {
               />
             </div>
             <p className="mt-4 text-[12px] text-muted-light">
-              Marked at {site.coordinates.lat.toFixed(5)}, {site.coordinates.lng.toFixed(5)} — the
+              Marked at {site.coordinates.lat.toFixed(5)}, {site.coordinates.lng.toFixed(5)}, the
               coordinates published for the ministry.
             </p>
           </div>

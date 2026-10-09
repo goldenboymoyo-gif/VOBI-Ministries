@@ -28,7 +28,7 @@ async function fromApi<T>(path: string): Promise<T | null> {
     if (!res.ok) return null;
     return (await res.json()) as T;
   } catch {
-    // API not running (or unreachable at build time) — fall back to seed data.
+    // API not running (or unreachable at build time), fall back to seed data.
     return null;
   }
 }

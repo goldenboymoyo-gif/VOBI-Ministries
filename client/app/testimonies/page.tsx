@@ -8,7 +8,7 @@ import { site } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Testimonies",
-  description: `Testimonies published by Valley of Blessings International Ministries — healing, breakthrough, family restoration and deliverance, in the words of the people who lived them.`,
+  description: `Testimonies published by Valley of Blessings International Ministries, healing, breakthrough, family restoration and deliverance, in the words of the people who lived them.`,
   alternates: { canonical: "/testimonies" },
 };
 

@@ -99,7 +99,7 @@ export default async function ContactPage() {
               <Link href="/prayer" className="link-underline text-ink">
                 private prayer request
               </Link>{" "}
-              instead — it is never published or shared.
+              instead, it is never published or shared.
             </p>
           </aside>
         </div>

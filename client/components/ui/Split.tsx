@@ -13,7 +13,7 @@ type Props = {
   cta2?: { label: string; href: string };
 };
 
-/** Image + text block, alternating sides — the repeating unit of the site. */
+/** Image + text block, alternating sides, the repeating unit of the site. */
 export function Split({ image, alt, title, children, reverse, dark, cta, cta2 }: Props) {
   return (
     <section className={dark ? "bg-ink text-paper" : "bg-paper text-ink"}>

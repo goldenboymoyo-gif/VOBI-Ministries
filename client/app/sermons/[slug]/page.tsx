@@ -44,11 +44,11 @@ export async function generateMetadata({
     title: sermon.title,
     description: sermon.description
       ? sermon.description.slice(0, 180)
-      : `${sermon.title} — ministered by ${sermon.speaker} at ${fmtDate(sermon.date)}.`,
+      : `${sermon.title}, ministered by ${sermon.speaker} at ${fmtDate(sermon.date)}.`,
     alternates: { canonical: `/sermons/${sermon.slug}` },
     openGraph: {
-      title: `${sermon.title} — VOBI`,
-      description: `${sermon.title} — ${sermon.speaker}`,
+      title: `${sermon.title}, VOBI`,
+      description: `${sermon.title}, ${sermon.speaker}`,
       images: [{ url: sermon.thumbnail }],
     },
   };

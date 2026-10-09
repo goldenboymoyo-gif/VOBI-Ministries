@@ -10,7 +10,7 @@ import { getSettings } from "@/lib/settings";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `${site.fullName} — a church in ${site.city}, ${site.country}, led by Prophet Promise.`,
+  description: `${site.fullName}, a church in ${site.city}, ${site.country}, led by Prophet Promise.`,
   alternates: { canonical: "/about" },
 };
 

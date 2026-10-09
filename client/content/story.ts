@@ -1,5 +1,5 @@
 /**
- * VERIFIED CHRONOLOGY — docs/vobi-research.md §9.
+ * VERIFIED CHRONOLOGY, docs/vobi-research.md §9.
  *
  * Every entry below is traceable to a VOBI publication or public listing.
  * There is no verified founding date and no verified founder story: those
@@ -16,7 +16,7 @@ export const story: StoryEntry[] = [
   {
     year: "2016",
     title: "The earliest service we can date",
-    body: "The oldest service carried on VOBI's official channel is titled simply 'SUNDAY 8 MAY 2016' — a Sunday gathering recorded in Victoria Falls.",
+    body: "The oldest service carried on VOBI's official channel is titled simply 'SUNDAY 8 MAY 2016', a Sunday gathering recorded in Victoria Falls.",
     source: "VOBI official YouTube channel",
   },
   {
@@ -40,18 +40,18 @@ export const story: StoryEntry[] = [
   {
     year: "2023 → 2026",
     title: "Crossover, every year",
-    body: "Candle Light Crossover services are published for 2023→24, 2024→25 and 2025→26 — the most recent titled 'The Night of Exodus'.",
+    body: "Candle Light Crossover services are published for 2023→24, 2024→25 and 2025→26, the most recent titled 'The Night of Exodus'.",
     source: "VOBI official YouTube channel",
   },
   {
     year: "Today",
     title: "882 videos and counting",
-    body: "VOBI's official channel now holds 882 published videos — Sunday services, sermons, mass prayer, testimonies and outreach — with 9,516 followers on the ministry's official Facebook page.",
+    body: "VOBI's official channel now holds 882 published videos, Sunday services, sermons, mass prayer, testimonies and outreach, with 9,516 followers on the ministry's official Facebook page.",
     source: "YouTube & Facebook, October 2026",
   },
 ];
 
-/** CONTENT NEEDED — VOBI: founding date, founder story, building history. */
+/** CONTENT NEEDED, VOBI: founding date, founder story, building history. */
 export const missingHistory = [
   "Founding date",
   "Founder biography",
