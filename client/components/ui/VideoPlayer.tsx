@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 type YTPlayer = {
@@ -38,7 +39,9 @@ type FsDoc = Document & { webkitFullscreenElement?: Element; webkitExitFullscree
 type FsEl = HTMLElement & { webkitRequestFullscreen?: () => void };
 
 /** Plays a video on this site with our own controls, so viewers never leave or see the host's interface. */
-export function VideoPlayer({ id, title, poster }: { id: string; title: string; poster: string }) {
+export function VideoPlayer({ id, title, poster, next }: { id: string; title: string; poster: string; next?: { title: string; href: string } }) {
+  const router = useRouter();
+  const [left, setLeft] = useState<number | null>(null);
   const wrap = useRef<HTMLDivElement>(null);
   const host = useRef<HTMLDivElement>(null);
   const player = useRef<YTPlayer | null>(null);
@@ -59,6 +62,18 @@ export function VideoPlayer({ id, title, poster }: { id: string; title: string; 
 
   // Build the player as soon as the page loads, so pressing play is instant.
   useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("autoplay") === "1") { wantPlay.current = true; setBusy(true); }
+  }, []);
+
+  // After a video ends, count down and move to the next one.
+  useEffect(() => {
+    if (left === null) return;
+    if (left <= 0) { if (next) router.push(`${next.href}?autoplay=1`); return; }
+    const t = window.setTimeout(() => setLeft(left - 1), 1000);
+    return () => window.clearTimeout(t);
+  }, [left, next, router]);
+
+  useEffect(() => {
     let dead = false;
     const h = host.current;
     loadApi().then(() => {
@@ -73,12 +88,14 @@ export function VideoPlayer({ id, title, poster }: { id: string; title: string; 
           onStateChange: (e: { data: number }) => {
             setPlaying(e.data === 1);
             setBusy(e.data === 3);
+            if (e.data === 0 && next) setLeft(5); else if (e.data === 1) setLeft(null);
             if (e.data === 1) { setStarted(true); wantPlay.current = false; }
           },
         },
       });
     });
     return () => { dead = true; try { player.current?.destroy(); } catch {} player.current = null; if (h) h.innerHTML = ""; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {
@@ -160,6 +177,18 @@ export function VideoPlayer({ id, title, poster }: { id: string; title: string; 
         </div>
       )}
       {started && busy && <span className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-12 w-12 -translate-x-1/2 -translate-y-1/2 animate-spin rounded-full border-4 border-white/30 border-t-white" />}
+      {left !== null && next && (
+        <div className="absolute inset-0 z-40 grid place-items-center bg-black/80 p-6 text-center text-white">
+          <div>
+            <p className="text-sm uppercase tracking-wider text-white/60">Up next in {Math.max(left, 0)}</p>
+            <p className="mx-auto mt-2 max-w-md text-xl font-bold leading-snug">{next.title}</p>
+            <div className="mt-5 flex justify-center gap-3">
+              <button type="button" onClick={() => router.push(`${next.href}?autoplay=1`)} className="btn btn-gold">Play now</button>
+              <button type="button" onClick={() => setLeft(null)} className="btn btn-ghost text-white">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
       {flash && <span className="pointer-events-none absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/70 px-5 py-3 text-lg font-bold text-white">{flash}</span>}
       {started && !playing && !busy && (
         <span className="pointer-events-none absolute inset-0 z-20 grid place-items-center">

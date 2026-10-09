@@ -123,7 +123,7 @@ export default async function SermonPage({ params }: { params: Promise<Params> }
       <section className="bg-ink pb-20 text-paper">
         <div className="shell-narrow">
           {id ? (
-            <VideoPlayer id={id} title={sermon.title} poster={sermon.thumbnail} />
+            <VideoPlayer id={id} title={sermon.title} poster={sermon.thumbnail} next={next ? { title: next.title, href: `/sermons/${next.slug}` } : undefined} />
           ) : (
             <div className="relative aspect-video w-full bg-black"><Image src={sermon.thumbnail} alt={sermon.title} fill className="object-cover" sizes="100vw" /></div>
           )}
