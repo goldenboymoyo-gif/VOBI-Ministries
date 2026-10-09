@@ -38,19 +38,6 @@ export default function ContactPage() {
               <dl className="mt-6 space-y-6">
                 <div>
                   <dt className="text-sm font-semibold text-muted-light">
-                    Telephone
-                  </dt>
-                  <dd className="mt-2">
-                    <a
-                      href={`tel:${site.phone.replace(/\s+/g, "")}`}
-                      className="link-underline font-display text-[1.5rem] tracking-[-0.02em] text-ink"
-                    >
-                      {site.phone}
-                    </a>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-semibold text-muted-light">
                     Prayer line
                   </dt>
                   <dd className="mt-2">

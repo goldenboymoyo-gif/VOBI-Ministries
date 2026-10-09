@@ -16,7 +16,7 @@ export const site: SiteSettings = {
 
   // Listing source: africabizinfo / exa place record (research §3)
   address: "8875 CBZ, Mkhosana, Victoria Falls, Zimbabwe",
-  phone: "+263 775 879 390",
+  phone: "+263 713 901 112",
 
   // Supplied directly by VOBI (research §5) — used for prayer and general contact.
   email: "prophetpromise1@gmail.com",

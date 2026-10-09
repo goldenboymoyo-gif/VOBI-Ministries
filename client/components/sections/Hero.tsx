@@ -31,11 +31,13 @@ export function Hero() {
           <iframe
             className="absolute left-1/2 top-1/2 border-0"
             style={{ width: "max(100vw, 177.78svh)", height: "max(56.25vw, 100svh)", transform: "translate(-50%, -50%)" }}
-            src={`https://www.youtube.com/embed/${HERO_VIDEO}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0`}
+            src={`https://www.youtube.com/embed/${HERO_VIDEO}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&vq=hd1080`}
             title="VOBI service footage" allow="autoplay; encrypted-media" tabIndex={-1} aria-hidden="true"
           />
         )}
-        <div className="absolute inset-0 bg-ink/20" />
+        <div className="absolute inset-0 bg-ink/45" />
+        <div className="absolute inset-0 opacity-30 [background-image:radial-gradient(rgba(0,0,0,0.55)_1px,transparent_1.2px)] [background-size:3px_3px]" />
+        <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.45)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
