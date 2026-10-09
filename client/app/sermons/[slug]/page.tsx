@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { HoverPreview } from "@/components/ui/HoverPreview";
 
 import { getSermon, getSermons } from "@/lib/data";
 import { seedSermons, seedServices, sermonCategories } from "@/content/sermons";
@@ -179,7 +180,7 @@ export default async function SermonPage({ params }: { params: Promise<Params> }
               {related.map((r) => (
                 <li key={r.id}>
                   <Link href={`/sermons/${r.slug}`} className="group block">
-                    <span className="frame frame-hover block aspect-video">
+                    <HoverPreview thumb={r.thumbnail} className="frame aspect-video">
                       <Image
                         src={r.thumbnail}
                         alt={r.title}
@@ -188,7 +189,7 @@ export default async function SermonPage({ params }: { params: Promise<Params> }
                         sizes="(max-width: 640px) 100vw, 33vw"
                         className="object-cover"
                       />
-                    </span>
+                    </HoverPreview>
                     <span className="mt-4 block font-display text-[1.1rem] leading-[1.2] tracking-[-0.02em] transition-transform duration-500 group-hover:translate-x-1">
                       {r.title}
                     </span>

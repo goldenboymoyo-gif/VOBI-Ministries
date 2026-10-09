@@ -344,3 +344,8 @@ a.group:hover h3 { color: var(--color-gold-bright); }
 }
 
 .gold-wash { background: linear-gradient(180deg, #a38845 0%, #d9c27a 100%); }
+
+@keyframes hp {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}

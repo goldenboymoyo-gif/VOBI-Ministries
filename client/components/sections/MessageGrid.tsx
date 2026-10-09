@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HoverPreview } from "@/components/ui/HoverPreview";
 
 import type { Sermon } from "@/types";
 
@@ -8,10 +9,10 @@ export function MessageGrid({ items }: { items: Sermon[] }) {
     <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((s) => (
         <Link key={s.id} href={`/sermons/${s.slug}`} className="group reveal block">
-          <div className="frame aspect-video">
+          <HoverPreview thumb={s.thumbnail} className="frame aspect-video">
             <Image src={s.thumbnail} alt={s.title} width={1280} height={720} sizes="(max-width:1024px) 100vw, 33vw"
               className="object-cover transition-transform duration-700 group-hover:scale-105" />
-          </div>
+          </HoverPreview>
           <p className="eyebrow mt-4 text-gold">
             {new Date(s.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
           </p>
