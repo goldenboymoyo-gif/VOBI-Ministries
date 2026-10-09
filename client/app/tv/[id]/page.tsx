@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Masthead } from "@/components/ui/Masthead";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
+import { Engage } from "@/components/ui/Engage";
 import { tvItems, tvLabels } from "@/content/vobitv";
 import { thumb } from "@/lib/media";
 
@@ -31,6 +32,7 @@ export default async function TvPage({ params }: { params: Promise<Params> }) {
       <section className="gold-wash py-12 md:py-16">
         <div className="shell-narrow">
           <VideoPlayer id={item.id} title={item.title} poster={thumb(item.id)} next={n ? { title: n.title, href: `/tv/${n.id}` } : undefined} />
+          <Engage videoId={item.id} className="mt-8" />
           <div className="mt-8"><Link href="/sermons" className="btn btn-ink">Back to VOBI TV</Link></div>
         </div>
       </section>

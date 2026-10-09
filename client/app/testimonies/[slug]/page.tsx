@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Masthead } from "@/components/ui/Masthead";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
+import { Engage } from "@/components/ui/Engage";
 import { getTestimonies } from "@/lib/data";
 import { seedTestimonies } from "@/content/testimonies";
 
@@ -36,6 +37,7 @@ export default async function TestimonyPage({ params }: { params: Promise<Params
       <section className="gold-wash py-12 md:py-16">
         <div className="shell-narrow">
           {id && <VideoPlayer id={id} title={t.title} poster={t.thumbnail} />}
+          {id && <Engage videoId={id} className="mt-8" />}
           <div className="mt-8"><Link href="/testimonies" className="btn btn-ink">More testimonies</Link></div>
         </div>
       </section>

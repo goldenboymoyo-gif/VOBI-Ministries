@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import { Countdown, nextService } from "@/components/ui/Countdown";
 import { site } from "@/config/site";
+import { Engage } from "@/components/ui/Engage";
+import { LiveChat } from "@/components/ui/LiveChat";
 
 const CHANNEL = "UCAFcgnT0wjnwlRQarojjuIQ";
 
@@ -24,15 +26,19 @@ export function LiveGate() {
         <p className="mb-3 inline-flex items-center gap-2 rounded bg-red-600 px-3 py-1 text-sm font-bold uppercase tracking-wider text-white">
           <span className="h-2 w-2 animate-pulse rounded-full bg-white" /> Live now
         </p>
-        <div className="relative aspect-video w-full overflow-hidden bg-black">
-          <iframe
-            className="absolute inset-0 h-full w-full border-0"
-            src={`https://www.youtube-nocookie.com/embed/live_stream?channel=${CHANNEL}&autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-            title="VOBI live service"
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            allowFullScreen
-          />
+        <div className="grid gap-5 lg:grid-cols-3">
+          <div className="relative aspect-video w-full overflow-hidden bg-black lg:col-span-2">
+            <iframe
+              className="absolute inset-0 h-full w-full border-0"
+              src={`https://www.youtube-nocookie.com/embed/live_stream?channel=${CHANNEL}&autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+              title="VOBI live service"
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+            />
+          </div>
+          <LiveChat className="h-[420px] lg:h-auto lg:max-h-[480px]" />
         </div>
+        <Engage videoId="live" className="mt-6 rounded bg-paper p-5 text-ink" />
       </div>
     );
   }
