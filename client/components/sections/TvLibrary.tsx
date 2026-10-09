@@ -48,7 +48,7 @@ export function TvLibrary({ items }: { items: TvCard[] }) {
           <li key={i.key}>
             <Link href={i.href} className="group block">
               <HoverPreview thumb={i.thumb} className="frame aspect-video">
-                <Image src={i.thumb} alt={i.title} width={640} height={360} unoptimized={i.thumb.startsWith("http")}
+                <Image src={i.thumb} alt={i.title} width={640} height={360} unoptimized={i.thumb.startsWith("http") || i.thumb.startsWith("/api/")}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover" />
               </HoverPreview>

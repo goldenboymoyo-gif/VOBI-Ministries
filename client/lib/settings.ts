@@ -6,11 +6,12 @@ import { site } from "@/config/site";
 import { configured, load } from "@/lib/store";
 import type { Ministry } from "@/types";
 
-export type VideoEntry = { id: string; title: string; cat: string };
+export type VideoEntry = { id: string; title: string; cat: string; src?: string; poster?: string };
 export type PageEntry = { slug: string; title: string; intro: string; body: string[] };
 export type Settings = {
   heroVideo?: string;
   heroImage?: string;
+  heroVideoFile?: string;
   announcement?: string;
   aboutWho?: string;
   videos?: VideoEntry[];

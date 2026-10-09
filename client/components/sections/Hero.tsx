@@ -10,7 +10,7 @@ import { site } from "@/config/site";
 const HERO_VIDEO = "d5NuEDZKcZg"; // "Highlight | Power in Presence" — a short highlight, not a full service
 const ease = [0.16, 1, 0.3, 1] as const;
 
-export function Hero({ video = HERO_VIDEO, image }: { video?: string; image?: string }) {
+export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string; image?: string; videoFile?: string }) {
   const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,10 @@ export function Hero({ video = HERO_VIDEO, image }: { video?: string; image?: st
       <div className="absolute inset-0 -z-10">
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className="kenburns object-cover object-center" />
-        {showVideo && (
+        {showVideo && videoFile && (
+          <video className="absolute inset-0 h-full w-full object-cover" src={videoFile} autoPlay muted loop playsInline aria-hidden="true" />
+        )}
+        {showVideo && !videoFile && (
           <iframe
             className="absolute left-1/2 top-1/2 border-0"
             style={{ width: "max(100vw, 177.78svh)", height: "max(56.25vw, 100svh)", transform: "translate(-50%, -50%)" }}

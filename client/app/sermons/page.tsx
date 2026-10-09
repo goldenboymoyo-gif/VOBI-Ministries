@@ -20,8 +20,8 @@ export default async function SermonsPage() {
   for (const s of sermons) {
     cards.set(s.id, { key: s.id, title: s.title, thumb: s.thumbnail, href: `/sermons/${s.slug}`, cat: "sermons", label: tvLabels.sermons });
   }
-  for (const i of [...(settings.videos ?? []), ...tvItems] as { id: string; title: string; cat: string }[]) {
-    if (!cards.has(i.id)) cards.set(i.id, { key: i.id, title: i.title, thumb: thumb(i.id), href: `/tv/${i.id}`, cat: i.cat, label: tvLabels[i.cat] ?? "Video" });
+  for (const i of [...(settings.videos ?? []), ...tvItems] as { id: string; title: string; cat: string; poster?: string; src?: string }[]) {
+    if (!cards.has(i.id)) cards.set(i.id, { key: i.id, title: i.title, thumb: i.poster ?? thumb(i.id), href: `/tv/${i.id}`, cat: i.cat, label: tvLabels[i.cat] ?? "Video" });
   }
   const items = Array.from(cards.values());
   const mixed = [...items.filter((c) => c.cat === "sermons"), ...items.filter((c) => c.cat !== "sermons")];

@@ -23,7 +23,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero video={settings.heroVideo || undefined} image={settings.heroImage || undefined} />
+      <Hero video={settings.heroVideo || undefined} image={settings.heroImage || undefined} videoFile={settings.heroVideoFile || undefined} />
       {settings.announcement && <div className="gold-wash px-4 py-3 text-center text-sm font-bold text-ink md:text-base">{settings.announcement}</div>}
       <EventCards latest={services[0]} />
       <FeatureCards />
