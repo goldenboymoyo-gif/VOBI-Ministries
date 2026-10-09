@@ -3,6 +3,7 @@ import "server-only";
 import { cacheLife } from "next/cache";
 
 import { site } from "@/config/site";
+import { configured, load as loadStore } from "@/lib/store";
 import { seedSermons, seedServices } from "@/content/sermons";
 import { seedMinistries } from "@/content/ministries";
 import { seedTestimonies } from "@/content/testimonies";
@@ -56,8 +57,9 @@ export async function getEvents(): Promise<ChurchEvent[]> {
   "use cache";
   cacheLife("minutes");
   const rows = await fromApi<ChurchEvent[]>("/api/events");
-  if (rows) return sortByEventDate(rows);
-  return seedEvents;
+  let added: ChurchEvent[] = [];
+  if (configured()) { try { added = await loadStore<ChurchEvent[]>("events.json", []); } catch {} }
+  return sortByEventDate([...(rows ?? seedEvents), ...added]);
 }
 
 export async function getEvent(slug: string): Promise<ChurchEvent | undefined> {

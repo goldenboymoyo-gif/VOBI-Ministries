@@ -24,7 +24,7 @@ export function LiveChat({ className = "" }: { className?: string }) {
       } catch {}
     }
     void pull();
-    const iv = window.setInterval(pull, 5000);
+    const iv = window.setInterval(pull, 3000);
     return () => { dead = true; window.clearInterval(iv); };
   }, []);
 
