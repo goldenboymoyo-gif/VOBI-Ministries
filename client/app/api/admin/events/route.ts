@@ -4,7 +4,6 @@ import { isAdmin } from "@/lib/adminAuth";
 import { clean, load, uid, update } from "@/lib/store";
 import type { ChurchEvent } from "@/types";
 
-export const dynamic = "force-dynamic";
 const FILE = "events.json";
 
 export async function GET(req: Request) {

@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextResponse, connection } from "next/server";
 
 import { clean, configured, load, throttle, uid, update, type Msg } from "@/lib/store";
 
-export const dynamic = "force-dynamic";
 
 export async function GET() {
+  await connection();
   if (!configured()) return NextResponse.json({ off: true }, { status: 503 });
   const m = await load<Msg[]>("chat.json", []);
   return NextResponse.json({ messages: m.slice(-60) });

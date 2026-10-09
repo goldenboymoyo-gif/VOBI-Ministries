@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/adminAuth";
 import { load, update, type Comment, type Msg } from "@/lib/store";
 
-export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   if (!isAdmin(req)) return NextResponse.json({ error: "No" }, { status: 401 });

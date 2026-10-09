@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 
 import { clean, configured, load, throttle, uid, update, type Comment } from "@/lib/store";
 
-export const dynamic = "force-dynamic";
 const ok = (v: string) => /^[\w-]{3,24}$/.test(v);
 type Ctx = { params: Promise<{ video: string }> };
 
