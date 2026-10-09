@@ -49,3 +49,15 @@ export function throttle(key: string, limit: number, ms: number) {
   list.push(now); hits.set(key, list);
   return true;
 }
+
+export async function putBinary(file: string, base64: string) {
+  const r = await fetch(`${API}/${process.env.DATA_REPO}/contents/${file}`, {
+    method: "PUT", headers: headers(), body: JSON.stringify({ message: `upload ${file}`, content: base64 }),
+  });
+  if (!r.ok) throw new Error(`store upload ${r.status}`);
+}
+
+export async function rawFile(file: string): Promise<ArrayBuffer | null> {
+  const r = await fetch(`${API}/${process.env.DATA_REPO}/contents/${file}`, { headers: { ...headers(), Accept: "application/vnd.github.raw" }, cache: "no-store" });
+  return r.ok ? r.arrayBuffer() : null;
+}

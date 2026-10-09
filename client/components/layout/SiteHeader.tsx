@@ -9,7 +9,8 @@ import { socialLinks } from "@/config/socialLinks";
 import { Logo } from "@/components/ui/Logo";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 
-export function SiteHeader() {
+export function SiteHeader({ menu }: { menu?: { label: string; href: string; children?: { label: string; href: string }[] }[] }) {
+  const items = menu ?? nav;
   const [solid, setSolid] = useState(false);
   const [tone, setTone] = useState<{ bg: string; fg: string; dark: boolean } | null>(null);
   const [open, setOpen] = useState(false);
@@ -72,7 +73,7 @@ export function SiteHeader() {
           </Link>
 
           <nav className="hidden items-center gap-7 xl:flex" aria-label="Primary">
-            {nav.map((item) =>
+            {items.map((item) =>
               item.children ? (
                 <div key={item.href} className="group relative">
                   <Link
@@ -158,7 +159,7 @@ export function SiteHeader() {
             transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
           >
             <nav aria-label="Mobile" className="flex flex-col">
-              {nav.map((item, i) => (
+              {items.map((item, i) => (
                 <motion.div
                   key={item.href}
                   initial={{ opacity: 0, y: 18 }}

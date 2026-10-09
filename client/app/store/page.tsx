@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { getSettings, getSite } from "@/lib/settings";
+import { PageNote } from "@/components/ui/PageNote";
 import { Masthead } from "@/components/ui/Masthead";
 import { site } from "@/config/site";
 
@@ -9,10 +11,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/store" },
 };
 
-export default function StorePage() {
+export default async function StorePage() {
+  const site = await getSite();
+  const notes = (await getSettings()).notes ?? {};
   return (
     <>
       <Masthead eyebrow="Store" title="VOBI Store" image="/photos/praise.jpg" intro="Resources and merchandise from VOBI." />
+      <PageNote text={notes.store} />
       <section className="bg-paper py-20 md:py-28">
         <div className="shell-narrow text-center">
           <h2 className="display-md">The store is not open yet</h2>

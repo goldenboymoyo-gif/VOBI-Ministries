@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { site, mapsDirectionsUrl } from "@/config/site";
 import { socialLinks } from "@/config/socialLinks";
+import { getSite } from "@/lib/settings";
 import { Logo } from "@/components/ui/Logo";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 
@@ -24,7 +25,8 @@ const help = [
   { label: "Contact Us", href: "/contact" },
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const site = await getSite();
   const tel = (n: string) => `tel:${n.replace(/\s+/g, "")}`;
   return (
     <footer className="gold-wash text-white">

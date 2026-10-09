@@ -4,6 +4,7 @@ import { cacheLife } from "next/cache";
 
 import { site } from "@/config/site";
 import { configured, load as loadStore } from "@/lib/store";
+import { getSettings as getAdminSettings } from "@/lib/settings";
 import { seedSermons, seedServices } from "@/content/sermons";
 import { seedMinistries } from "@/content/ministries";
 import { seedTestimonies } from "@/content/testimonies";
@@ -72,6 +73,8 @@ export async function getEvent(slug: string): Promise<ChurchEvent | undefined> {
 export async function getMinistries(): Promise<Ministry[]> {
   "use cache";
   cacheLife("minutes");
+  const custom = (await getAdminSettings()).ministries;
+  if (custom?.length) return custom;
   const rows = await fromApi<Ministry[]>("/api/ministries");
   if (rows?.length) return rows;
   return seedMinistries;

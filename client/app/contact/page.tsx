@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { getSettings, getSite } from "@/lib/settings";
+import { PageNote } from "@/components/ui/PageNote";
 import { Masthead } from "@/components/ui/Masthead";
 import { MessageForm } from "@/components/ui/MessageForm";
 import { site, mapsDirectionsUrl } from "@/config/site";
@@ -13,7 +15,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const site = await getSite();
+  const notes = (await getSettings()).notes ?? {};
   return (
     <>
       <Masthead image="/photos/praise.jpg"

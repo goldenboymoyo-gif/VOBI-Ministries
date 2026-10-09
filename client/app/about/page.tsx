@@ -4,7 +4,8 @@ import { Masthead } from "@/components/ui/Masthead";
 import { Split } from "@/components/ui/Split";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { site } from "@/config/site";
-import { story } from "@/content/story";
+import { story as defaultStory } from "@/content/story";
+import { beliefs as defaultBeliefs } from "@/content/beliefs";
 import { getSettings } from "@/lib/settings";
 
 export const metadata: Metadata = {
@@ -13,17 +14,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-const beliefs = [
-  { t: "Salvation in Christ", d: `${site.statements.bioLine} Salvation is God's gift through Jesus Christ.` },
-  { t: "The Word of God", d: "Every service is preached from the Scriptures, the final word for faith and life." },
-  { t: "The Holy Spirit", d: "The Holy Spirit leads the church. Our services begin at 08:30 and end when He gives the signal." },
-  { t: "Prayer", d: "We pray together in mass prayer and on the prayer line, and we believe God answers." },
-  { t: "Healing and deliverance", d: "Jesus still heals the sick and sets people free. Testimonies are on VOBI TV." },
-  { t: "One church, everywhere", d: `${site.statements.distance} Wherever you watch from, you are part of the service.` },
-];
 
 export default async function AboutPage() {
   const settings = await getSettings();
+  const story = settings.story?.length ? settings.story : defaultStory;
+  const beliefs = settings.beliefs?.length ? settings.beliefs : defaultBeliefs;
   const who = settings.aboutWho?.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   return (
     <>

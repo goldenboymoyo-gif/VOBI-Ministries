@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Split } from "@/components/ui/Split";
+import { getSettings, getSite } from "@/lib/settings";
+import { PageNote } from "@/components/ui/PageNote";
 import { Masthead } from "@/components/ui/Masthead";
 import { ServiceTime } from "@/components/ui/ServiceTime";
 import { site, mapsDirectionsUrl, mapsEmbedUrl } from "@/config/site";
@@ -27,7 +29,9 @@ const expect = [
   },
 ];
 
-export default function VisitPage() {
+export default async function VisitPage() {
+  const site = await getSite();
+  const notes = (await getSettings()).notes ?? {};
   return (
     <>
       <Masthead image="/photos/congregation.jpg"
@@ -61,6 +65,7 @@ export default function VisitPage() {
         <p>{site.service.day}s at {site.service.time}. Come early.</p>
       </Split>
 
+      <PageNote text={notes.visit} />
       <section className="border-b border-line bg-paper py-20 md:py-28">
         <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="reveal lg:col-span-5">

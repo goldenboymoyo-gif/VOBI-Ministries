@@ -5,6 +5,7 @@ import { site } from "@/config/site";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { getSettings } from "@/lib/settings";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -94,7 +95,8 @@ const jsonLd = {
   founder: { "@type": "Person", name: "Prophet Promise" },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const settings = await getSettings();
   return (
     <html lang="en" className={`${fraunces.variable} ${archivo.variable} h-full`} suppressHydrationWarning>
       <head>
@@ -112,7 +114,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           >
             Skip to content
           </a>
-          <SiteHeader />
+          <SiteHeader menu={settings.menu?.length ? settings.menu : undefined} />
           <main id="main" className="flex-1">
             {children}
           </main>
