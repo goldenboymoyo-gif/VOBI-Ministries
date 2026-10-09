@@ -66,7 +66,7 @@ export function SiteHeader() {
         {!solid && (
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-[140%] bg-gradient-to-b from-black/55 to-transparent" />
         )}
-        <div className="shell flex h-[72px] items-center justify-between gap-5 md:h-[80px]">
+        <div className="shell flex h-[84px] items-center justify-between gap-5 md:h-[100px]">
           <Link href="/" className="shrink-0" aria-label="VOBI — home">
             <Logo tone={isDark ? "reverse" : "solid"} variant="mark" />
           </Link>

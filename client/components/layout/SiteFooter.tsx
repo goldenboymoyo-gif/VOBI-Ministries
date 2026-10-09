@@ -9,7 +9,7 @@ const YEAR = new Date().getFullYear();
 
 const quick = [
   { label: "About VOBI", href: "/about" },
-  { label: "Statement of Faith", href: "/about/what-we-believe" },
+  { label: "Statement of Faith", href: "/about#faith" },
   { label: "VOBI TV", href: "/sermons" },
   { label: "Testimonies", href: "/testimonies" },
   { label: "Events", href: "/events" },

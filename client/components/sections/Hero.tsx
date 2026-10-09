@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import { site } from "@/config/site";
 
-const HERO_VIDEO = "zS8NL8NMNlQ";
+const HERO_VIDEO = "d5NuEDZKcZg"; // "Highlight | Power in Presence" — a short highlight, not a full service
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Hero() {

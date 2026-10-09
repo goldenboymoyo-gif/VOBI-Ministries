@@ -37,7 +37,7 @@ export function Logo({ tone = "solid", variant = "full", className = "" }: Props
           alt="Valley of Blessings International Ministries"
           className={
             variant === "mark"
-              ? "h-11 w-auto md:h-12"
+              ? "h-14 w-auto md:h-[68px]"
               : "h-12 w-auto max-w-[168px] object-contain object-left md:h-14 md:max-w-[210px]"
           }
           onError={() => setFailed((f) => ({ ...f, [src]: true }))}

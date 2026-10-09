@@ -48,29 +48,14 @@ export const nav = [
   {
     label: "About",
     href: "/about",
-    children: [
-      { label: "Statement of Faith", href: "/about/what-we-believe" },
-      { label: "Prophet Promise", href: "/about/leadership" },
-      { label: "Our Story", href: "/about/story" },
-    ],
   },
   {
     label: "VOBI TV",
     href: "/sermons",
-    children: [
-      { label: "Watch Live", href: "/live" },
-      { label: "Sunday Services", href: "/sermons?category=service" },
-      { label: "Sermons", href: "/sermons?category=sermon" },
-      { label: "Testimonies", href: "/testimonies" },
-    ],
   },
   {
     label: "Ministries",
     href: "/ministries",
-    children: [
-      { label: "All Ministries", href: "/ministries" },
-      { label: "Give & Partner", href: "/give" },
-    ],
   },
   { label: "Store", href: "/store" },
   { label: "Events", href: "/events" },

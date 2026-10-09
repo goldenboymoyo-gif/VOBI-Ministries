@@ -1,69 +1,39 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
 
 import { Masthead } from "@/components/ui/Masthead";
+import { CtaBand } from "@/components/ui/CtaBand";
 import { getMinistries } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Ministries",
-  description:
-    "The four ministries documented in Valley of Blessings International Ministries' own published content: Sunday Worship, Prayer & Mass Prayer, Testimonies & Deliverance, and Humanitarian & Outreach.",
+  description: "Worship, prayer, deliverance and outreach at Valley of Blessings International Ministries.",
   alternates: { canonical: "/ministries" },
 };
 
 export default async function MinistriesPage() {
   const ministries = await getMinistries();
-
   return (
     <>
-      <Masthead image="/photos/worship.jpg"
-        eyebrow="Ministries"
-        crumbs={[{ label: "Home", href: "/" }, { label: "Ministries" }]}
-        title="Our Ministries"
-        intro="Worship, prayer, deliverance and outreach."
-      />
-
-      <section className="bg-paper py-20 md:py-28">
-        <div className="shell space-y-px">
-          {ministries.map((m) => (
-            <article key={m.id} className="reveal border-b border-line first:border-t">
-              <Link
-                href={`/ministries/${m.slug}`}
-                className="group grid gap-6 py-9 md:grid-cols-12 md:items-center md:gap-10 md:py-12"
-              >
-                <div className="md:col-span-6">
-                  <h2 className="display-md transition-transform duration-500 group-hover:translate-x-1.5">
-                    {m.name}
-                  </h2>
-                  <p className="mt-4 text-[15px] leading-relaxed text-muted">{m.summary}</p>
-                </div>
-                <div className="md:col-span-5">
-                  <span className="frame frame-hover block aspect-video">
-                    <Image
-                      src={m.image}
-                      alt={m.name}
-                      width={640}
-                      height={360}
-                      sizes="(max-width: 768px) 100vw, 40vw"
-                      className="object-cover"
-                    />
-                  </span>
-                </div>
-                <div className="md:col-span-1 md:justify-self-end">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-5 w-5 stroke-current fill-none stroke-[1.5] transition-transform duration-500 group-hover:translate-x-1.5"
-                    aria-hidden
-                  >
-                    <path d="M4 12h15M13 6l6 6-6 6" />
-                  </svg>
-                </div>
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
+      <Masthead eyebrow="Ministries" title="How we serve" image="/photos/worship.jpg"
+        intro="Worship, prayer, deliverance and outreach in Victoria Falls and beyond." />
+      {ministries.map((m, i) => (
+        <section key={m.id} id={m.slug} className="relative isolate overflow-hidden bg-ink text-white">
+          <Image src={m.image} alt="" fill sizes="100vw" unoptimized={m.image.startsWith("http")} className="-z-10 object-cover opacity-35" />
+          <div className="shell grid py-20 md:py-28 lg:grid-cols-12">
+            <div className={`reveal ${i % 2 ? "lg:col-span-7 lg:col-start-6" : "lg:col-span-7"}`}>
+              <p className="text-7xl font-extrabold leading-none text-gold-bright md:text-8xl">0{i + 1}</p>
+              <h2 className="mt-4 text-3xl font-extrabold uppercase md:text-4xl">{m.name}</h2>
+              <p className="mt-4 text-xl leading-snug text-white/90">{m.summary}</p>
+              <div className="mt-6 space-y-4 text-[16px] leading-relaxed text-white/75">
+                {m.body.map((p, k) => <p key={k}>{p}</p>)}
+              </div>
+              {m.gathering && <p className="mt-6 border-l-4 border-gold-bright pl-4 font-semibold text-gold-bright">{m.gathering}</p>}
+            </div>
+          </div>
+        </section>
+      ))}
+      <CtaBand title="Be part of the work" text="Give, partner or join us on Sunday." href="/give" label="Give & partner" />
     </>
   );
 }
