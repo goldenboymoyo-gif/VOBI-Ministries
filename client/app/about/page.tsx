@@ -33,16 +33,22 @@ export default function AboutPage() {
         <p>The service is live to the world, so a family in Victoria Falls and a viewer in another country worship together. {site.statements.distance}</p>
       </Split>
 
-      <section id="story" className="bg-ink py-16 text-white md:py-24">
-        <div className="shell-narrow">
-          <h2 className="display-md">Our story</h2>
-          <ol className="mt-10">
+      <section id="story" className="bg-paper py-16 md:py-24">
+        <div className="shell grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-4">
+            <div className="lg:sticky lg:top-36">
+              <p className="eyebrow text-gold">Since 2017</p>
+              <h2 className="mt-2 text-3xl font-extrabold uppercase md:text-4xl">Our story</h2>
+              <p className="mt-4 leading-relaxed text-muted">How VOBI has grown, one season at a time.</p>
+            </div>
+          </div>
+          <ol className="lg:col-span-8">
             {story.map((e, i) => (
-              <li key={i} className="reveal grid gap-3 border-t border-white/15 py-8 md:grid-cols-[9rem_1fr] md:gap-10">
-                <p className="text-3xl font-extrabold text-gold-bright">{e.year}</p>
+              <li key={i} className="grid gap-2 border-b border-line py-7 first:pt-0 md:grid-cols-[6rem_1fr] md:gap-8">
+                <p className="text-lg font-bold text-gold">{e.year}</p>
                 <div>
                   <h3 className="text-xl font-bold">{e.title}</h3>
-                  <p className="mt-2 leading-relaxed text-white/70">{e.body}</p>
+                  <p className="mt-2 leading-relaxed text-muted">{e.body}</p>
                 </div>
               </li>
             ))}
@@ -54,10 +60,9 @@ export default function AboutPage() {
         <div className="shell">
           <h2 className="display-md">What we believe</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {beliefs.map((b, i) => (
-              <div key={b.t} className="reveal rounded bg-white p-8 shadow-md">
-                <p className="text-4xl font-extrabold text-gold-bright">0{i + 1}</p>
-                <h3 className="mt-3 text-xl font-bold">{b.t}</h3>
+            {beliefs.map((b) => (
+              <div key={b.t} className="reveal border-t-4 border-gold-bright bg-white p-8 shadow-md">
+                <h3 className="text-xl font-bold">{b.t}</h3>
                 <p className="mt-2 leading-relaxed text-muted">{b.d}</p>
               </div>
             ))}

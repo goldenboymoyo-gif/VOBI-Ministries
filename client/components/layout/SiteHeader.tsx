@@ -66,7 +66,7 @@ export function SiteHeader() {
         {!solid && (
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-[140%] bg-gradient-to-b from-black/55 to-transparent" />
         )}
-        <div className="shell flex h-[84px] items-center justify-between gap-5 md:h-[100px]">
+        <div className="shell mt-3 flex h-[84px] md:mt-5 items-center justify-between gap-5 md:h-[100px]">
           <Link href="/" className="shrink-0" aria-label="VOBI — home">
             <Logo tone={isDark ? "reverse" : "solid"} variant="mark" />
           </Link>
@@ -151,7 +151,7 @@ export function SiteHeader() {
         {open && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 flex flex-col justify-between bg-ink px-6 pb-10 pt-[104px] text-paper xl:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-between bg-ink px-6 pb-10 pt-[124px] text-paper xl:hidden"
             initial={{ opacity: 0, y: -14 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -14 }}

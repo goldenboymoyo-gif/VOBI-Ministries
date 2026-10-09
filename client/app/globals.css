@@ -221,8 +221,9 @@ h4 {
   border-color: var(--color-paper);
 }
 .btn-solid:hover {
-  background: transparent;
-  color: var(--color-paper);
+  background: var(--color-gold-bright);
+  color: var(--color-ink);
+  border-color: var(--color-gold-bright);
 }
 
 .btn-ink {
@@ -231,8 +232,9 @@ h4 {
   border-color: var(--color-ink);
 }
 .btn-ink:hover {
-  background: transparent;
+  background: var(--color-gold-bright);
   color: var(--color-ink);
+  border-color: var(--color-gold-bright);
 }
 
 .btn-ghost {
@@ -240,7 +242,7 @@ h4 {
   color: currentColor;
 }
 .btn-ghost:hover {
-  background: currentColor;
+  background: color-mix(in srgb, currentColor 14%, transparent);
 }
 
 .btn-gold {
@@ -249,8 +251,9 @@ h4 {
   border-color: var(--color-gold-bright);
 }
 .btn-gold:hover {
-  background: transparent;
-  color: var(--color-gold-bright);
+  background: var(--color-ink);
+  color: #fff;
+  border-color: var(--color-ink);
 }
 
 /* Image frames ----------------------------------------------------------- */

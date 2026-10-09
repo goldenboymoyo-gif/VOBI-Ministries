@@ -26,26 +26,39 @@ export default async function EventsPage() {
       <Masthead eyebrow="Events" title="Upcoming events" image="/photos/congregation.jpg"
         intro="Join us in Victoria Falls or from wherever you are." meta={<Countdown />} />
       {events.length > 0 && (
-        <section className="bg-paper py-16">
-          <div className="shell grid gap-6 md:grid-cols-2">
-            {events.map((e) => (
-              <article key={e.id} className="reveal border border-line p-8">
-                <p className="eyebrow text-gold">{new Date(e.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
-                <h2 className="display-sm mt-3">{e.title}</h2>
-                {e.description && <p className="mt-3 text-muted">{e.description}</p>}
-              </article>
-            ))}
+        <section className="bg-paper py-16 md:py-20">
+          <div className="shell-narrow">
+            <h2 className="text-2xl font-extrabold uppercase md:text-3xl">Coming up</h2>
+            <ul className="mt-8 divide-y divide-line border-y border-line">
+              {events.map((e) => {
+                const d = new Date(e.date);
+                return (
+                  <li key={e.id} className="flex gap-5 py-6">
+                    <div className="grid h-20 w-20 shrink-0 place-items-center bg-gold-bright text-center text-ink">
+                      <div>
+                        <p className="text-3xl font-extrabold leading-none">{d.getDate()}</p>
+                        <p className="mt-1 text-xs font-bold uppercase tracking-wider">{d.toLocaleDateString("en-GB", { month: "short" })}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold">{e.title}</h3>
+                      {e.description && <p className="mt-1 text-muted">{e.description}</p>}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </section>
       )}
-      <section className="bg-ink py-16 text-paper md:py-24">
+      <section className="gold-wash py-16 md:py-24">
         <div className="shell">
-          <h2 className="display-md">Regular gatherings</h2>
-          <div className="mt-10 grid gap-px bg-line-dark md:grid-cols-2">
+          <h2 className="text-2xl font-extrabold uppercase md:text-3xl">Regular gatherings</h2>
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
             {regular.map((r) => (
-              <div key={r.t} className="reveal bg-ink p-8 md:p-10">
-                <h3 className="display-sm text-gold-bright">{r.t}</h3>
-                <p className="mt-3 text-paper/70">{r.d}</p>
+              <div key={r.t} className="border-t-4 border-ink bg-white p-8 shadow-md">
+                <h3 className="text-xl font-bold">{r.t}</h3>
+                <p className="mt-3 leading-relaxed text-muted">{r.d}</p>
               </div>
             ))}
           </div>

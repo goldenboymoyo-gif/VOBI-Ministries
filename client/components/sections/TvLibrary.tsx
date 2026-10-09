@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { HoverPreview } from "@/components/ui/HoverPreview";
 
 export type TvCard = { key: string; title: string; thumb: string; href: string; cat: string; label: string };
 
@@ -18,6 +20,12 @@ const TABS = [
 export function TvLibrary({ items }: { items: TvCard[] }) {
   const [tab, setTab] = useState("all");
   const [shown, setShown] = useState(12);
+  useEffect(() => {
+    const read = () => { const h = window.location.hash.slice(1); if (TABS.some((t) => t.k === h)) { setTab(h); setShown(12); } };
+    read();
+    window.addEventListener("hashchange", read);
+    return () => window.removeEventListener("hashchange", read);
+  }, []);
   const list = tab === "all" ? items : items.filter((i) => i.cat === tab);
 
   return (
@@ -39,11 +47,11 @@ export function TvLibrary({ items }: { items: TvCard[] }) {
         {list.slice(0, shown).map((i) => (
           <li key={i.key}>
             <Link href={i.href} className="group block">
-              <span className="frame relative block aspect-video">
+              <HoverPreview thumb={i.thumb} className="frame aspect-video">
                 <Image src={i.thumb} alt={i.title} width={640} height={360} unoptimized={i.thumb.startsWith("http")}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              </span>
+                  className="object-cover" />
+              </HoverPreview>
               <span className="mt-3 block text-sm italic text-gold">{i.label}</span>
               <span className="mt-1 block text-lg font-bold leading-snug transition-colors group-hover:text-gold">{i.title}</span>
             </Link>

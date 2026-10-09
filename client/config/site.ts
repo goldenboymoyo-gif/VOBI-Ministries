@@ -43,7 +43,7 @@ export const site: SiteSettings = {
   },
 };
 
-export const nav = [
+export const nav: { label: string; href: string; children?: { label: string; href: string }[] }[] = [
   { label: "Home", href: "/" },
   {
     label: "About",
@@ -62,10 +62,6 @@ export const nav = [
   {
     label: "Contact",
     href: "/contact",
-    children: [
-      { label: "Prayer Request", href: "/prayer" },
-      { label: "Plan Your Visit", href: "/visit" },
-    ],
   },
 ];
 

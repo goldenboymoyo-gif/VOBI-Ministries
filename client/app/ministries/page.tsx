@@ -17,22 +17,26 @@ export default async function MinistriesPage() {
     <>
       <Masthead eyebrow="Ministries" title="How we serve" image="/photos/worship.jpg"
         intro="Worship, prayer, deliverance and outreach in Victoria Falls and beyond." />
-      {ministries.map((m, i) => (
-        <section key={m.id} id={m.slug} className="relative isolate overflow-hidden bg-ink text-white">
-          <Image src={m.image} alt="" fill sizes="100vw" unoptimized={m.image.startsWith("http")} className="-z-10 object-cover opacity-35" />
-          <div className="shell grid py-20 md:py-28 lg:grid-cols-12">
-            <div className={`reveal ${i % 2 ? "lg:col-span-7 lg:col-start-6" : "lg:col-span-7"}`}>
-              <p className="text-7xl font-extrabold leading-none text-gold-bright md:text-8xl">0{i + 1}</p>
-              <h2 className="mt-4 text-3xl font-extrabold uppercase md:text-4xl">{m.name}</h2>
-              <p className="mt-4 text-xl leading-snug text-white/90">{m.summary}</p>
-              <div className="mt-6 space-y-4 text-[16px] leading-relaxed text-white/75">
-                {m.body.map((p, k) => <p key={k}>{p}</p>)}
+      <section className="bg-paper py-16 md:py-24">
+        <div className="shell space-y-16 md:space-y-24">
+          {ministries.map((m, i) => (
+            <article key={m.id} id={m.slug} className="grid scroll-mt-32 items-center gap-8 md:gap-14 lg:grid-cols-2">
+              <div className={`relative aspect-[4/3] overflow-hidden bg-paper-deep shadow-lg ${i % 2 ? "lg:order-2" : ""}`}>
+                <Image src={m.image} alt={m.name} fill sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={m.image.startsWith("http")} className="object-cover" />
               </div>
-              {m.gathering && <p className="mt-6 border-l-4 border-gold-bright pl-4 font-semibold text-gold-bright">{m.gathering}</p>}
-            </div>
-          </div>
-        </section>
-      ))}
+              <div>
+                <h2 className="text-2xl font-extrabold uppercase md:text-3xl">{m.name}</h2>
+                <div className="mt-3 h-1 w-14 bg-gold-bright" />
+                <p className="mt-5 text-lg font-medium leading-snug text-ink">{m.summary}</p>
+                <div className="mt-4 space-y-4 leading-relaxed text-muted">
+                  {m.body.map((p, k) => <p key={k}>{p}</p>)}
+                </div>
+                {m.gathering && <p className="mt-6 inline-block bg-white px-4 py-3 text-sm font-semibold text-gold shadow-sm">{m.gathering}</p>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
       <CtaBand title="Be part of the work" text="Give, partner or join us on Sunday." href="/give" label="Give & partner" />
     </>
   );
