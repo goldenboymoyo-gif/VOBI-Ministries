@@ -389,9 +389,41 @@ function Overview({ session, c, go }: any) {
 /* ---------- the app ---------- */
 
 const TABS: [string, string][] = [
-  ["overview", "Overview"], ["home", "Home page"], ["videos", "VOBI TV videos"], ["events", "Events"], ["about", "About page"],
-  ["ministries", "Ministries"], ["contact", "Contact details"], ["menu", "Menu & extra pages"], ["moderation", "Comments & chat"],
+  ["overview", "Dashboard"], ["home", "Homepage"], ["videos", "VOBI TV videos"], ["events", "Events & Gatherings"], ["about", "About page"],
+  ["ministries", "Ministries"], ["contact", "Contact details"], ["menu", "Menu & pages"], ["moderation", "Comments & chat"],
 ];
+const ICONS: Record<string, string> = { overview: "▦", home: "⌂", videos: "▶", events: "▤", about: "✎", ministries: "♥", contact: "☎", menu: "☰", moderation: "✉" };
+
+function MediaLibrary({ notify }: { notify: (t: string, k?: string) => void }) {
+  const [files, setFiles] = useState<{ name: string; url: string; size: number }[]>([]);
+  const [q, setQ] = useState("");
+  const [busy, setBusy] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
+  const reload = useCallback(async () => { try { setFiles((await api("/api/admin/media")).files || []); } catch {} }, []);
+  useEffect(() => { void reload(); }, [reload]);
+  const shown = files.filter((f) => f.name.toLowerCase().includes(q.toLowerCase()));
+  return (
+    <section className="adm-side-card">
+      <div className="adm-side-head"><h3>Media Library</h3>
+        <button type="button" className="adm-btn adm-btn-small" disabled={busy} onClick={() => input.current?.click()}>{busy ? "Uploading…" : "⇪ Upload Media"}</button>
+      </div>
+      <input ref={input} type="file" accept="image/*" hidden onChange={async (e) => {
+        const f = e.target.files?.[0]; e.target.value = ""; if (!f) return; setBusy(true);
+        try { await sendPicture(await resizeToJpeg(f)); notify("Picture uploaded."); await reload(); } catch (err: any) { notify(err.message || "Upload failed", "error"); }
+        setBusy(false);
+      }} />
+      <input className="adm-search" placeholder="Search files…" value={q} onChange={(e) => setQ(e.target.value)} />
+      <div className="adm-media">
+        {shown.map((f) => (
+          <button type="button" key={f.name} title="Click to copy the picture link" onClick={() => { void navigator.clipboard?.writeText(f.url); notify("Picture link copied. Paste it into any picture box."); }}>
+            <img src={f.url} alt="" loading="lazy" /><span>{f.name.slice(0, 12)} · {(f.size / 1048576).toFixed(1)} MB</span>
+          </button>
+        ))}
+        {!shown.length ? <p className="adm-hint">No uploaded pictures yet.</p> : null}
+      </div>
+    </section>
+  );
+}
 
 export default function AdminApp() {
   const [session, setSession] = useState<Session | null>(null);
@@ -453,17 +485,20 @@ export default function AdminApp() {
   return (
     <div className="adm">
       <header className="adm-top">
-        <button type="button" className="adm-menu-btn" aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)}><span aria-hidden>☰</span> <span className="adm-menu-label">{current}</span></button>
-        <a className="adm-brand" href="/admin"><img src="/brand/logo-mark.png" alt="" width="40" /><span>VOBI Admin</span></a>
+        <button type="button" className="adm-menu-btn" aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)}><span aria-hidden>☰</span></button>
+        <a className="adm-brand" href="/admin"><img src="/brand/logo.png" alt="VOBI Ministries" height="38" /></a>
+        <div className="adm-top-title"><b>Website Admin</b><span>Manage your website content</span></div>
         <div className="adm-top-actions">
-          <a className="adm-btn adm-btn-ghost adm-btn-small" href="/" target="_blank" rel="noopener noreferrer">View website</a>
+          <a className="adm-btn adm-btn-ghost adm-btn-small" href="/" target="_blank" rel="noopener noreferrer">◉ Preview Site</a>
+          {dirty ? <button type="button" className="adm-btn adm-btn-ghost adm-btn-small" onClick={discard} disabled={saving}>Discard</button> : null}
+          <button type="button" className="adm-btn adm-btn-small adm-publish" onClick={save} disabled={saving || !dirty || session.storage === "none"}>{saving ? "Saving…" : dirty ? "Publish" : "Published"}</button>
           <button type="button" className="adm-btn adm-btn-ghost adm-btn-small" onClick={logout}>Log out</button>
         </div>
       </header>
       <div className="adm-body">
         <nav id="adm-nav" className={`adm-nav ${menuOpen ? "open" : ""}`} aria-label="Admin sections">
-          {TABS.map(([k, l]) => (<button type="button" key={k} className={tab === k ? "on" : ""} aria-current={tab === k ? "page" : undefined} onClick={() => go(k)}>{l}</button>))}
-          <a className="adm-nav-site" href="/" target="_blank" rel="noopener noreferrer">View website ↗</a>
+          {TABS.map(([k, l]) => (<button type="button" key={k} className={tab === k ? "on" : ""} aria-current={tab === k ? "page" : undefined} onClick={() => go(k)}><i aria-hidden>{ICONS[k]}</i>{l}</button>))}
+          <div className="adm-nav-foot"><b>VOBI Ministries</b><span>Victoria Falls, Zimbabwe</span><em>“Because of Christ we are saved.”</em></div>
         </nav>
         <main className="adm-main">
           {loadError ? <div className="adm-note error">{loadError} <button type="button" className="adm-btn adm-btn-small" onClick={loadContent}>Try again</button></div> : null}
@@ -480,16 +515,14 @@ export default function AdminApp() {
             {tab === "moderation" ? <ModerationEditor notify={notify} /> : null}
           </>) : null}
         </main>
+        <aside className="adm-aside">
+          <MediaLibrary notify={notify} />
+          <section className="adm-side-card"><h3>Page Settings</h3>
+            <p className="adm-hint">Status: <b>{dirty ? "Unsaved changes" : "Published"}</b></p>
+            <p className="adm-hint">Edits go live on the website about 1–2 minutes after you press Publish.</p>
+          </section>
+        </aside>
       </div>
-      {dirty ? (
-        <div className="adm-savebar" role="region" aria-label="Unsaved changes">
-          <span>{session.storage === "none" ? "View-only – saving is not switched on yet" : "Unsaved changes"}</span>
-          <div>
-            <button type="button" className="adm-btn adm-btn-ghost" onClick={discard} disabled={saving}>Discard</button>
-            <button type="button" className="adm-btn" onClick={save} disabled={saving || session.storage === "none"}>{saving ? "Saving…" : "Save changes"}</button>
-          </div>
-        </div>
-      ) : null}
       {toast ? <div className={`adm-toast ${toast.type}`} role="status" key={toast.id}>{toast.text}</div> : null}
     </div>
   );
