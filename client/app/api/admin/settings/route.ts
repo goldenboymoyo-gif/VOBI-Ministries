@@ -11,7 +11,7 @@ import { tvItems } from "@/content/vobitv";
 import type { ChurchEvent } from "@/types";
 
 const FILE = "settings.json";
-const CATS = ["sermons", "testimony", "prophecy", "massprayer", "funny"];
+const CATS = ["sermons", "testimony", "prophecy", "massprayer", "praise", "funny"];
 type Any = Record<string, unknown>;
 
 function ytId(s: string) {

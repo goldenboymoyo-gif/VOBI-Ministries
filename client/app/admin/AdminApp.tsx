@@ -187,7 +187,7 @@ function Login({ session, onDone }: { session: Session; onDone: () => void }) {
 
 /* ---------- the sections ---------- */
 
-const CATS: [string, string][] = [["sermons", "Sermons"], ["testimony", "Testimony"], ["prophecy", "Prophecy"], ["massprayer", "Mass Prayer"], ["funny", "Funny Moments"]];
+const CATS: [string, string][] = [["sermons", "Sermons"], ["testimony", "Testimony"], ["prophecy", "Prophecy"], ["massprayer", "Mass Prayer"], ["praise", "Praise & Worship"], ["funny", "Funny Moments"]];
 const ytIdOf = (s: string) => { const t = s.trim(); return /^[\w-]{11}$/.test(t) ? t : t.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/)?.[1] ?? ""; };
 
 function HomeEditor({ c, set, notify, blob }: any) {

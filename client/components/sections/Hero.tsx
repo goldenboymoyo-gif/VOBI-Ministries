@@ -56,6 +56,7 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
           <h1 className="mt-2 text-[clamp(1.5rem,3.2vw,2.5rem)] font-extrabold uppercase leading-tight text-gold-bright">
             {site.fullName}
           </h1>
+          <p className="mt-4 border-l-4 border-gold-bright pl-4 text-lg font-semibold italic text-white md:text-xl">Because of Christ, we are saved.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/live" className="btn btn-gold">Watch Live</Link>
             <Link href="/visit" className="btn btn-ghost">Visit Us</Link>

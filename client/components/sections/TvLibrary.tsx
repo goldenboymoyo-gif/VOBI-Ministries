@@ -14,6 +14,7 @@ const TABS = [
   { k: "testimony", l: "Testimony" },
   { k: "prophecy", l: "Prophecy" },
   { k: "massprayer", l: "Mass Prayer" },
+  { k: "praise", l: "Praise & Worship" },
   { k: "funny", l: "Funny Moments" },
 ];
 

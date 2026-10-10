@@ -1,7 +1,7 @@
-export type TvCat = "testimony" | "prophecy" | "massprayer" | "funny";
+export type TvCat = "testimony" | "prophecy" | "massprayer" | "praise" | "funny";
 
 export const tvLabels: Record<string, string> = {
-  sermons: "Sermon", testimony: "Testimony", prophecy: "Prophecy", massprayer: "Mass Prayer", funny: "Funny Moment",
+  sermons: "Sermon", testimony: "Testimony", prophecy: "Prophecy", massprayer: "Mass Prayer", praise: "Praise & Worship", funny: "Funny Moment",
 };
 
 export const tvItems: { id: string; title: string; cat: TvCat }[] = [
