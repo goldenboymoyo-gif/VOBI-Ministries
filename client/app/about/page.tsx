@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { Beliefs } from "@/components/sections/Beliefs";
 import { Masthead } from "@/components/ui/Masthead";
 import { Split } from "@/components/ui/Split";
 import { CtaBand } from "@/components/ui/CtaBand";
@@ -56,26 +57,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section id="faith" className="bg-ink py-16 text-white md:py-24">
-        <div className="shell">
-          <div className="max-w-2xl">
-            <p className="eyebrow text-gold-bright">Our faith</p>
-            <h2 className="mt-2 text-3xl font-extrabold uppercase md:text-4xl">What we believe</h2>
-            <p className="mt-4 leading-relaxed text-white/70">The truths we stand on, taken from the Word of God.</p>
-          </div>
-          <dl className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
-            {beliefs.map((b) => (
-              <div key={b.t} className="reveal flex gap-5">
-                <span className="mt-1.5 h-3 w-3 shrink-0 rotate-45 rounded-sm bg-gold-bright" aria-hidden />
-                <div>
-                  <dt className="text-xl font-bold text-gold-bright">{b.t}</dt>
-                  <dd className="mt-2 leading-relaxed text-white/80">{b.d}</dd>
-                </div>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+      <Beliefs beliefs={beliefs} />
 
       <div id="prophet">
         <Split dark image="/photos/hero.jpg" alt="Prophet Promise praying for a member of the congregation" title="Prophet Promise"
