@@ -72,13 +72,13 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
             <Logo tone={isDark ? "reverse" : "solid"} variant="mark" />
           </Link>
 
-          <nav className="hidden items-center gap-7 xl:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-9 xl:flex" aria-label="Primary">
             {items.map((item) =>
               item.children ? (
                 <div key={item.href} className="group relative">
                   <Link
                     href={item.href}
-                    className="link-underline py-6 text-[15px] font-medium"
+                    className="link-underline py-6 text-[17px] font-semibold"
                   >
                     {item.label}
                   </Link>
@@ -88,7 +88,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                         <li key={c.href}>
                           <Link
                             href={c.href}
-                            className="block px-5 py-2.5 text-[15px] transition-colors hover:bg-paper-dim"
+                            className="block px-5 py-2.5 text-[16px] transition-colors hover:bg-paper-dim"
                           >
                             {c.label}
                           </Link>
@@ -101,7 +101,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="link-underline py-6 text-[15px] font-medium"
+                  className="link-underline py-6 text-[17px] font-semibold"
                 >
                   {item.label}
                 </Link>
@@ -130,7 +130,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-3 text-[15px] font-medium xl:hidden"
+            className="flex items-center gap-3 text-[17px] font-semibold xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
@@ -185,7 +185,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                           <Link
                             href={c.href}
                             onClick={closeMenu}
-                            className="text-[15px] opacity-70"
+                            className="text-[16px] opacity-70"
                           >
                             {c.label}
                           </Link>
