@@ -64,6 +64,7 @@ export async function SiteFooter() {
           <p>© {YEAR} {site.fullName}. All rights reserved.</p>
           <p className="flex gap-5">
             <Link href="/privacy" className="hover:text-white">Privacy</Link>
+            <Link href="/cookies" className="hover:text-white">Cookies</Link>
             <Link href="/terms" className="hover:text-white">Terms</Link>
           </p>
         </div>

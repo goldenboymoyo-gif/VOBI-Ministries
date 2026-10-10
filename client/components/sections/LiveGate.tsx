@@ -11,6 +11,14 @@ const CHANNEL = "UCAFcgnT0wjnwlRQarojjuIQ";
 
 export function LiveGate() {
   const [now, setNow] = useState<number | null>(null);
+  const [yt, setYt] = useState<{ configured: boolean; live: boolean; id?: string; title?: string } | null>(null);
+  useEffect(() => {
+    let off = false;
+    const check = () => fetch("/api/live").then((r) => r.json()).then((d) => { if (!off) setYt(d); }).catch(() => { if (!off) setYt({ configured: false, live: false }); });
+    check();
+    const id = window.setInterval(check, 60_000);
+    return () => { off = true; window.clearInterval(id); };
+  }, []);
   useEffect(() => {
     setNow(Date.now());
     const id = window.setInterval(() => setNow(Date.now()), 1000);
@@ -18,7 +26,10 @@ export function LiveGate() {
   }, []);
 
   if (now === null) return <div className="aspect-video w-full bg-ink-800" aria-hidden />;
-  const { start, live } = nextService(now);
+  const { start, live: scheduled } = nextService(now);
+  // With the YouTube API configured, YouTube decides. Without it, the Sunday schedule does.
+  const live = yt?.configured ? yt.live : scheduled;
+  const src = yt?.live && yt.id ? `https://www.youtube-nocookie.com/embed/${yt.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1` : `https://www.youtube-nocookie.com/embed/live_stream?channel=${CHANNEL}&autoplay=1&rel=0&modestbranding=1&playsinline=1`;
 
   if (live) {
     return (
@@ -30,8 +41,8 @@ export function LiveGate() {
           <div className="relative aspect-video w-full overflow-hidden bg-black lg:col-span-2">
             <iframe
               className="absolute inset-0 h-full w-full border-0"
-              src={`https://www.youtube-nocookie.com/embed/live_stream?channel=${CHANNEL}&autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-              title="VOBI live service"
+              src={src}
+              title={yt?.title || "VOBI live service"}
               allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
               allowFullScreen
             />

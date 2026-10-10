@@ -16,14 +16,14 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const slow = (navigator as { connection?: { effectiveType?: string } }).connection?.effectiveType;
-    if (reduced || slow === "2g" || slow === "slow-2g") return;
+    const conn = (navigator as { connection?: { effectiveType?: string; saveData?: boolean } }).connection;
+    if (reduced || conn?.saveData || conn?.effectiveType === "2g" || conn?.effectiveType === "slow-2g") return;
     const id = window.setTimeout(() => setShowVideo(true), 1200);
     return () => window.clearTimeout(id);
   }, []);
 
   return (
-    <section className="relative isolate h-[100svh] min-h-[560px] overflow-hidden bg-ink text-white">
+    <section className="relative isolate h-[80svh] min-h-[480px] max-h-[760px] overflow-hidden bg-ink text-white md:h-[100svh] md:min-h-[560px] md:max-h-none">
       <div className="absolute inset-0 -z-10">
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className={`${ready ? "" : "kenburns"} object-cover object-center`} />
@@ -35,7 +35,7 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
           <iframe
             className="absolute left-1/2 top-1/2 border-0"
             style={{ width: "max(100vw, 177.78svh)", height: "max(56.25vw, 100svh)", transform: "translate(-50%, -50%)" }}
-            src={`https://www.youtube.com/embed/${video}?autoplay=1&mute=1&loop=1&playlist=${video}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&vq=hd1080`}
+            src={`https://www.youtube-nocookie.com/embed/${video}?autoplay=1&mute=1&loop=1&playlist=${video}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&vq=hd1080`}
             title="VOBI service footage" allow="autoplay; encrypted-media" tabIndex={-1} aria-hidden="true"
           />
         )}
@@ -44,12 +44,12 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
-      <div className="shell flex h-full items-end pb-16 md:pb-24">
+      <div className="shell flex h-full items-end pb-8 md:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.9, ease }}
-          className="max-w-xl rounded-2xl bg-ink/65 p-6 md:p-8"
+          className="max-w-xl rounded-2xl bg-ink/65 p-5 md:p-8"
         >
           <p className="text-2xl font-light italic">Welcome to</p>
           <h1 className="mt-2 text-[clamp(1.5rem,3.2vw,2.5rem)] font-extrabold uppercase leading-tight text-gold-bright">

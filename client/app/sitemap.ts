@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 
+import { SITE_URL } from "@/lib/siteUrl";
 import { seedMinistries } from "@/content/ministries";
 import { seedSermons, seedServices } from "@/content/sermons";
 
 
-const BASE = "https://vobiministries.org";
+const BASE = SITE_URL;
 
 
 
@@ -21,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/events",
     "/prayer", "/blog", "/devotionals", "/branches", "/give", "/store",
     "/testimonies",
-    "/live",
+    "/live", "/tv", "/media", "/privacy", "/terms", "/cookies",
     "/visit",
     "/contact",
   ].map((path) => ({

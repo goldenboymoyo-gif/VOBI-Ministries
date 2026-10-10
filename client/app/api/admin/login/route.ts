@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { COOKIE, isAdmin, passwordOk, token } from "@/lib/adminAuth";
+import { COOKIE, SESSION_SECONDS, isAdmin, passwordOk, token } from "@/lib/adminAuth";
 import { throttle } from "@/lib/store";
 
 export async function GET(req: Request) {
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   const { password } = (await req.json().catch(() => ({}))) as { password?: string };
   if (!password || !passwordOk(password)) return NextResponse.json({ error: "Wrong password" }, { status: 401 });
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(COOKIE, token(), { httpOnly: true, secure: true, sameSite: "strict", path: "/", maxAge: 60 * 60 * 12 });
+  res.cookies.set(COOKIE, token(), { httpOnly: true, secure: true, sameSite: "strict", path: "/", maxAge: SESSION_SECONDS });
   return res;
 }
 

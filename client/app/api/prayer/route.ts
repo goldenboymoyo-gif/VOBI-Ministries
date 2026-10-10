@@ -1,8 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { forward, validate } from "@/lib/inquiry";
+import { throttle } from "@/lib/store";
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "x";
+  if (!throttle(`p:${ip}`, 5, 600_000)) return NextResponse.json({ error: "Too many messages. Please try again later." }, { status: 429 });
+  if (Number(req.headers.get("content-length") ?? 0) > 20_000) return NextResponse.json({ error: "Request too large." }, { status: 413 });
   let input: Record<string, unknown>;
   try {
     input = (await req.json()) as Record<string, unknown>;
