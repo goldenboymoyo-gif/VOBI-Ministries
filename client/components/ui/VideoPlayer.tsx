@@ -50,6 +50,7 @@ export function VideoPlayer({ id, title, poster, next }: { id: string; title: st
   const tapTimer = useRef<number | undefined>(undefined);
   const hideTimer = useRef<number | undefined>(undefined);
   const [ready, setReady] = useState(false);
+  const [fallback, setFallback] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [started, setStarted] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -76,6 +77,8 @@ export function VideoPlayer({ id, title, poster, next }: { id: string; title: st
   useEffect(() => {
     let dead = false;
     const h = host.current;
+    // If the custom player cannot start (blocked script, slow network), switch to the standard YouTube player.
+    const failTimer = window.setTimeout(() => { if (!dead) setFallback(true); }, 8000);
     loadApi().then(() => {
       if (dead || !h || !window.YT) return;
       const el = document.createElement("div");
@@ -84,7 +87,7 @@ export function VideoPlayer({ id, title, poster, next }: { id: string; title: st
         videoId: id,
         playerVars: { controls: 0, rel: 0, modestbranding: 1, iv_load_policy: 3, disablekb: 1, fs: 0, playsinline: 1 },
         events: {
-          onReady: () => { setReady(true); if (wantPlay.current) player.current?.playVideo(); },
+          onReady: () => { window.clearTimeout(failTimer); setReady(true); if (wantPlay.current) player.current?.playVideo(); },
           onStateChange: (e: { data: number }) => {
             setPlaying(e.data === 1);
             setBusy(e.data === 3);
@@ -94,7 +97,7 @@ export function VideoPlayer({ id, title, poster, next }: { id: string; title: st
         },
       });
     });
-    return () => { dead = true; try { player.current?.destroy(); } catch {} player.current = null; if (h) h.innerHTML = ""; };
+    return () => { dead = true; window.clearTimeout(failTimer); try { player.current?.destroy(); } catch {} player.current = null; if (h) h.innerHTML = ""; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -158,6 +161,14 @@ export function VideoPlayer({ id, title, poster, next }: { id: string; title: st
 
   const btn = "grid h-11 min-w-11 touch-manipulation place-items-center px-2 text-sm font-bold text-white";
   const showUi = ui || !playing;
+
+  if (fallback && !ready) {
+    return (
+      <div className="relative aspect-video w-full overflow-hidden bg-black">
+        <iframe className="absolute inset-0 h-full w-full border-0" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`} title={title} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+      </div>
+    );
+  }
 
   return (
     <div ref={wrap} onMouseMove={poke}
