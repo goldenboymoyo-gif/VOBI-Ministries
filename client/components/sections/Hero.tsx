@@ -47,17 +47,17 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
 
   return (
     <section className="relative isolate h-[80svh] min-h-[480px] max-h-[760px] overflow-hidden bg-ink text-white md:h-[100svh] md:min-h-[560px] md:max-h-none">
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10 [container-type:size]">
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className={`${ready ? "" : "kenburns"} object-cover object-center`} />
         {showVideo && videoFile && (
-          <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
+          <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover object-center transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
             src={videoFile} autoPlay muted loop playsInline preload="auto" disablePictureInPicture aria-hidden="true" onPlaying={() => setReady(true)} />
         )}
         {showVideo && !videoFile && (
           <iframe
             className="absolute left-1/2 top-1/2 border-0"
-            style={{ width: "max(100vw, 177.78svh)", height: "max(56.25vw, 100svh)", transform: "translate(-50%, -50%)" }}
+            style={{ width: "max(100cqw, 177.78cqh)", height: "max(56.25cqw, 100cqh)", transform: "translate(-50%, -50%)" }}
             src={`https://www.youtube-nocookie.com/embed/${video}?autoplay=1&mute=1&loop=1&playlist=${video}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&vq=hd1080`}
             title="VOBI service footage" allow="autoplay; encrypted-media" tabIndex={-1} aria-hidden="true"
           />

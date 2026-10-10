@@ -45,10 +45,10 @@ export function Countdown({ variant = "dark" }: { variant?: "dark" | "card" }) {
   const card = variant === "card";
 
   return (
-    <div className="flex gap-3" role="timer" aria-label="Time until the next Sunday service">
+    <div className="flex w-full justify-center gap-2 sm:gap-3" role="timer" aria-label="Time until the next Sunday service">
       {parts.map(([label, v]) => (
-        <div key={label} className={`min-w-[4rem] rounded px-3 py-3 text-center sm:min-w-[5rem] ${card ? "bg-gold-bright text-ink" : "bg-ink/60 text-white"}`}>
-          <div className="text-3xl font-bold tabular-nums sm:text-4xl">{String(v).padStart(2, "0")}</div>
+        <div key={label} className={`min-w-0 flex-1 rounded-lg px-1 py-3 text-center sm:min-w-[5rem] sm:flex-none sm:px-3 ${card ? "bg-gold-bright text-ink" : "bg-ink/60 text-white"}`}>
+          <div className="text-2xl font-bold tabular-nums sm:text-4xl">{String(v).padStart(2, "0")}</div>
           <div className={`mt-1 text-[11px] ${card ? "text-ink/70" : "text-white/70"}`}>{label}</div>
         </div>
       ))}
