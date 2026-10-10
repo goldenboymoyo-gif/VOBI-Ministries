@@ -37,7 +37,7 @@ const sections = [
     title: "Contact",
     body: [
       `Questions about this policy can be sent to ${site.email}, or by telephone on ${site.phone}.`,
-      "You can ask us to correct or delete a message, prayer request or comment you sent by contacting us. How long we keep messages has not yet been confirmed by the ministry.",
+      "You can ask us to correct or delete a message, prayer request or comment you sent by contacting us. We keep contact messages and prayer requests for up to 12 months, then delete them.",
       "Final policy text is subject to approval by Valley of Blessings International Ministries.",
     ],
   },
