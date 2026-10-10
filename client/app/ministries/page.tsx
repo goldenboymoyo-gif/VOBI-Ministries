@@ -23,7 +23,7 @@ export default async function MinistriesPage() {
           {ministries.map((m, i) => (
             <article key={m.id} id={m.slug} className="grid scroll-mt-32 items-center gap-8 md:gap-14 lg:grid-cols-2">
               <div className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-paper-deep shadow-lg ${i % 2 ? "lg:order-2" : ""}`}>
-                <Image src={m.image} alt={m.name} fill sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={m.image.startsWith("http") || m.image.startsWith("/api/")} className="object-cover" />
+                <Image src={m.image} alt={m.name} fill sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={m.image.startsWith("http") || m.image.startsWith("/api/")} className="object-cover object-[50%_30%]" />
               </div>
               <div>
                 <h2 className="text-2xl font-extrabold uppercase md:text-3xl">{m.name}</h2>

@@ -1,6 +1,5 @@
 import type { Ministry } from "@/types";
 import { site } from "@/config/site";
-import { thumb } from "@/lib/media";
 
 /**
  * Only ministries evidenced by VOBI's own published content are listed.
@@ -19,7 +18,7 @@ export const seedMinistries: Ministry[] = [
       "Services run long because the ministry does not hurry the presence of God, recent Sunday broadcasts have run past seven hours, with preaching, worship, mass prayer and ministry to individuals.",
       "Distance is not a barrier to the move of the Holy Spirit. If you cannot be in Victoria Falls, you can join the service live.",
     ],
-    image: thumb("zS8NL8NMNlQ"),
+    image: "/ministries/sunday.jpg",
     gathering: `${site.service.day} gatherings begin at ${site.service.time} and end when the Holy Spirit gives a signal.`,
   },
   {
@@ -33,7 +32,7 @@ export const seedMinistries: Ministry[] = [
       "Requests submitted through this website are held privately and are never published, listed or shared.",
       "Teaching on prayer is a recurring subject in the sermon library, including the two-part series 'How to get your prayers answered'.",
     ],
-    image: thumb("aCLyo-8DdaM"),
+    image: "/ministries/prayer.jpg",
     gathering: null, // CONTENT NEEDED, VOBI prayer line schedule
   },
   {
@@ -47,7 +46,7 @@ export const seedMinistries: Ministry[] = [
       "Deliverance ministry is a regular feature of services, recorded in titles spanning from 2017 to the present day.",
       "The Testimonies page links directly to VOBI's own published testimony videos. No testimony on this website is written, paraphrased or summarised on anyone's behalf.",
     ],
-    image: thumb("RyeE1nU4_Fw"),
+    image: "/ministries/testimonies.jpg",
     gathering: null,
   },
   {
@@ -61,7 +60,7 @@ export const seedMinistries: Ministry[] = [
       "A visitor review on the ministry's public listing, dated April 2019, describes the work as 'touching lives in Zambia, Botswana, Namibia'.",
       "To support or partner with the outreach, contact the ministry on the Give page.",
     ],
-    image: thumb("km9II2XvBiY"),
+    image: "/ministries/outreach.jpg",
     gathering: null,
   },
 ];
