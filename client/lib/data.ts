@@ -6,6 +6,7 @@ import { site } from "@/config/site";
 import { configured, load as loadStore } from "@/lib/store";
 import { getSettings as getAdminSettings } from "@/lib/settings";
 import { seedSermons, seedServices } from "@/content/sermons";
+import { getPastLiveStreams } from "@/lib/liveArchive";
 import { seedMinistries } from "@/content/ministries";
 import { seedTestimonies } from "@/content/testimonies";
 import { seedEvents } from "@/content/events";
@@ -43,8 +44,10 @@ export async function getSermons(): Promise<Sermon[]> {
   "use cache";
   cacheLife("minutes");
   const rows = await fromApi<Sermon[]>("/api/sermons");
-  if (rows?.length) return sortByDateDesc(rows);
-  return sortByDateDesc([...seedServices, ...seedSermons]);
+  const base = rows?.length ? rows : [...seedServices, ...seedSermons];
+  // Recordings of finished live services are added automatically.
+  const live = (await getPastLiveStreams()).filter((l) => l.date && !base.some((b) => b.id === l.id));
+  return sortByDateDesc([...base, ...live]);
 }
 
 export async function getSermon(slug: string): Promise<Sermon | undefined> {

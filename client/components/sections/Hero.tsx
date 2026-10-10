@@ -46,8 +46,9 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
   }, [showVideo, videoFile]);
 
   return (
-    <section className="relative isolate h-[80svh] min-h-[480px] max-h-[760px] overflow-hidden bg-ink text-white md:h-[100svh] md:min-h-[560px] md:max-h-none">
-      <div className="absolute inset-0 -z-10 [container-type:size]">
+    <section className="relative isolate overflow-hidden bg-ink text-white md:h-[100svh] md:min-h-[560px]">
+      {/* Phones: the video sits in a normal 16:9 frame (no zoom), with the welcome card below. From tablet up it fills the hero. */}
+      <div className="relative aspect-video w-full overflow-hidden [container-type:size] md:absolute md:inset-0 md:-z-10 md:aspect-auto">
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className={`${ready ? "" : "kenburns"} object-cover object-center`} />
         {showVideo && videoFile && (
@@ -67,7 +68,7 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
-      <div className="shell flex h-full items-end pb-8 md:pb-24">
+      <div className="shell relative py-6 md:flex md:h-full md:items-end md:pb-24 md:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

@@ -61,7 +61,7 @@ export function Engage({ videoId, className = "", dark = false }: { videoId: str
   const ink = dark ? "text-white" : "text-ink";
   const mute = dark ? "text-white/60" : "text-muted";
   const field = dark ? "border-white/30 text-white placeholder:text-white/40 focus:border-white" : "border-line text-ink focus:border-ink";
-  const needName = !name.trim();
+  const needName = false;
   return (
     <section className={`${className} ${ink}`} aria-label="Likes and comments">
       <div className="flex flex-wrap items-center gap-3">
@@ -73,9 +73,8 @@ export function Engage({ videoId, className = "", dark = false }: { videoId: str
       </div>
       <h3 className="mt-6 text-lg font-bold">{comments.length} {comments.length === 1 ? "Comment" : "Comments"}</h3>
       <form onSubmit={send} className="mt-4 flex gap-3">
-        <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold ${dark ? "bg-white/15" : "bg-gold-bright text-ink"}`}>{(name || "?").slice(0, 1).toUpperCase()}</span>
+        <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold ${dark ? "bg-white/15" : "bg-gold-bright text-ink"}`}>{(name || "G").slice(0, 1).toUpperCase()}</span>
         <div className="min-w-0 flex-1">
-          {open && needName && <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Your name" className={`mb-3 w-full border-b bg-transparent px-0 py-2 text-sm outline-none ${field}`} />}
           <input value={hp} onChange={(e) => setHp(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
           <input value={text} onChange={(e) => setText(e.target.value)} onFocus={() => setOpen(true)} maxLength={500} placeholder="Add a comment…" className={`w-full border-b bg-transparent px-0 py-2 text-sm outline-none ${field}`} />
           {open && (
