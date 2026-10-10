@@ -19,7 +19,7 @@ export default async function LivePage() {
       <Masthead image="/photos/congregation.jpg" eyebrow="Live from Victoria Falls" title="Live Service"
         intro="Every Sunday the service is live here for the whole world." />
       <section className="gold-wash py-12 md:py-16">
-        <div className="shell-narrow"><LiveGate /></div>
+        <div className="shell"><LiveGate /></div>
       </section>
       <section className="bg-paper py-16 md:py-24">
         <div className="shell">

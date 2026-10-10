@@ -78,7 +78,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                 <div key={item.href} className="group relative">
                   <Link
                     href={item.href}
-                    className="link-underline py-6 text-[13.5px] font-medium"
+                    className="link-underline py-6 text-[15px] font-medium"
                   >
                     {item.label}
                   </Link>
@@ -88,7 +88,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                         <li key={c.href}>
                           <Link
                             href={c.href}
-                            className="block px-5 py-2.5 text-[13.5px] transition-colors hover:bg-paper-dim"
+                            className="block px-5 py-2.5 text-[15px] transition-colors hover:bg-paper-dim"
                           >
                             {c.label}
                           </Link>
@@ -101,7 +101,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="link-underline py-6 text-[13.5px] font-medium"
+                  className="link-underline py-6 text-[15px] font-medium"
                 >
                   {item.label}
                 </Link>
@@ -130,7 +130,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-3 text-[13.5px] font-medium xl:hidden"
+            className="flex items-center gap-3 text-[15px] font-medium xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
@@ -174,7 +174,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                   <Link
                     href={item.href}
                     onClick={closeMenu}
-                    className="flex items-baseline justify-between py-4 text-[1.1rem] font-medium"
+                    className="flex items-baseline justify-between py-4 text-[1.35rem] font-medium"
                   >
                     {item.label}
                   </Link>
@@ -185,7 +185,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                           <Link
                             href={c.href}
                             onClick={closeMenu}
-                            className="text-[13.5px] opacity-70"
+                            className="text-[15px] opacity-70"
                           >
                             {c.label}
                           </Link>

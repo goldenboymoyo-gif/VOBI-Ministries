@@ -33,23 +33,27 @@ export function LiveGate() {
 
   if (live) {
     return (
-      <div>
-        <p className="mb-3 inline-flex items-center gap-2 rounded bg-red-600 px-3 py-1 text-sm font-bold uppercase tracking-wider text-white">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-white" /> Live now
-        </p>
-        <div className="grid gap-5 lg:grid-cols-3">
-          <div className="relative aspect-video w-full overflow-hidden bg-black lg:col-span-2">
-            <iframe
-              className="absolute inset-0 h-full w-full border-0"
-              src={src}
-              title={yt?.title || "VOBI live service"}
-              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-              allowFullScreen
-            />
+      <div className="rounded-2xl bg-[#0f0f0f] p-3 text-white md:p-5">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_380px]">
+          <div>
+            <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black">
+              <iframe
+                className="absolute inset-0 h-full w-full border-0"
+                src={src}
+                title={yt?.title || "VOBI live service"}
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                allowFullScreen
+              />
+            </div>
+            <h2 className="mt-4 text-lg font-bold leading-snug md:text-xl">{yt?.title || "VOBI Sunday Service"}</h2>
+            <p className="mt-2 inline-flex items-center gap-2 text-sm text-white/70">
+              <span className="inline-flex items-center gap-1.5 rounded bg-red-600 px-2 py-0.5 text-xs font-bold uppercase text-white"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> Live</span>
+              Valley of Blessings International Ministries
+            </p>
           </div>
-          <LiveChat className="h-[420px] lg:h-auto lg:max-h-[480px]" />
+          <LiveChat className="h-[460px] lg:h-auto lg:max-h-[640px] lg:min-h-[420px]" />
         </div>
-        <Engage videoId="live" className="mt-6 rounded bg-paper p-5 text-ink" />
+        <Engage videoId="live" dark className="mt-6" />
       </div>
     );
   }

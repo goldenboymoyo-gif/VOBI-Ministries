@@ -13,7 +13,7 @@ function ago(t: number) {
 }
 
 /** Likes and comments for one video, saved on this site. */
-export function Engage({ videoId, className = "" }: { videoId: string; className?: string }) {
+export function Engage({ videoId, className = "", dark = false }: { videoId: string; className?: string; dark?: boolean }) {
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState<C[]>([]);
   const [off, setOff] = useState(false);
@@ -23,6 +23,7 @@ export function Engage({ videoId, className = "" }: { videoId: string; className
   const [hp, setHp] = useState("");
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const [open, setOpen] = useState(false);
   const key = `vobi-liked-${videoId}`;
 
   const load = useCallback(async () => {
@@ -57,32 +58,42 @@ export function Engage({ videoId, className = "" }: { videoId: string; className
   }
 
   if (off) return null;
+  const ink = dark ? "text-white" : "text-ink";
+  const mute = dark ? "text-white/60" : "text-muted";
+  const field = dark ? "border-white/30 text-white placeholder:text-white/40 focus:border-white" : "border-line text-ink focus:border-ink";
+  const needName = !name.trim();
   return (
-    <section className={className} aria-label="Likes and comments">
-      <div className="flex items-center gap-4 border-b border-line pb-4">
+    <section className={`${className} ${ink}`} aria-label="Likes and comments">
+      <div className="flex flex-wrap items-center gap-3">
         <button type="button" onClick={like} aria-pressed={liked}
-          className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-colors ${liked ? "bg-gold-bright text-ink" : "bg-white text-ink shadow-sm hover:bg-gold-bright"}`}>
+          className={`inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors ${dark ? (liked ? "bg-white text-black" : "bg-white/10 hover:bg-white/20") : (liked ? "bg-gold-bright text-ink" : "bg-white shadow-sm hover:bg-gold-bright")}`}>
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden><path d="M2 21h4V9H2v12zM23 10a2 2 0 0 0-2-2h-6.3l1-4.6v-.3a1.5 1.5 0 0 0-.4-1L14.2 1 7.6 7.6A2 2 0 0 0 7 9v10a2 2 0 0 0 2 2h9a2 2 0 0 0 1.8-1.2l3-7A2 2 0 0 0 23 12v-2z" /></svg>
-          {likes} {likes === 1 ? "Like" : "Likes"}
+          {likes}
         </button>
-        <p className="text-sm font-semibold text-muted">{comments.length} {comments.length === 1 ? "comment" : "comments"}</p>
       </div>
-      <form onSubmit={send} className="mt-5 grid gap-3">
-        <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Your name" className="rounded border border-line bg-white px-4 py-3 text-sm" />
-        <input value={hp} onChange={(e) => setHp(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
-        <textarea value={text} onChange={(e) => setText(e.target.value)} maxLength={500} rows={3} placeholder="Add a comment…" className="rounded border border-line bg-white px-4 py-3 text-sm" />
-        <div className="flex items-center gap-4">
-          <button type="submit" disabled={busy || !text.trim()} className="btn btn-ink disabled:opacity-50">Comment</button>
-          {err && <p className="text-sm text-red-600">{err}</p>}
+      <h3 className="mt-6 text-lg font-bold">{comments.length} {comments.length === 1 ? "Comment" : "Comments"}</h3>
+      <form onSubmit={send} className="mt-4 flex gap-3">
+        <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold ${dark ? "bg-white/15" : "bg-gold-bright text-ink"}`}>{(name || "?").slice(0, 1).toUpperCase()}</span>
+        <div className="min-w-0 flex-1">
+          {open && needName && <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Your name" className={`mb-3 w-full border-b bg-transparent px-0 py-2 text-sm outline-none ${field}`} />}
+          <input value={hp} onChange={(e) => setHp(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
+          <input value={text} onChange={(e) => setText(e.target.value)} onFocus={() => setOpen(true)} maxLength={500} placeholder="Add a comment…" className={`w-full border-b bg-transparent px-0 py-2 text-sm outline-none ${field}`} />
+          {open && (
+            <div className="mt-3 flex items-center justify-end gap-2">
+              {err && <p className="mr-auto text-sm text-red-500">{err}</p>}
+              <button type="button" onClick={() => { setOpen(false); setText(""); }} className="rounded-full px-4 py-2 text-sm font-semibold hover:bg-black/10">Cancel</button>
+              <button type="submit" disabled={busy || !text.trim() || needName} className={`rounded-full px-4 py-2 text-sm font-semibold disabled:opacity-40 ${dark ? "bg-white text-black" : "bg-ink text-white"}`}>Comment</button>
+            </div>
+          )}
         </div>
       </form>
-      <ul className="mt-6 space-y-5">
+      <ul className="mt-7 space-y-6">
         {comments.map((c) => (
           <li key={c.id} className="flex gap-3">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-bright text-sm font-bold text-ink">{c.name.slice(0, 1).toUpperCase()}</span>
+            <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold ${dark ? "bg-white/15" : "bg-gold-bright text-ink"}`}>{c.name.slice(0, 1).toUpperCase()}</span>
             <div>
-              <p className="text-sm"><span className="font-bold">{c.name}</span> <span className="text-muted">· {ago(c.at)}</span></p>
-              <p className="mt-0.5 whitespace-pre-wrap break-words text-[15px]">{c.text}</p>
+              <p className="text-[13px]"><span className="font-semibold">@{c.name}</span> <span className={mute}>{ago(c.at)}</span></p>
+              <p className="mt-1 whitespace-pre-wrap break-words text-[15px]">{c.text}</p>
             </div>
           </li>
         ))}
