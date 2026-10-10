@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -13,14 +13,32 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string; image?: string; videoFile?: string }) {
   const [showVideo, setShowVideo] = useState(false);
   const [ready, setReady] = useState(false);
+  const vid = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const conn = (navigator as { connection?: { effectiveType?: string; saveData?: boolean } }).connection;
     if (reduced || conn?.saveData || conn?.effectiveType === "2g" || conn?.effectiveType === "slow-2g") return;
-    const id = window.setTimeout(() => setShowVideo(true), 1200);
+    const id = window.setTimeout(() => setShowVideo(true), 300);
     return () => window.clearTimeout(id);
   }, []);
+
+  // Browsers sometimes pause autoplay (tab in background, power saving, slow start). Keep nudging it to play.
+  useEffect(() => {
+    const v = vid.current;
+    if (!showVideo || !v) return;
+    v.muted = true;
+    const go = () => { if (v.paused) v.play().catch(() => {}); };
+    go();
+    const iv = window.setInterval(go, 2000);
+    const vis = () => { if (document.visibilityState === "visible") go(); };
+    document.addEventListener("visibilitychange", vis);
+    v.addEventListener("loadeddata", go); v.addEventListener("canplay", go); v.addEventListener("stalled", go); v.addEventListener("pause", go);
+    return () => {
+      window.clearInterval(iv); document.removeEventListener("visibilitychange", vis);
+      v.removeEventListener("loadeddata", go); v.removeEventListener("canplay", go); v.removeEventListener("stalled", go); v.removeEventListener("pause", go);
+    };
+  }, [showVideo, videoFile]);
 
   return (
     <section className="relative isolate h-[80svh] min-h-[480px] max-h-[760px] overflow-hidden bg-ink text-white md:h-[100svh] md:min-h-[560px] md:max-h-none">
@@ -28,8 +46,8 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className={`${ready ? "" : "kenburns"} object-cover object-center`} />
         {showVideo && videoFile && (
-          <video className={`absolute inset-0 h-full w-full transform-gpu object-cover transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
-            src={videoFile} autoPlay muted loop playsInline preload="auto" disablePictureInPicture aria-hidden="true" onCanPlayThrough={() => setReady(true)} />
+          <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
+            src={videoFile} autoPlay muted loop playsInline preload="auto" disablePictureInPicture aria-hidden="true" onPlaying={() => setReady(true)} />
         )}
         {showVideo && !videoFile && (
           <iframe
