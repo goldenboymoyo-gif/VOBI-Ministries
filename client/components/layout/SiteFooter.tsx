@@ -32,7 +32,7 @@ export async function SiteFooter() {
     <footer className="gold-wash text-white">
       <div className="shell grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Logo tone="reverse" />
+          <Logo tone="reverse" size="lg" />
           <p className="mt-6 max-w-xs text-lg font-semibold italic">&ldquo;{site.statements.bioLine}&rdquo;</p>
           <SocialLinks links={socialLinks} tone="reverse" className="mt-6" />
         </div>

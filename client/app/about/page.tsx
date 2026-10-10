@@ -56,17 +56,24 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section id="faith" className="bg-paper py-16 md:py-24">
+      <section id="faith" className="bg-ink py-16 text-white md:py-24">
         <div className="shell">
-          <h2 className="display-md">What we believe</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="max-w-2xl">
+            <p className="eyebrow text-gold-bright">Our faith</p>
+            <h2 className="mt-2 text-3xl font-extrabold uppercase md:text-4xl">What we believe</h2>
+            <p className="mt-4 leading-relaxed text-white/70">The truths we stand on, taken from the Word of God.</p>
+          </div>
+          <dl className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
             {beliefs.map((b) => (
-              <div key={b.t} className="reveal border-t-4 border-gold-bright bg-white p-8 shadow-md">
-                <h3 className="text-xl font-bold">{b.t}</h3>
-                <p className="mt-2 leading-relaxed text-muted">{b.d}</p>
+              <div key={b.t} className="reveal flex gap-5">
+                <span className="mt-1.5 h-3 w-3 shrink-0 rotate-45 rounded-sm bg-gold-bright" aria-hidden />
+                <div>
+                  <dt className="text-xl font-bold text-gold-bright">{b.t}</dt>
+                  <dd className="mt-2 leading-relaxed text-white/80">{b.d}</dd>
+                </div>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
       </section>
 

@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 };
 
 const regular = [
-  { t: "Sunday Live Service", d: `Every Sunday at ${site.service.time}. Worship, the Word and ministry, live to the world.` },
-  { t: "Mass Prayer", d: "The whole church prays together. Mass prayer has been part of VOBI since 2017." },
-  { t: "Crossover Candle Light Service", d: "We cross into the new year in prayer on 31 December." },
-  { t: "Mercy Land / Holy Ground", d: "Special Sunday gatherings, announced on our channels." },
+  { img: "/photos/congregation.jpg", tag: "Weekly", t: "Sunday Live Service", d: `Every Sunday at ${site.service.time}. Worship, the Word and ministry, live to the world.` },
+  { img: "/photos/praise.jpg", tag: "Weekly", t: "Mass Prayer", d: "The whole church prays together. Mass prayer has been part of VOBI since 2017." },
+  { img: "/photos/hero.jpg", tag: "Yearly", t: "Crossover Candle Light Service", d: "We cross into the new year in prayer on 31 December." },
+  { img: "/photos/worship.jpg", tag: "Special", t: "Mercy Land / Holy Ground", d: "Special Sunday gatherings, announced on our channels." },
 ];
 
 export default async function EventsPage() {
@@ -54,12 +54,19 @@ export default async function EventsPage() {
       <section className="gold-wash py-16 md:py-24">
         <div className="shell">
           <h2 className="text-2xl font-extrabold uppercase md:text-3xl">Regular gatherings</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
             {regular.map((r) => (
-              <div key={r.t} className="border-t-4 border-ink bg-white p-8 shadow-md">
-                <h3 className="text-xl font-bold">{r.t}</h3>
-                <p className="mt-3 leading-relaxed text-muted">{r.d}</p>
-              </div>
+              <article key={r.t} className="group overflow-hidden rounded-2xl bg-white shadow-md">
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={r.img} alt={r.t} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <span className="absolute left-4 top-4 rounded-full bg-gold-bright px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">{r.tag}</span>
+                </div>
+                <div className="p-6 md:p-7">
+                  <h3 className="text-xl font-bold">{r.t}</h3>
+                  <p className="mt-2 leading-relaxed text-muted">{r.d}</p>
+                </div>
+              </article>
             ))}
           </div>
         </div>

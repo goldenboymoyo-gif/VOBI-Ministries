@@ -16,12 +16,13 @@ export default async function MinistriesPage() {
   return (
     <>
       <Masthead eyebrow="Ministries" title="How we serve" image="/photos/worship.jpg"
-        intro="Worship, prayer, deliverance and outreach in Victoria Falls and beyond." />
+        intro="Worship, prayer, deliverance and outreach in Victoria Falls and beyond."
+        meta={<p className="border-l-4 border-gold-bright pl-4 font-display text-2xl italic text-white md:text-3xl">Because of Christ we are saved.</p>} />
       <section className="bg-paper py-16 md:py-24">
         <div className="shell space-y-16 md:space-y-24">
           {ministries.map((m, i) => (
             <article key={m.id} id={m.slug} className="grid scroll-mt-32 items-center gap-8 md:gap-14 lg:grid-cols-2">
-              <div className={`relative aspect-[4/3] overflow-hidden bg-paper-deep shadow-lg ${i % 2 ? "lg:order-2" : ""}`}>
+              <div className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-paper-deep shadow-lg ${i % 2 ? "lg:order-2" : ""}`}>
                 <Image src={m.image} alt={m.name} fill sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={m.image.startsWith("http") || m.image.startsWith("/api/")} className="object-cover" />
               </div>
               <div>
@@ -31,7 +32,7 @@ export default async function MinistriesPage() {
                 <div className="mt-4 space-y-4 leading-relaxed text-muted">
                   {m.body.map((p, k) => <p key={k}>{p}</p>)}
                 </div>
-                {m.gathering && <p className="mt-6 inline-block bg-white px-4 py-3 text-sm font-semibold text-gold shadow-sm">{m.gathering}</p>}
+                {m.gathering && <p className="mt-6 inline-block rounded-xl bg-white px-4 py-3 text-sm font-semibold text-gold shadow-sm">{m.gathering}</p>}
               </div>
             </article>
           ))}

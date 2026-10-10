@@ -10,6 +10,7 @@ type Props = {
   tone?: "solid" | "reverse";
   /** "full" shows the wordmark under the mark; "mark" is compact. */
   variant?: "full" | "mark";
+  size?: "md" | "lg";
   className?: string;
 };
 
@@ -24,7 +25,7 @@ const CANDIDATES: Record<NonNullable<Props["variant"]>, string[]> = {
  * it loads the supplied file from /public/brand. If no file has been supplied
  * yet it renders a typographic lockup instead, never an invented symbol.
  */
-export function Logo({ tone = "solid", variant = "full", className = "" }: Props) {
+export function Logo({ tone = "solid", variant = "full", size = "md", className = "" }: Props) {
   const [failed, setFailed] = useState<Record<string, boolean>>({});
   const src = CANDIDATES[variant].find((p) => !failed[p]);
 
@@ -38,7 +39,9 @@ export function Logo({ tone = "solid", variant = "full", className = "" }: Props
           className={
             variant === "mark"
               ? "h-14 w-auto md:h-[68px]"
-              : "h-12 w-auto max-w-[168px] object-contain object-left md:h-14 md:max-w-[210px]"
+              : size === "lg"
+                ? "h-24 w-auto max-w-[280px] object-contain object-left md:h-32 md:max-w-[360px]"
+                : "h-12 w-auto max-w-[168px] object-contain object-left md:h-14 md:max-w-[210px]"
           }
           onError={() => setFailed((f) => ({ ...f, [src]: true }))}
         />

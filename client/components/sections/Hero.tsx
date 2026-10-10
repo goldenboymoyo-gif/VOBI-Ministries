@@ -12,6 +12,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string; image?: string; videoFile?: string }) {
   const [showVideo, setShowVideo] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -26,9 +27,10 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
     <section className="relative isolate h-[100svh] min-h-[560px] overflow-hidden bg-ink text-white">
       <div className="absolute inset-0 -z-10">
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
-          fill priority sizes="100vw" quality={82} className="kenburns object-cover object-center" />
+          fill priority sizes="100vw" quality={82} className={`${ready ? "" : "kenburns"} object-cover object-center`} />
         {showVideo && videoFile && (
-          <video className="absolute inset-0 h-full w-full object-cover" src={videoFile} autoPlay muted loop playsInline aria-hidden="true" />
+          <video className={`absolute inset-0 h-full w-full transform-gpu object-cover transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
+            src={videoFile} autoPlay muted loop playsInline preload="auto" disablePictureInPicture aria-hidden="true" onCanPlayThrough={() => setReady(true)} />
         )}
         {showVideo && !videoFile && (
           <iframe
@@ -39,8 +41,7 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
           />
         )}
         <div className="absolute inset-0 bg-ink/45" />
-        <div className="absolute inset-0 opacity-30 [background-image:radial-gradient(rgba(0,0,0,0.55)_1px,transparent_1.2px)] [background-size:3px_3px]" />
-        <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.45)_100%)]" />
+                <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.45)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
@@ -49,7 +50,7 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.9, ease }}
-          className="max-w-xl bg-ink/55 p-6 backdrop-blur-sm md:p-8"
+          className="max-w-xl rounded-2xl bg-ink/65 p-6 md:p-8"
         >
           <p className="text-2xl font-light italic">Welcome to</p>
           <h1 className="mt-2 text-[clamp(1.5rem,3.2vw,2.5rem)] font-extrabold uppercase leading-tight text-gold-bright">
