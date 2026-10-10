@@ -5,6 +5,9 @@ export const tvLabels: Record<string, string> = {
 };
 
 export const tvItems: { id: string; title: string; cat: TvCat }[] = [
+  { id: "pRIzQannEv4", title: "Volume of the Book | VOBI Ministries Worship", cat: "praise" },
+  { id: "HpsYa0MLzFw", title: "Sunday 16 Aug 2026 | Worship | Promise", cat: "praise" },
+  { id: "FSbFuYbRBx0", title: "When the praise breaks out, you know you're in the right place", cat: "praise" },
   { id: "m4D9MKtUcMY", title: "powerful testimony", cat: "testimony" },
   { id: "SNv3xXzyN3w", title: "What was impossible turned into testimony!", cat: "testimony" },
   { id: "9UxTQ3DVNug", title: "Believe In God and He will Give You Favor | Testimony | Prophet Promise", cat: "testimony" },

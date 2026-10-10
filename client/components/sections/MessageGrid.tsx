@@ -18,7 +18,7 @@ export function MessageGrid({ items }: { items: Sermon[] }) {
           </p>
           <h3 className="display-sm mt-2 transition-colors group-hover:text-gold">{s.title}</h3>
           <p className="mt-2 text-[15px] text-muted">{s.speaker}</p>
-          <span className="mt-3 inline-block text-xs font-semibold uppercase tracking-[0.18em]">Watch →</span>
+          <span className="mt-3 inline-block text-xs font-semibold uppercase tracking-[0.18em]">Watch</span>
         </Link>
       ))}
     </div>

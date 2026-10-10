@@ -43,7 +43,7 @@ export function FeatureCards() {
               <h3 className="font-display text-2xl font-semibold">{c.title}</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-muted">{c.text}</p>
               <span className="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.18em] text-gold">
-                Learn more →
+                Learn more
               </span>
             </div>
           </Link>

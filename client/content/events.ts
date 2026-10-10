@@ -35,7 +35,7 @@ export const recurringGatherings = [
   {
     title: "Crossover Candle Light Service",
     evidence:
-      "Annual 31 December gathering, titled across 2023→24, 2024→25 and 2025→26, most recently 'The Night of Exodus'.",
+      "Annual 31 December gathering, titled across 2023/24, 2024/25 and 2025/26, most recently 'The Night of Exodus'.",
   },
   {
     title: "Mercy Land / Holy Ground",

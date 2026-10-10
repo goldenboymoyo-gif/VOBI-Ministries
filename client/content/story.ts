@@ -38,9 +38,9 @@ export const story: StoryEntry[] = [
     source: "Public place listing (review)",
   },
   {
-    year: "2023 → 2026",
+    year: "2023 to 2026",
     title: "Crossover, every year",
-    body: "Candle Light Crossover services are published for 2023→24, 2024→25 and 2025→26, the most recent titled 'The Night of Exodus'.",
+    body: "Candle Light Crossover services are published for 2023/24, 2024/25 and 2025/26, the most recent titled 'The Night of Exodus'.",
     source: "VOBI official YouTube channel",
   },
   {
