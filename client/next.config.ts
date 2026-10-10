@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
     ];
     return [
       { source: "/:path*", headers: security },
+      { source: "/:dir(photos|beliefs|ministries|media|brand)/:file*", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }] },
       { source: "/api/:path*", headers: [{ key: "Cache-Control", value: "no-store" }] },
     ];
   },

@@ -17,10 +17,15 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const conn = (navigator as { connection?: { effectiveType?: string; saveData?: boolean } }).connection;
-    if (reduced || conn?.saveData || conn?.effectiveType === "2g" || conn?.effectiveType === "slow-2g") return;
-    const id = window.setTimeout(() => setShowVideo(true), 300);
-    return () => window.clearTimeout(id);
+    const conn = (navigator as { connection?: { effectiveType?: string; saveData?: boolean; downlink?: number } }).connection;
+    // Only start the (large) video on a reasonably fast connection. Slow or data-saving visitors keep the light photo.
+    const fast = !conn || (conn.effectiveType === undefined || conn.effectiveType === "4g") && (conn.downlink === undefined || conn.downlink >= 2);
+    if (reduced || conn?.saveData || !fast) return;
+    let id = 0;
+    const start = () => { id = window.setTimeout(() => setShowVideo(true), 300); };
+    // Let the page and photo finish loading first, so the video never competes with them.
+    if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
+    return () => { window.clearTimeout(id); window.removeEventListener("load", start); };
   }, []);
 
   // Browsers sometimes pause autoplay (tab in background, power saving, slow start). Keep nudging it to play.
