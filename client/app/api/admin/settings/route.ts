@@ -77,6 +77,13 @@ export async function PUT(req: Request) {
     return { id, title: clean(v.title, 150), cat: CATS.includes(String(v.cat)) ? String(v.cat) : "sermons", ...(src && urlOk(src) ? { src } : {}), ...(poster && imgOk(poster) ? { poster } : {}) };
   }).filter((v) => v.id && v.title);
 
+  const details: Record<string, { date?: string; person?: string; place?: string; description?: string }> = {};
+  for (const [k, v] of Object.entries((b.details ?? {}) as Record<string, Any>).slice(0, 2000)) {
+    if (!/^[\w-]{6,24}$/.test(k) || !v || typeof v !== "object") continue;
+    const date = clean(v.date, 10), person = clean(v.person, 80), place = clean(v.place, 80), description = clean(v.description, 800);
+    if (date || person || place || description) details[k] = { ...(/^\d{4}-\d{2}-\d{2}$/.test(date) ? { date } : {}), ...(person ? { person } : {}), ...(place ? { place } : {}), ...(description ? { description } : {}) };
+  }
+
   const L = lists(b);
   const c = (b.contact ?? {}) as Any, n = (b.notes ?? {}) as Any;
   const dMin = lists({ ministries: seedMinistries }).ministries;
@@ -84,7 +91,7 @@ export async function PUT(req: Request) {
   const dMenu = lists({ menu: nav.map((x) => ({ label: x.label, href: x.href })) }).menu;
 
   const next: Settings = {
-    heroVideo, heroImage, heroVideoFile, hiddenVideos: (Array.isArray(b.hiddenVideos) ? (b.hiddenVideos as unknown[]) : []).map(String).filter((x) => /^[\w-]{6,24}$/.test(x)).slice(0, 400), announcement: clean(b.announcement, 200), aboutWho: String(b.aboutWho ?? "").slice(0, 3000), videos,
+    heroVideo, heroImage, heroVideoFile, details, hiddenVideos: (Array.isArray(b.hiddenVideos) ? (b.hiddenVideos as unknown[]) : []).map(String).filter((x) => /^[\w-]{6,24}$/.test(x)).slice(0, 400), announcement: clean(b.announcement, 200), aboutWho: String(b.aboutWho ?? "").slice(0, 3000), videos,
     contact: { phone: clean(c.phone, 30), prayerPhone: clean(c.prayerPhone, 30), email: clean(c.email, 80), address: clean(c.address, 160), serviceTime: clean(c.serviceTime, 10) },
     notes: { store: String(n.store ?? "").slice(0, 800), give: String(n.give ?? "").slice(0, 800), visit: String(n.visit ?? "").slice(0, 800) },
     ministries: same(L.ministries, dMin) ? [] : (L.ministries as Settings["ministries"]),

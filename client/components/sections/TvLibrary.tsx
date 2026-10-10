@@ -21,13 +21,16 @@ const TABS = [
 export function TvLibrary({ items }: { items: TvCard[] }) {
   const [tab, setTab] = useState("all");
   const [shown, setShown] = useState(12);
+  const [q, setQ] = useState("");
   useEffect(() => {
     const read = () => { const h = window.location.hash.slice(1); if (TABS.some((t) => t.k === h)) { setTab(h); setShown(12); } };
     read();
     window.addEventListener("hashchange", read);
     return () => window.removeEventListener("hashchange", read);
   }, []);
-  const list = tab === "all" ? items : items.filter((i) => i.cat === tab);
+  const byTab = tab === "all" ? items : items.filter((i) => i.cat === tab);
+  const needle = q.trim().toLowerCase();
+  const list = needle ? byTab.filter((i) => `${i.title} ${i.label}`.toLowerCase().includes(needle)) : byTab;
 
   return (
     <>
@@ -44,7 +47,9 @@ export function TvLibrary({ items }: { items: TvCard[] }) {
         </Link>
       </div>
 
-      <ul className="mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      <input type="search" value={q} onChange={(e) => { setQ(e.target.value); setShown(12); }} placeholder="Search by title, name or year"
+        className="mt-6 w-full rounded-xl border border-line bg-white px-4 py-3 text-base outline-none focus:border-gold md:max-w-md" aria-label="Search videos" />
+      <ul className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {list.slice(0, shown).map((i) => (
           <li key={i.key}>
             <Link href={i.href} className="group block">

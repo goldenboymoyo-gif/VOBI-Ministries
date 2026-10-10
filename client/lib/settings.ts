@@ -7,6 +7,7 @@ import { configured, load } from "@/lib/store";
 import type { Ministry } from "@/types";
 
 export type VideoEntry = { id: string; title: string; cat: string; src?: string; poster?: string };
+export type VideoDetail = { date?: string; person?: string; place?: string; description?: string };
 export type PageEntry = { slug: string; title: string; intro: string; body: string[] };
 export type Settings = {
   heroVideo?: string;
@@ -17,6 +18,7 @@ export type Settings = {
   videos?: VideoEntry[];
   hiddenVideos?: string[];
   imported?: VideoEntry[];
+  details?: Record<string, VideoDetail>;
   contact?: { phone?: string; prayerPhone?: string; email?: string; address?: string; serviceTime?: string };
   notes?: { store?: string; give?: string; visit?: string };
   ministries?: Ministry[];

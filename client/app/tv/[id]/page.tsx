@@ -32,6 +32,9 @@ export default async function TvPage({ params }: { params: Promise<Params> }) {
   const items = await allItems();
   const item = items.find((i) => i.id === id);
   if (!item) notFound();
+  const d = (await getSettings()).details?.[item.id];
+  const when = d?.date ? new Date(d.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
+  const facts = [d?.person, d?.place, when].filter(Boolean).join(", ");
   const same = items.filter((i) => i.cat === item.cat);
   const n = same[same.findIndex((i) => i.id === item.id) + 1];
   return (
@@ -44,6 +47,12 @@ export default async function TvPage({ params }: { params: Promise<Params> }) {
             <video className="aspect-video w-full bg-black" src={item.src} poster={item.poster} controls playsInline preload="metadata" />
           ) : (
           <VideoPlayer id={item.id} title={item.title} poster={thumb(item.id)} next={n ? { title: n.title, href: `/tv/${n.id}` } : undefined} />
+          )}
+          {(facts || d?.description) && (
+            <div className="mt-8 rounded-2xl bg-white p-5 shadow-sm md:p-7">
+              {facts && <p className="text-lg font-bold text-ink">{facts}</p>}
+              {d?.description && <p className="mt-2 leading-relaxed text-muted">{d.description}</p>}
+            </div>
           )}
           <Engage videoId={item.id} className="mt-8" />
           <div className="mt-8"><Link href="/sermons" className="btn btn-ink">Back to VOBI TV</Link></div>

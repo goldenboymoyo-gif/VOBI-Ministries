@@ -206,16 +206,35 @@ function HomeEditor({ c, set, notify, blob }: any) {
   );
 }
 
+function DetailsEditor({ id, c, set }: any) {
+  const d = (c.details || {})[id] || {};
+  const up = (k: string, v: string) => set((n: C) => { n.details = n.details || {}; n.details[id] = { ...(n.details[id] || {}), [k]: v }; });
+  return (
+    <div className="adm-details">
+      <Field label="Date" type="date" value={d.date || ""} onChange={(v: string) => up("date", v)} />
+      <Field label="Name of the person (testimony or prophecy)" value={d.person || ""} onChange={(v: string) => up("person", v)} />
+      <Field label="Place" value={d.place || ""} onChange={(v: string) => up("place", v)} />
+      <Field label="Description" textarea rows={3} value={d.description || ""} onChange={(v: string) => up("description", v)} />
+    </div>
+  );
+}
+
 function VideosEditor({ c, set, notify, blob }: any) {
-  const [nv, setNv] = useState<C>({ url: "", title: "", cat: "sermons", src: "", poster: "" });
+  const [nv, setNv] = useState<C>({ url: "", title: "", cat: "sermons", src: "", poster: "", date: "", person: "", place: "", description: "" });
+  const [find, setFind] = useState("");
+  const [open, setOpen] = useState("");
   const [busy, setBusy] = useState(false);
   const [allTv, setAllTv] = useState(false);
   const add = () => {
     const id = ytIdOf(nv.url);
     if (!nv.title.trim()) return notify("Give the video a title.", "error");
     if (!id && !nv.src) return notify("Paste a YouTube link, or upload a video file.", "error");
-    set((n: C) => { n.videos = [nv.src ? { id: `v${Date.now().toString(36)}`, title: nv.title, cat: nv.cat, src: nv.src, poster: nv.poster } : { id, title: nv.title, cat: nv.cat }, ...(n.videos || [])]; });
-    setNv({ url: "", title: "", cat: nv.cat, src: "", poster: "" });
+    const vid = nv.src ? `v${Date.now().toString(36)}` : id;
+    set((n: C) => {
+      n.videos = [nv.src ? { id: vid, title: nv.title, cat: nv.cat, src: nv.src, poster: nv.poster } : { id, title: nv.title, cat: nv.cat }, ...(n.videos || [])];
+      n.details = n.details || {}; n.details[vid] = { date: nv.date, person: nv.person, place: nv.place, description: nv.description };
+    });
+    setNv({ url: "", title: "", cat: nv.cat, src: "", poster: "", date: "", person: "", place: "", description: "" });
   };
   return (
     <Panel title="Videos on VOBI TV" intro="Add a video from YouTube, or upload a video file from your computer. It appears on the VOBI TV page in the category you choose.">
@@ -224,6 +243,10 @@ function VideosEditor({ c, set, notify, blob }: any) {
         <div className="adm-field"><label>Category</label>
           <select value={nv.cat} onChange={(e) => setNv({ ...nv, cat: e.target.value })}>{CATS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select>
         </div>
+        <Field label="Date" type="date" hint="When it was recorded." value={nv.date} onChange={(v: string) => setNv({ ...nv, date: v })} />
+        <Field label="Name of the person" hint="For testimonies and prophecy: who is giving it." value={nv.person} onChange={(v: string) => setNv({ ...nv, person: v })} />
+        <Field label="Place" value={nv.place} onChange={(v: string) => setNv({ ...nv, place: v })} />
+        <Field label="Description" textarea rows={3} value={nv.description} onChange={(v: string) => setNv({ ...nv, description: v })} />
         <Field label="YouTube link" hint="Use this, or upload a file below." value={nv.url} onChange={(v: string) => setNv({ ...nv, url: v })} />
         <VideoUploadField label="Or upload a video file" value={nv.src} blob={blob} notify={notify}
           onChange={async (v: string) => { setNv((o: C) => ({ ...o, src: v })); }} />
@@ -248,18 +271,24 @@ function VideosEditor({ c, set, notify, blob }: any) {
             <select value={v.cat} onChange={(e) => up({ ...v, cat: e.target.value })}>{CATS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select>
           </div>
           <p className="adm-hint">{v.src ? "Uploaded video file" : `YouTube video ${v.id}`}</p>
+          <DetailsEditor id={v.id} c={c} set={set} />
         </>
       )} newItem={{ id: "", title: "", cat: "sermons" }} />
       <h3 className="adm-sub">Videos already on the site ({(c.tv || []).length - (c.hiddenVideos || []).length} showing)</h3>
       <p className="adm-hint">Press Hide to take a video off VOBI TV, or Show to bring it back. Then press Publish.</p>
+      <input className="adm-search" placeholder="Search videos by title…" value={find} onChange={(e) => setFind(e.target.value)} />
       <div className="adm-tv">
-        {(c.tv || []).slice(0, allTv ? 5000 : 60).map((v: C) => {
+        {(c.tv || []).filter((v: C) => !find || `${v.title} ${(c.details || {})[v.id]?.person || ""}`.toLowerCase().includes(find.toLowerCase())).slice(0, allTv || find ? 5000 : 60).map((v: C) => {
           const off = (c.hiddenVideos || []).includes(v.id);
           return (
             <div key={v.id} className={`adm-tv-item ${off ? "off" : ""}`}>
               <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt="" loading="lazy" />
               <div><b>{v.title}</b><span>{CATS.find(([k]) => k === v.cat)?.[1] || v.cat}</span></div>
-              <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => set((n: C) => { const h = new Set(n.hiddenVideos || []); if (h.has(v.id)) h.delete(v.id); else h.add(v.id); n.hiddenVideos = [...h]; })}>{off ? "Show" : "Hide"}</button>
+              <div className="adm-tv-btns">
+                <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => setOpen(open === v.id ? "" : v.id)}>Details</button>
+                <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => set((n: C) => { const h = new Set(n.hiddenVideos || []); if (h.has(v.id)) h.delete(v.id); else h.add(v.id); n.hiddenVideos = [...h]; })}>{off ? "Show" : "Hide"}</button>
+              </div>
+              {open === v.id ? <div className="adm-tv-details"><DetailsEditor id={v.id} c={c} set={set} /></div> : null}
             </div>
           );
         })}
@@ -464,7 +493,7 @@ export default function AdminApp() {
       const pick = (k: string) => (s[k]?.length ? s[k] : d[k]);
       const toBody = (m: C) => ({ ...m, body: Array.isArray(m.body) ? m.body : [m.body || ""] });
       setContent({
-        heroVideo: s.heroVideo || d.hero.video, heroImage: s.heroImage || d.hero.image, hiddenVideos: s.hiddenVideos || [], tv: d.tv, heroDefault: d.hero, heroVideoFile: s.heroVideoFile || "", announcement: s.announcement || "", aboutWho: s.aboutWho || "",
+        heroVideo: s.heroVideo || d.hero.video, heroImage: s.heroImage || d.hero.image, hiddenVideos: s.hiddenVideos || [], details: s.details || {}, tv: d.tv, heroDefault: d.hero, heroVideoFile: s.heroVideoFile || "", announcement: s.announcement || "", aboutWho: s.aboutWho || "",
         videos: s.videos || [], events: events || [], ministries: pick("ministries").map(toBody), story: pick("story"), beliefs: pick("beliefs"), menu: pick("menu"),
         pages: (s.pages || []).map(toBody), contact: { ...d.contact, ...Object.fromEntries(Object.entries(s.contact || {}).filter(([, v]) => v)) }, notes: s.notes || {},
       });

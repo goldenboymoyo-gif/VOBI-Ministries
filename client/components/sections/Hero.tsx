@@ -16,9 +16,8 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const small = window.matchMedia("(max-width: 860px)").matches;
     const slow = (navigator as { connection?: { effectiveType?: string } }).connection?.effectiveType;
-    if (reduced || small || slow === "2g" || slow === "slow-2g") return;
+    if (reduced || slow === "2g" || slow === "slow-2g") return;
     const id = window.setTimeout(() => setShowVideo(true), 1200);
     return () => window.clearTimeout(id);
   }, []);
