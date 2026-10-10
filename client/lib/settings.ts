@@ -16,6 +16,7 @@ export type Settings = {
   aboutWho?: string;
   videos?: VideoEntry[];
   hiddenVideos?: string[];
+  imported?: VideoEntry[];
   contact?: { phone?: string; prayerPhone?: string; email?: string; address?: string; serviceTime?: string };
   notes?: { store?: string; give?: string; visit?: string };
   ministries?: Ministry[];
@@ -30,7 +31,10 @@ export async function getSettings(): Promise<Settings> {
   "use cache";
   cacheLife({ stale: 30, revalidate: 60, expire: 3600 });
   if (!configured()) return {};
-  try { return await load<Settings>("settings.json", {}); } catch { return {}; }
+  try {
+    const [s, imported] = await Promise.all([load<Settings>("settings.json", {}), load<VideoEntry[]>("tv.json", [])]);
+    return { ...s, imported };
+  } catch { return {}; }
 }
 
 /** The site details, with anything changed in the admin page applied on top. */

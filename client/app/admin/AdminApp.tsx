@@ -209,6 +209,7 @@ function HomeEditor({ c, set, notify, blob }: any) {
 function VideosEditor({ c, set, notify, blob }: any) {
   const [nv, setNv] = useState<C>({ url: "", title: "", cat: "sermons", src: "", poster: "" });
   const [busy, setBusy] = useState(false);
+  const [allTv, setAllTv] = useState(false);
   const add = () => {
     const id = ytIdOf(nv.url);
     if (!nv.title.trim()) return notify("Give the video a title.", "error");
@@ -252,7 +253,7 @@ function VideosEditor({ c, set, notify, blob }: any) {
       <h3 className="adm-sub">Videos already on the site ({(c.tv || []).length - (c.hiddenVideos || []).length} showing)</h3>
       <p className="adm-hint">Press Hide to take a video off VOBI TV, or Show to bring it back. Then press Publish.</p>
       <div className="adm-tv">
-        {(c.tv || []).map((v: C) => {
+        {(c.tv || []).slice(0, allTv ? 5000 : 60).map((v: C) => {
           const off = (c.hiddenVideos || []).includes(v.id);
           return (
             <div key={v.id} className={`adm-tv-item ${off ? "off" : ""}`}>
@@ -263,6 +264,7 @@ function VideosEditor({ c, set, notify, blob }: any) {
           );
         })}
       </div>
+      {!allTv && (c.tv || []).length > 60 ? <button type="button" className="adm-btn adm-btn-ghost" onClick={() => setAllTv(true)}>Show all {(c.tv || []).length} videos</button> : null}
     </Panel>
   );
 }

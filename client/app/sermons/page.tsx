@@ -21,7 +21,7 @@ export default async function SermonsPage() {
     cards.set(s.id, { key: s.id, title: s.title, thumb: s.thumbnail, href: `/sermons/${s.slug}`, cat: "sermons", label: tvLabels.sermons });
   }
   const hidden = new Set(settings.hiddenVideos ?? []);
-  for (const i of [...(settings.videos ?? []), ...tvItems.filter((t) => !hidden.has(t.id))] as { id: string; title: string; cat: string; poster?: string; src?: string }[]) {
+  for (const i of [...(settings.videos ?? []), ...(settings.imported ?? []).filter((t) => !hidden.has(t.id)), ...tvItems.filter((t) => !hidden.has(t.id))] as { id: string; title: string; cat: string; poster?: string; src?: string }[]) {
     if (!cards.has(i.id)) cards.set(i.id, { key: i.id, title: i.title, thumb: i.poster ?? thumb(i.id), href: `/tv/${i.id}`, cat: i.cat, label: tvLabels[i.cat] ?? "Video" });
   }
   const items = Array.from(cards.values());

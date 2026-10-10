@@ -13,7 +13,7 @@ type Item = { id: string; title: string; cat: string; src?: string; poster?: str
 async function allItems(): Promise<Item[]> {
   const s = await getSettings();
   const hidden = new Set(s.hiddenVideos ?? []);
-  return [...(s.videos ?? []), ...tvItems.filter((t) => !hidden.has(t.id))];
+  return [...(s.videos ?? []), ...(s.imported ?? []).filter((t) => !hidden.has(t.id)), ...tvItems.filter((t) => !hidden.has(t.id))];
 }
 
 type Params = { id: string };

@@ -49,9 +49,10 @@ const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
 
 export async function GET(req: Request) {
   if (!isAdmin(req)) return NextResponse.json({ error: "No" }, { status: 401 });
-  const [settings, events] = await Promise.all([load<Settings>(FILE, {}), load<ChurchEvent[]>("events.json", [])]);
+  const [settings0, events, imported] = await Promise.all([load<Settings>(FILE, {}), load<ChurchEvent[]>("events.json", []), load<{ id: string; title: string; cat: string }[]>("tv.json", [])]);
+  const settings = { ...settings0, imported };
   const defaults = {
-    ministries: seedMinistries, story, beliefs, tv: tvItems, hero: { image: "/photos/hero.jpg", video: "d5NuEDZKcZg" },
+    ministries: seedMinistries, story, beliefs, tv: [...tvItems, ...(((settings as Settings).imported as { id: string; title: string; cat: string }[] | undefined) ?? [])], hero: { image: "/photos/hero.jpg", video: "d5NuEDZKcZg" },
     menu: nav.map((n) => ({ label: n.label, href: n.href })),
     contact: { phone: site.phone, prayerPhone: site.prayerPhone, email: site.email, address: site.address, serviceTime: site.service.time },
   };
