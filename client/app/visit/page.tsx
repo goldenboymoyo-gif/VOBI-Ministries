@@ -49,9 +49,6 @@ export default async function VisitPage() {
             >
               Get directions
             </a>
-            <Link href="/contact" className="btn btn-ghost">
-              Ask a question
-            </Link>
           </div>
         }
       />

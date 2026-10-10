@@ -4,6 +4,7 @@ import { cacheLife } from "next/cache";
 
 import { site } from "@/config/site";
 import { configured, load } from "@/lib/store";
+import { getNewTvItems } from "@/lib/liveArchive";
 import type { Ministry } from "@/types";
 
 export type VideoEntry = { id: string; title: string; cat: string; src?: string; poster?: string };
@@ -35,7 +36,10 @@ export async function getSettings(): Promise<Settings> {
   if (!configured()) return {};
   try {
     const [s, imported] = await Promise.all([load<Settings>("settings.json", {}), load<VideoEntry[]>("tv.json", [])]);
-    return { ...s, imported };
+    // New YouTube uploads are added automatically; anything already imported or added by hand keeps its own entry.
+    const known = new Set([...imported.map((i) => i.id), ...(s.videos ?? []).map((v) => v.id)]);
+    const fresh = (await getNewTvItems()).filter((v) => !known.has(v.id));
+    return { ...s, imported: [...fresh, ...imported] };
   } catch { return {}; }
 }
 

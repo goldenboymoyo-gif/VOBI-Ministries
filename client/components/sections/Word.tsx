@@ -33,8 +33,7 @@ export function Word({ latest, total }: { latest?: Sermon; total: number }) {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={latest ? `/sermons/${latest.slug}` : "/sermons"} className="btn btn-gold">Watch the message</Link>
-            <Link href="/sermons" className="btn btn-ghost text-white">Open VOBI TV</Link>
+            <Link href="/sermons" className="btn btn-gold">Open VOBI TV</Link>
           </div>
         </div>
         <div className="lg:col-span-7">
