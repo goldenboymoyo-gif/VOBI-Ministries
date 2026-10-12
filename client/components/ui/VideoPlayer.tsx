@@ -232,5 +232,5 @@ function VideoPlayerInner({ id, title, poster, next }: { id: string; title: stri
 }
 
 export function VideoPlayer(props: Parameters<typeof VideoPlayerInner>[0]) {
-  return <MediaGate><VideoPlayerInner {...props} /></MediaGate>;
+  return <div className="-mx-[clamp(1.25rem,4vw,4.5rem)] md:mx-0"><MediaGate><VideoPlayerInner {...props} /></MediaGate></div>;
 }

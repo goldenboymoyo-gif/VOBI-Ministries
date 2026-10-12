@@ -44,7 +44,7 @@ export default async function TvPage({ params }: { params: Promise<Params> }) {
       <section className="gold-wash py-12 md:py-16">
         <div className="shell-narrow">
           {item.src ? (
-            <video className="aspect-video w-full bg-black" src={item.src} poster={item.poster} controls playsInline preload="metadata" />
+            <video className="aspect-video bg-black -mx-[clamp(1.25rem,4vw,4.5rem)] md:mx-0 w-[calc(100%+2*clamp(1.25rem,4vw,4.5rem))] max-w-none md:w-full" src={item.src} poster={item.poster} controls playsInline preload="metadata" />
           ) : (
           <VideoPlayer id={item.id} title={item.title} poster={thumb(item.id)} next={n ? { title: n.title, href: `/tv/${n.id}` } : undefined} />
           )}
