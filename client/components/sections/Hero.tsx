@@ -18,9 +18,11 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
-    // Start straight away on every connection; the photo shows until the first frame plays.
-    const id = window.setTimeout(() => setShowVideo(true), 50);
-    return () => window.clearTimeout(id);
+    // Let the page finish loading first (keeps the photo/text paint fast), then start the video; the photo shows until the first frame plays.
+    let id = 0;
+    const start = () => { id = window.setTimeout(() => setShowVideo(true), 400); };
+    if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
+    return () => { window.clearTimeout(id); window.removeEventListener("load", start); };
   }, []);
 
   // Browsers sometimes pause autoplay (tab in background, power saving, slow start). Keep nudging it to play.
