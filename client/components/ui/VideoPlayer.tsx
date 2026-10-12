@@ -40,7 +40,8 @@ type FsDoc = Document & { webkitFullscreenElement?: Element; webkitExitFullscree
 type FsEl = HTMLElement & { webkitRequestFullscreen?: () => void };
 
 /** Plays a video on this site with our own controls, so viewers never leave or see the host's interface. */
-function VideoPlayerInner({ id, title, poster, next }: { id: string; title: string; poster: string; next?: { title: string; href: string } }) {
+type Props = { id: string; title: string; poster?: string; next?: { title: string; href: string }; live?: boolean; bleed?: boolean };
+function VideoPlayerInner({ id, title, poster, next, live }: Props) {
   const router = useRouter();
   const [left, setLeft] = useState<number | null>(null);
   const wrap = useRef<HTMLDivElement>(null);
@@ -61,6 +62,8 @@ function VideoPlayerInner({ id, title, poster, next }: { id: string; title: stri
   const [ui, setUi] = useState(true);
   const [pseudo, setPseudo] = useState(false);
   const [flash, setFlash] = useState("");
+  const [nativeFs, setNativeFs] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   // Build the player as soon as the page loads, so pressing play is instant.
   useEffect(() => {
@@ -101,7 +104,22 @@ function VideoPlayerInner({ id, title, poster, next }: { id: string; title: stri
     });
     return () => { dead = true; window.clearTimeout(failTimer); try { player.current?.destroy(); } catch {} player.current = null; if (h) h.innerHTML = ""; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, attempt]);
+
+  useEffect(() => {
+    const on = () => {
+      const d = document as FsDoc; const f = !!(d.fullscreenElement || d.webkitFullscreenElement);
+      setNativeFs(f);
+      try { if (f) void (screen.orientation as unknown as { lock: (o: string) => Promise<void> }).lock("landscape").catch(() => {}); else screen.orientation.unlock(); } catch {}
+    };
+    document.addEventListener("fullscreenchange", on); document.addEventListener("webkitfullscreenchange", on);
+    return () => { document.removeEventListener("fullscreenchange", on); document.removeEventListener("webkitfullscreenchange", on); };
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.style.overflow = pseudo ? "hidden" : "";
+    return () => { document.documentElement.style.overflow = ""; };
+  }, [pseudo]);
 
   useEffect(() => {
     const iv = window.setInterval(() => {
@@ -166,21 +184,26 @@ function VideoPlayerInner({ id, title, poster, next }: { id: string; title: stri
 
   if (fallback && !ready) {
     return (
-      <div className="relative aspect-video w-full overflow-hidden bg-black">
-        <iframe className="absolute inset-0 h-full w-full border-0" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`} title={title} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+      <div className="grid aspect-video w-full place-items-center bg-black p-5 text-center text-white">
+        <div>
+          <p className="font-semibold">The video is taking a while to load</p>
+          <button type="button" onClick={() => { setFallback(false); setAttempt((a) => a + 1); }} className="btn btn-gold mt-4">Try again</button>
+        </div>
       </div>
     );
   }
 
+  const fs = nativeFs || pseudo;
+
   return (
     <div ref={wrap} onMouseMove={poke}
-      className={`relative w-full select-none overflow-hidden bg-black [&_iframe]:h-full [&_iframe]:w-full ${pseudo ? "fixed inset-0 z-[100] h-[100dvh]" : "aspect-video"}`}>
-      <div ref={host} className="absolute inset-0" />
+      className={`relative select-none overflow-hidden bg-black [container-type:size] ${pseudo ? "fixed left-1/2 top-1/2 z-[100] h-[100vw] w-[100dvh] -translate-x-1/2 -translate-y-1/2 rotate-90 landscape:h-[100dvh] landscape:w-[100vw] landscape:rotate-0" : nativeFs ? "h-full w-full" : "aspect-video w-full"}`}>
+      <div ref={host} className={fs ? "absolute left-1/2 top-1/2 [&_iframe]:!h-full [&_iframe]:!w-full" : "absolute inset-0 [&_iframe]:h-full [&_iframe]:w-full"} style={fs ? { width: "max(100cqw, 177.78cqh)", height: "max(56.25cqw, 100cqh)", transform: "translate(-50%, -50%)" } : undefined} />
       {/* Blocks clicks reaching the host player's own buttons and links; double tap left/right skips 10s */}
       <button type="button" aria-label={playing ? `Pause ${title}` : `Play ${title}`} onClick={tap} className="absolute inset-0 z-10 cursor-pointer touch-manipulation" />
       {!started && (
         <div className="pointer-events-none absolute inset-0 z-20 bg-black">
-          <Image src={poster} alt={title} fill sizes="100vw" className="object-cover opacity-80" />
+          {poster && <Image src={poster} alt={title} fill sizes="100vw" className="object-cover opacity-80" />}
           <span className="absolute inset-0 grid place-items-center">
             <span className="grid h-20 w-20 place-items-center rounded-full bg-gold-bright text-ink shadow-xl">
               {busy ? <span className="h-8 w-8 animate-spin rounded-full border-4 border-ink/30 border-t-ink" /> :
@@ -210,20 +233,20 @@ function VideoPlayerInner({ id, title, poster, next }: { id: string; title: stri
       )}
       {started && (
         <div className={`absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-black/85 to-transparent px-3 pb-2 pt-10 text-white transition-opacity duration-300 md:px-4 ${showUi ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-          <input type="range" min={0} max={dur || 1} step={1} value={Math.min(t, dur || 1)} aria-label="Seek"
+          {!live && <input type="range" min={0} max={dur || 1} step={1} value={Math.min(t, dur || 1)} aria-label="Seek"
             onChange={(e) => { const v = Number(e.target.value); setT(v); player.current?.seekTo(v, true); poke(); }}
-            className="h-1.5 w-full cursor-pointer accent-[#e6c453]" />
+            className="h-1.5 w-full cursor-pointer accent-[#e6c453]" />}
           <div className="mt-1 flex items-center gap-1">
             <button type="button" onClick={toggle} aria-label={playing ? "Pause" : "Play"} className={btn}>{playing ? "❚❚" : "▶"}</button>
-            <button type="button" onClick={() => skip(-10)} aria-label="Back 10 seconds" className={btn}>−10s</button>
-            <button type="button" onClick={() => skip(10)} aria-label="Forward 10 seconds" className={btn}>+10s</button>
-            <span className="ml-1 text-xs tabular-nums">{fmt(t)} / {fmt(dur)}</span>
+            {!live && <button type="button" onClick={() => skip(-10)} aria-label="Back 10 seconds" className={btn}>−10s</button>}
+            {!live && <button type="button" onClick={() => skip(10)} aria-label="Forward 10 seconds" className={btn}>+10s</button>}
+            {live ? <span className="ml-1 flex items-center gap-1.5 text-xs font-bold"><span className="h-2 w-2 rounded-full bg-red-500" />LIVE</span> : <span className="ml-1 text-xs tabular-nums">{fmt(t)} / {fmt(dur)}</span>}
             <span className="flex-1" />
             <button type="button" aria-label={muted ? "Unmute" : "Mute"} className={btn}
               onClick={() => { const p = player.current; if (!p) return; if (muted) p.unMute(); else p.mute(); setMuted(!muted); }}>
               {muted ? "Unmute" : "Mute"}
             </button>
-            <button type="button" aria-label="Full screen" onClick={fullscreen} className={btn}>{pseudo ? "Exit" : "Full"}</button>
+            <button type="button" aria-label="Full screen" onClick={fullscreen} className={btn}>{fs ? "Exit" : "Full"}</button>
           </div>
         </div>
       )}
@@ -231,6 +254,6 @@ function VideoPlayerInner({ id, title, poster, next }: { id: string; title: stri
   );
 }
 
-export function VideoPlayer(props: Parameters<typeof VideoPlayerInner>[0]) {
-  return <div className="-mx-[clamp(1.25rem,4vw,4.5rem)] md:mx-0"><MediaGate><VideoPlayerInner {...props} /></MediaGate></div>;
+export function VideoPlayer(props: Props) {
+  return <div className={props.bleed === false ? "" : "-mx-[clamp(1.25rem,4vw,4.5rem)] md:mx-0"}><MediaGate><VideoPlayerInner {...props} /></MediaGate></div>;
 }

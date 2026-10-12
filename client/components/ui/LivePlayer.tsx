@@ -41,6 +41,7 @@ export function LivePlayer({ src, title }: { src: string; title: string }) {
         : full ? "relative h-full w-full bg-black" : "relative aspect-video w-full overflow-hidden bg-black md:rounded-xl"}>
       {/* No "fullscreen" permission on purpose: the only fullscreen control is ours, so it always goes landscape. */}
       <iframe className={on ? "absolute left-1/2 top-1/2 border-0" : "absolute inset-0 h-full w-full border-0"} style={on ? { width: "max(100vw, 177.78vh)", height: "max(56.25vw, 100vh)", transform: "translate(-50%, -50%)" } : undefined} src={src} title={title} allow="autoplay; encrypted-media; picture-in-picture" />
+      <div className="absolute inset-0 z-[5]" aria-hidden />
       <button type="button" onClick={toggle} aria-label={on ? "Exit full screen" : "Full screen"} className="absolute right-2 top-2 z-10 grid h-10 w-10 place-items-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/80">
         <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth="2" aria-hidden>
           {on ? <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" /> : <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />}

@@ -46,9 +46,9 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
   }, [showVideo, videoFile]);
 
   return (
-    <section className="relative isolate overflow-hidden bg-ink text-white md:h-[100svh] md:min-h-[560px]">
+    <section className="relative isolate overflow-hidden bg-ink text-white h-[84svh] min-h-[500px] max-h-[760px] md:h-[100svh] md:max-h-none md:min-h-[560px]">
       {/* Phones: the video sits in a normal 16:9 frame (no zoom), with the welcome card below. From tablet up it fills the hero. */}
-      <div className="relative aspect-video w-full overflow-hidden [container-type:size] md:absolute md:inset-0 md:-z-10 md:aspect-auto">
+      <div className="absolute inset-0 -z-10 overflow-hidden [container-type:size]">
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className={`${ready ? "" : "kenburns"} object-cover object-center`} />
         {showVideo && videoFile && (
@@ -68,19 +68,19 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
-      <div className="shell relative -mt-16 pb-6 md:mt-0 md:py-0 md:flex md:h-full md:items-end md:pb-24 md:pt-0">
+      <div className="shell relative flex h-full items-end pb-8 md:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.9, ease }}
-          className="max-w-xl rounded-2xl bg-ink/80 p-5 shadow-2xl backdrop-blur-sm md:bg-ink/65 md:p-8"
+          className="max-w-[19rem] rounded-2xl bg-ink/55 p-4 backdrop-blur-sm sm:max-w-sm md:max-w-xl md:bg-ink/65 md:p-8"
         >
-          <p className="text-2xl font-light italic">Welcome to</p>
-          <h1 className="mt-2 text-[clamp(1.5rem,3.2vw,2.5rem)] font-extrabold uppercase leading-tight text-gold-bright">
+          <p className="text-base font-light italic md:text-2xl">Welcome to</p>
+          <h1 className="mt-2 text-[clamp(1.05rem,4.6vw,2.5rem)] font-extrabold uppercase leading-tight text-gold-bright">
             {site.fullName}
           </h1>
-          <p className="mt-4 border-l-4 border-gold-bright pl-4 text-lg font-semibold italic text-white md:text-xl">Because of Christ, we are saved.</p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <p className="mt-3 border-l-4 border-gold-bright pl-3 text-sm font-semibold italic text-white md:mt-4 md:pl-4 md:text-xl">Because of Christ, we are saved.</p>
+          <div className="mt-4 flex flex-wrap gap-2 md:mt-6 md:gap-3 [&_.btn]:!px-4 [&_.btn]:!py-2 [&_.btn]:text-sm md:[&_.btn]:!px-[revert] md:[&_.btn]:!py-[revert] md:[&_.btn]:text-[length:revert]">
             <Link href="/live" className="btn btn-gold">Watch Live</Link>
             <Link href="/visit" className="btn btn-ghost">Visit Us</Link>
           </div>
