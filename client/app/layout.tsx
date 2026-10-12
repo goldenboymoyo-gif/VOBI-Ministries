@@ -4,6 +4,7 @@ import { Archivo, Fraunces } from "next/font/google";
 import { site } from "@/config/site";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { CookieBanner } from "@/components/ui/CookieBanner";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { getSettings } from "@/lib/settings";
 import "./globals.css";
@@ -119,6 +120,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <SiteFooter />
+          <CookieBanner />
         </MotionProvider>
       </body>
     </html>

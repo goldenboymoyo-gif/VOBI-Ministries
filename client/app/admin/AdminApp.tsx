@@ -388,13 +388,53 @@ function MenuEditor({ c, set }: any) {
 
 function ModerationEditor({ notify }: any) {
   const [d, setD] = useState<any>(null);
+  const [open, setOpen] = useState<string | null>(null);
   const load = useCallback(async () => { try { setD(await api("/api/admin/data")); } catch (e: any) { notify(e.message, "error"); } }, [notify]);
   useEffect(() => { void load(); }, [load]);
   const del = async (body: object) => { if (!confirm("Delete this?")) return; await api("/api/admin/data", { method: "DELETE", body: JSON.stringify(body) }); void load(); };
+  const patch = async (body: object) => { await api("/api/admin/data", { method: "PATCH", body: JSON.stringify(body) }); void load(); };
   if (!d) return <div className="adm-loading">Loading…</div>;
   const vids = Object.keys(d.comments).filter((v) => d.comments[v].length);
+  const users: any[] = d.users || [];
+  const byId = (id?: string) => users.find((u) => u.id === id);
+  const openReports = (d.reports || []).filter((r: any) => r.open).slice().reverse();
+  const when = (t: number) => new Date(t).toLocaleString();
+  const Profile = ({ u }: { u: any }) => (
+    <div className="adm-hint" style={{ padding: "8px 0 10px 12px", borderLeft: "3px solid #d9c27a", margin: "6px 0" }}>
+      <p><b>{u.name}</b>{u.banned ? " (suspended)" : ""}</p>
+      <p>Email: <a href={"mailto:" + u.email}>{u.email}</a></p>
+      {u.phone ? <p>Phone: <a href={"tel:" + u.phone}>{u.phone}</a></p> : null}
+      <p>Joined: {when(u.createdAt)} · Cookies: {u.cookies || "not chosen"}</p>
+      <p>Messages in chat: {d.chat.filter((m: any) => m.uid === u.id).length}</p>
+      <p><button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => patch({ kind: "ban", id: u.id, banned: !u.banned })}>{u.banned ? "Restore chat access" : "Suspend from chat"}</button></p>
+    </div>
+  );
   return (
     <Panel title="Comments and live chat" intro="Deleting here takes effect straight away. You do not need to press Save.">
+      <Card title={"Policy reports (" + openReports.length + " open)"}>
+        {!openReports.length ? <p className="adm-hint">No open reports. Messages with links or offensive words are flagged here automatically, and viewers can report a message.</p> : openReports.map((r: any) => {
+          const u = byId(r.uid);
+          return (
+            <div key={r.id}>
+              <div className="adm-line"><p style={{ flex: 1 }}><b>{r.name}</b>: {r.text}<br /><span className="adm-hint">{r.reason} · by {r.by} · {when(r.at)}{u ? " · " + u.email : ""}</span></p>
+                <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => patch({ kind: "resolve", id: r.id })}>Resolve</button>
+                <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => del({ kind: "chat", id: r.msgId })}>Delete message</button>
+                {u ? <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => setOpen(open === "r" + r.id ? null : "r" + r.id)}>Profile</button> : null}
+              </div>
+              {u && open === "r" + r.id ? <Profile u={u} /> : null}
+            </div>
+          );
+        })}
+      </Card>
+      <Card title={"Members (" + users.length + ")"}>
+        {!users.length ? <p className="adm-hint">Nobody has signed up yet.</p> : users.slice().reverse().map((u) => (
+          <div key={u.id}>
+            <div className="adm-line"><p style={{ flex: 1 }}><b>{u.name}</b> · {u.email}{u.banned ? " · suspended" : ""}</p>
+              <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => setOpen(open === "u" + u.id ? null : "u" + u.id)}>Profile</button></div>
+            {open === "u" + u.id ? <Profile u={u} /> : null}
+          </div>
+        ))}
+      </Card>
       <Card title="Likes">{Object.keys(d.likes).length ? Object.entries(d.likes).map(([v, n]) => <p key={v}>Video {v}: {n as number}</p>) : <p className="adm-hint">No likes yet.</p>}</Card>
       <Card title="Comments">
         {!vids.length ? <p className="adm-hint">No comments yet.</p> : vids.map((v) => (
@@ -405,9 +445,15 @@ function ModerationEditor({ notify }: any) {
         ))}
       </Card>
       <Card title="Live chat" tools={<button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => del({ kind: "chat-all" })}>Clear all</button>}>
-        {!d.chat.length ? <p className="adm-hint">No messages yet.</p> : d.chat.slice().reverse().map((m: any) => (
-          <div className="adm-line" key={m.id}><p style={{ flex: 1 }}><b>{m.name}</b>: {m.text}</p><button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => del({ kind: "chat", id: m.id })}>Delete</button></div>
-        ))}
+        {!d.chat.length ? <p className="adm-hint">No messages yet.</p> : d.chat.slice().reverse().map((m: any) => {
+          const u = byId(m.uid);
+          return (
+            <div key={m.id}>
+              <div className="adm-line"><p style={{ flex: 1 }}>{u ? <button type="button" style={{ font: "inherit", fontWeight: 700, background: "none", border: 0, padding: 0, textDecoration: "underline", cursor: "pointer" }} onClick={() => setOpen(open === "c" + m.id ? null : "c" + m.id)}>{m.name}</button> : <b>{m.name}</b>}: {m.text}</p><button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => del({ kind: "chat", id: m.id })}>Delete</button></div>
+              {u && open === "c" + m.id ? <Profile u={u} /> : null}
+            </div>
+          );
+        })}
       </Card>
     </Panel>
   );

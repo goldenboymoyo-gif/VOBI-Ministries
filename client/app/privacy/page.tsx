@@ -15,13 +15,14 @@ const sections = [
     title: "What this website collects",
     body: [
       "This website collects what you choose to type into its contact and prayer request forms (your name, contact details and message), and the name and text you enter if you post a comment or a live chat message.",
+      "If you create an account to use the live chat, we store your name, email address, optional phone number and a securely scrambled (hashed) password, plus your cookie choice. This lets the ministry contact you if a message breaks the community rules.",
       "The website does not use advertising trackers, profiling cookies or analytics scripts. Our hosting provider keeps standard server logs (such as IP address and pages requested) for security and reliability.",
     ],
   },
   {
     title: "How your message is used",
     body: [
-      "Messages and prayer requests are sent to the ministry by email so that the ministry can respond to you, through an email-forwarding service (FormSubmit). Prayer requests are held privately by the ministry and are never published, listed or shared on this website.",
+      "Chat messages that contain links or offensive language are flagged automatically, and viewers can report a message. The ministry may review the sender's account details, contact them, or suspend chat access. Messages and prayer requests are sent to the ministry by email so that the ministry can respond to you, through an email-forwarding service (FormSubmit). Prayer requests are held privately by the ministry and are never published, listed or shared on this website.",
       "Comments and live chat messages you post are public and are stored in a private data store used by this website. Likes are stored as a count. The ministry can remove any comment or message.",
       "Your details are not sold, traded or used for marketing of any kind.",
     ],

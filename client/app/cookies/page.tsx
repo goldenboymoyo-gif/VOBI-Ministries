@@ -20,7 +20,9 @@ const sections = [
     body: [
       "Administrator login cookie (vobi_admin): set only when the ministry's staff sign in to the admin area. It is strictly necessary, HttpOnly, and expires after 8 hours. Visitors never receive it.",
       "Local storage (vobi-name and like markers): remembers the name you typed for comments or chat, and which videos you have liked, on your own device only. It is never sent to advertisers and you can clear it in your browser settings.",
-      "This website does not use advertising, analytics or tracking cookies, so there is no consent banner to switch on or off.",
+      "Account cookie (vobi_user): set only if you sign up or log in to use the live chat. It is strictly necessary, HttpOnly, and lasts up to 60 days or until you log out.",
+      "Your choice: when you first visit, you can accept or decline optional cookies and storage. Declining removes the saved name and like markers on your device. If you have an account, your choice is saved with it.",
+      "This website does not use advertising, analytics or tracking cookies.",
     ],
   },
   {
