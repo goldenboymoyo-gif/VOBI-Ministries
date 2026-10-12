@@ -7,7 +7,7 @@ const DAYS = 60;
 
 export type User = {
   id: string; name: string; email: string; phone?: string; salt: string; hash: string; createdAt: number;
-  cookies?: "accepted" | "declined"; consentAt?: number; banned?: boolean;
+  cookies?: "accepted" | "declined" | "custom"; prefs?: { preferences: boolean; media: boolean }; consentAt?: number; banned?: boolean;
 };
 export type PublicUser = { id: string; name: string; email: string };
 

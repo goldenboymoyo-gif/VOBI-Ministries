@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { CookieSettingsLink } from "@/components/ui/CookieSettingsLink";
+
 import { site, mapsDirectionsUrl } from "@/config/site";
 import { socialLinks } from "@/config/socialLinks";
 import { getSite } from "@/lib/settings";
@@ -66,6 +68,7 @@ export async function SiteFooter() {
             <Link href="/privacy" className="hover:text-white">Privacy</Link>
             <Link href="/cookies" className="hover:text-white">Cookies</Link>
             <Link href="/terms" className="hover:text-white">Terms</Link>
+            <CookieSettingsLink />
           </p>
         </div>
       </div>

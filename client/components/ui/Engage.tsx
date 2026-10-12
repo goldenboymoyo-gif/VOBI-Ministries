@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { storedConsent } from "@/lib/consent";
 
 type C = { id: string; name: string; text: string; at: number };
 
@@ -42,7 +43,7 @@ export function Engage({ videoId, className = "", dark = false }: { videoId: str
   async function like() {
     if (liked) return;
     setLiked(true); setLikes((n) => n + 1);
-    try { localStorage.setItem(key, "1"); } catch {}
+    if (storedConsent()?.preferences) { try { localStorage.setItem(key, "1"); } catch {} }
     const r = await fetch(`/api/engage/${videoId}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type: "like" }) });
     if (r.ok) { const j = await r.json(); setLikes(j.likes); }
   }

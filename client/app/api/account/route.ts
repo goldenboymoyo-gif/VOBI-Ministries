@@ -10,6 +10,13 @@ const json = (b: object, init?: { status?: number; cookie?: string }) => {
   return r;
 };
 
+function savePrefs(x: unknown): Pick<User, "cookies" | "prefs"> | null {
+  const o = x as { preferences?: unknown; media?: unknown } | null;
+  if (!o || typeof o !== "object") return null;
+  const prefs = { preferences: o.preferences === true, media: o.media === true };
+  return { prefs, cookies: prefs.preferences && prefs.media ? "accepted" : !prefs.preferences && !prefs.media ? "declined" : "custom" };
+}
+
 export async function GET(req: Request) {
   await connection();
   const u = await userFrom(req);
@@ -26,8 +33,8 @@ export async function POST(req: Request) {
   if (action === "logout") return json({ ok: true }, { cookie: cookieHeader("", 0) });
 
   if (action === "consent") {
-    const u = await userFrom(req); const v = b.value === "accepted" ? "accepted" : b.value === "declined" ? "declined" : null;
-    if (u && v) await update<User[]>("users.json", [], (d) => d.map((x) => (x.id === u.id ? { ...x, cookies: v, consentAt: Date.now() } : x)));
+    const u = await userFrom(req); const p = savePrefs(b.prefs);
+    if (u && p) await update<User[]>("users.json", [], (d) => d.map((x) => (x.id === u.id ? { ...x, ...p, consentAt: Date.now() } : x)));
     return json({ ok: true });
   }
 
@@ -41,8 +48,8 @@ export async function POST(req: Request) {
     if (name.length < 2) return json({ error: "Enter your name." }, { status: 400 });
     if (b.agree !== true) return json({ error: "Please accept the privacy policy and community rules." }, { status: 400 });
     const salt = newSalt(); const hash = await hashPassword(password, salt);
-    const cookies = b.cookies === "accepted" ? "accepted" : b.cookies === "declined" ? "declined" : undefined;
-    const user: User = { id: uid(), name, email, phone: clean(b.phone, 30) || undefined, salt, hash, createdAt: Date.now(), cookies, consentAt: cookies ? Date.now() : undefined };
+    const sp = savePrefs(b.cookies);
+    const user: User = { id: uid(), name, email, phone: clean(b.phone, 30) || undefined, salt, hash, createdAt: Date.now(), ...(sp ?? {}), consentAt: sp ? Date.now() : undefined };
     let dup = false;
     await update<User[]>("users.json", [], (d) => { if (d.some((x) => x.email === email)) { dup = true; return d; } return [...d, user]; });
     if (dup) return json({ error: "That email already has an account. Log in instead." }, { status: 409 });

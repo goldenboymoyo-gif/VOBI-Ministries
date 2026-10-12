@@ -404,7 +404,7 @@ function ModerationEditor({ notify }: any) {
       <p><b>{u.name}</b>{u.banned ? " (suspended)" : ""}</p>
       <p>Email: <a href={"mailto:" + u.email}>{u.email}</a></p>
       {u.phone ? <p>Phone: <a href={"tel:" + u.phone}>{u.phone}</a></p> : null}
-      <p>Joined: {when(u.createdAt)} · Cookies: {u.cookies || "not chosen"}</p>
+      <p>Joined: {when(u.createdAt)} · Cookies: {u.cookies ? u.cookies + (u.prefs ? " (preferences " + (u.prefs.preferences ? "on" : "off") + ", videos " + (u.prefs.media ? "on" : "off") + ")" : "") : "not chosen"}</p>
       <p>Messages in chat: {d.chat.filter((m: any) => m.uid === u.id).length}</p>
       <p><button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => patch({ kind: "ban", id: u.id, banned: !u.banned })}>{u.banned ? "Restore chat access" : "Suspend from chat"}</button></p>
     </div>

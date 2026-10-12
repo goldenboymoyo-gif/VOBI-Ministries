@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { MediaGate } from "@/components/ui/MediaGate";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -39,7 +40,7 @@ type FsDoc = Document & { webkitFullscreenElement?: Element; webkitExitFullscree
 type FsEl = HTMLElement & { webkitRequestFullscreen?: () => void };
 
 /** Plays a video on this site with our own controls, so viewers never leave or see the host's interface. */
-export function VideoPlayer({ id, title, poster, next }: { id: string; title: string; poster: string; next?: { title: string; href: string } }) {
+function VideoPlayerInner({ id, title, poster, next }: { id: string; title: string; poster: string; next?: { title: string; href: string } }) {
   const router = useRouter();
   const [left, setLeft] = useState<number | null>(null);
   const wrap = useRef<HTMLDivElement>(null);
@@ -84,6 +85,7 @@ export function VideoPlayer({ id, title, poster, next }: { id: string; title: st
       const el = document.createElement("div");
       h.appendChild(el);
       player.current = new window.YT.Player(el, {
+        host: "https://www.youtube-nocookie.com",
         videoId: id,
         playerVars: { controls: 0, rel: 0, modestbranding: 1, iv_load_policy: 3, disablekb: 1, fs: 0, playsinline: 1, origin: window.location.origin, enablejsapi: 1 },
         events: {
@@ -227,4 +229,8 @@ export function VideoPlayer({ id, title, poster, next }: { id: string; title: st
       )}
     </div>
   );
+}
+
+export function VideoPlayer(props: Parameters<typeof VideoPlayerInner>[0]) {
+  return <MediaGate><VideoPlayerInner {...props} /></MediaGate>;
 }

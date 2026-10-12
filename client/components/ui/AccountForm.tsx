@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { storedConsent } from "@/lib/consent";
+
 export type Me = { id: string; name: string; email: string };
 
 /** Sign up / log in form (used inside the live chat). */
@@ -17,8 +19,7 @@ export function AccountForm({ onDone }: { onDone: (u: Me) => void }) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault(); setErr(""); setBusy(true);
-    let cookies: string | undefined;
-    try { cookies = localStorage.getItem("vobi-consent") ?? undefined; } catch {}
+    const cookies = storedConsent() ?? undefined;
     try {
       const r = await fetch("/api/account", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: mode, ...f, agree, cookies }) });
       const j = await r.json().catch(() => ({}));
