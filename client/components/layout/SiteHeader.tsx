@@ -130,15 +130,14 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
           </div>
 
           <div className="flex items-center gap-4 xl:hidden">
-          <HeaderAccount className="h-10 w-10" />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-3 text-[17px] font-semibold"
+            className="flex h-10 w-8 items-center justify-center text-[17px] font-semibold"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
-            {open ? "Close" : "Menu"}
+            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span className="flex h-3 w-6 flex-col justify-between">
               <span
                 className={`h-px w-full bg-current transition-transform duration-300 ${open ? "translate-y-[5.5px] rotate-45" : ""}`}
@@ -149,6 +148,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
               />
             </span>
           </button>
+          <HeaderAccount className="h-10 w-10" />
           </div>
         </div>
       </header>
