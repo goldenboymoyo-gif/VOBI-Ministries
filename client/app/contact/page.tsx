@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getSite } from "@/lib/settings";
 import { Masthead } from "@/components/ui/Masthead";
 import { MessageForm } from "@/components/ui/MessageForm";
-import { site, mapsDirectionsUrl } from "@/config/site";
+import { site, whatsappUrl, mapsDirectionsUrl } from "@/config/site";
 import { socialLinks } from "@/config/socialLinks";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const site = await getSite();
-  const tel = (n: string) => `tel:${n.replace(/\s+/g, "")}`;
+  const tel = (n: string) => whatsappUrl(n);
   const cards = [
     { k: "Prayer line", v: site.prayerPhone, href: tel(site.prayerPhone), d: "M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" },
     { k: "Email", v: site.email, href: `mailto:${site.email}`, d: "M3 6h18v12H3zM3 7l9 6 9-6" },

@@ -411,6 +411,12 @@ function ModerationEditor({ notify }: any) {
   );
   return (
     <Panel title="Comments and live chat" intro="Deleting here takes effect straight away. You do not need to press Save.">
+      <Card title={"Prayer requests and messages (" + (d.inquiries || []).length + ")"}>
+        {!(d.inquiries || []).length ? <p className="adm-hint">Nothing yet. Every prayer request and message sent from the website is saved here and also emailed.</p> : (d.inquiries || []).slice().reverse().map((q: any) => (
+          <div className="adm-line" key={q.id}><p style={{ flex: 1 }}><b>{q.kind === "prayer" ? "Prayer request" : "Message"}</b> from {q.name || "Anonymous"}{q.contact ? " (" + q.contact + ")" : ""}{q.subject ? " · " + q.subject : ""}<br />{q.message}<br /><span className="adm-hint">{when(q.at)}</span></p>
+            <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => del({ kind: "inquiry", id: q.id })}>Delete</button></div>
+        ))}
+      </Card>
       <Card title={"Policy reports (" + openReports.length + " open)"}>
         {!openReports.length ? <p className="adm-hint">No open reports. Messages with links or offensive words are flagged here automatically, and viewers can report a message.</p> : openReports.map((r: any) => {
           const u = byId(r.uid);

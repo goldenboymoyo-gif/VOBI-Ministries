@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { CookieSettingsLink } from "@/components/ui/CookieSettingsLink";
 
-import { site, mapsDirectionsUrl } from "@/config/site";
+import { site, whatsappUrl, mapsDirectionsUrl } from "@/config/site";
 import { socialLinks } from "@/config/socialLinks";
 import { getSite } from "@/lib/settings";
 import { Logo } from "@/components/ui/Logo";
@@ -29,7 +29,7 @@ const help = [
 
 export async function SiteFooter() {
   const site = await getSite();
-  const tel = (n: string) => `tel:${n.replace(/\s+/g, "")}`;
+  const tel = (n: string) => whatsappUrl(n);
   return (
     <footer className="gold-wash text-white">
       <div className="shell grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">

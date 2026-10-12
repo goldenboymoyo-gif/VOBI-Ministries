@@ -1,4 +1,5 @@
 import { site } from "@/config/site";
+import { configured, uid, update } from "@/lib/store";
 
 const API = process.env.VOBI_API_URL;
 
@@ -66,6 +67,12 @@ export async function forward(
   kind: InquiryKind,
   payload: Record<string, string>,
 ): Promise<{ status: number; body: unknown }> {
+  // Keep a copy in the admin dashboard so a lost email never loses a request.
+  if (configured()) {
+    try {
+      await update<Inquiry[]>("inquiries.json", [], (d) => [...d, { id: uid(), kind, name: payload.name || "", contact: payload.contact || "", subject: payload.subject || "", message: payload.message || "", at: Date.now() }].slice(-500));
+    } catch {}
+  }
   if (!API) return sendByEmail(kind, payload);
   try {
     const res = await fetch(`${API}/api/${kind === "prayer" ? "prayer-requests" : "contacts"}`, {
@@ -119,3 +126,5 @@ async function sendByEmail(
   } catch {}
   return { status: 503, body: { error: "We could not send that just now. Please call the church instead." } };
 }
+
+export type Inquiry = { id: string; kind: InquiryKind; name: string; contact: string; subject: string; message: string; at: number };

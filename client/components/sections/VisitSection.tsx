@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { site, mapsDirectionsUrl, mapsEmbedUrl } from "@/config/site";
+import { site, whatsappUrl, mapsDirectionsUrl, mapsEmbedUrl } from "@/config/site";
 import { socialLinks } from "@/config/socialLinks";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { ServiceTime } from "@/components/ui/ServiceTime";
@@ -26,7 +26,7 @@ export function VisitSection() {
               </dt>
               <dd className="mt-2">
                 <a
-                  href={`tel:${site.phone.replace(/\s+/g, "")}`}
+                  href={whatsappUrl(site.phone ?? "")}
                   className="link-underline text-[15px] text-paper/85"
                 >
                   {site.phone}
@@ -52,7 +52,7 @@ export function VisitSection() {
               </dt>
               <dd className="mt-2">
                 <a
-                  href={`tel:${site.prayerPhone?.replace(/\s+/g, "")}`}
+                  href={whatsappUrl(site.prayerPhone ?? "")}
                   className="link-underline text-[15px] text-paper/85"
                 >
                   {site.prayerPhone}

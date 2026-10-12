@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { site } from "@/config/site";
+import { site, whatsappUrl } from "@/config/site";
 import { MessageForm } from "@/components/ui/MessageForm";
 
 export function NeedPrayer() {
@@ -24,7 +24,7 @@ export function NeedPrayer() {
             </dt>
             <dd className="mt-2">
               <a
-                href={`tel:${site.prayerPhone.replace(/\s+/g, "")}`}
+                href={whatsappUrl(site.prayerPhone ?? "")}
                 className="link-underline font-display text-[1.5rem] tracking-[-0.02em] text-ink"
               >
                 {site.prayerPhone}
@@ -37,7 +37,7 @@ export function NeedPrayer() {
               Teaching on prayer
             </Link>
             <a
-              href={`tel:${site.prayerPhone.replace(/\s+/g, "")}`}
+              href={whatsappUrl(site.prayerPhone ?? "")}
               className="btn btn-ghost text-ink"
             >
               Call the prayer line

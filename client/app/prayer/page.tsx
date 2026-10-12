@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Masthead } from "@/components/ui/Masthead";
 import { MessageForm } from "@/components/ui/MessageForm";
-import { site } from "@/config/site";
+import { site, whatsappUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Prayer",
@@ -65,7 +65,7 @@ export default function PrayerPage() {
                   </dt>
                   <dd className="mt-2">
                     <a
-                      href={`tel:${site.prayerPhone.replace(/\s+/g, "")}`}
+                      href={whatsappUrl(site.prayerPhone ?? "")}
                       className="link-underline font-display text-[1.5rem] tracking-[-0.02em] text-ink"
                     >
                       {site.prayerPhone}

@@ -79,3 +79,6 @@ export function mapsEmbedUrl(): string {
   const { lat, lng } = site.coordinates;
   return `https://maps.google.com/maps?q=${lat},${lng}&z=16&output=embed`;
 }
+
+/** Opens a WhatsApp chat with the number (instead of the phone dialler). */
+export const whatsappUrl = (n: string) => `https://wa.me/${n.replace(/\D+/g, "")}`;

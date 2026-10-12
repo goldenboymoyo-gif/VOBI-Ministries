@@ -2,18 +2,19 @@ import { NextResponse } from "next/server";
 
 import { isAdmin } from "@/lib/adminAuth";
 import { load, update, type Comment, type Msg } from "@/lib/store";
+import type { Inquiry } from "@/lib/inquiry";
 import type { User } from "@/lib/userAuth";
 import type { Report } from "@/app/api/chat/report/route";
 
 export async function GET(req: Request) {
   if (!isAdmin(req)) return NextResponse.json({ error: "No" }, { status: 401 });
-  const [comments, chat, likes, users, reports] = await Promise.all([
+  const [comments, chat, likes, users, reports, inquiries] = await Promise.all([
     load<Record<string, Comment[]>>("comments.json", {}), load<Msg[]>("chat.json", []), load<Record<string, number>>("likes.json", {}),
-    load<User[]>("users.json", []), load<Report[]>("reports.json", []),
+    load<User[]>("users.json", []), load<Report[]>("reports.json", []), load<Inquiry[]>("inquiries.json", []),
   ]);
   // Never send password hashes to the browser.
   const members = users.map(({ salt: _s, hash: _h, ...u }) => u);
-  return NextResponse.json({ comments, chat, likes, users: members, reports });
+  return NextResponse.json({ comments, chat, likes, users: members, reports, inquiries });
 }
 
 export async function DELETE(req: Request) {
@@ -22,6 +23,7 @@ export async function DELETE(req: Request) {
   if (kind === "comment" && video && id) await update<Record<string, Comment[]>>("comments.json", {}, (d) => ({ ...d, [video]: (d[video] ?? []).filter((c) => c.id !== id) }));
   else if (kind === "chat" && id) await update<Msg[]>("chat.json", [], (d) => d.filter((m) => m.id !== id));
   else if (kind === "chat-all") await update<Msg[]>("chat.json", [], () => []);
+  else if (kind === "inquiry" && id) await update<Inquiry[]>("inquiries.json", [], (d) => d.filter((r) => r.id !== id));
   else if (kind === "report" && id) await update<Report[]>("reports.json", [], (d) => d.filter((r) => r.id !== id));
   else return NextResponse.json({ error: "Bad request" }, { status: 400 });
   return NextResponse.json({ ok: true });

@@ -4,7 +4,7 @@ import { getSettings, getSite } from "@/lib/settings";
 import { PageNote } from "@/components/ui/PageNote";
 import { Masthead } from "@/components/ui/Masthead";
 import { Split } from "@/components/ui/Split";
-import { site } from "@/config/site";
+import { site, whatsappUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Give & Partner",
@@ -25,7 +25,7 @@ export default async function GivePage() {
       <PageNote text={notes.give} />
       <section className="bg-ink py-16 text-paper md:py-20">
         <div className="shell flex flex-wrap items-center gap-4">
-          <a href={`tel:${site.phone.replace(/\s+/g, "")}`} className="btn btn-gold">Call {site.phone}</a>
+          <a href={whatsappUrl(site.phone ?? "")} className="btn btn-gold">WhatsApp {site.phone}</a>
           <a href={`mailto:${site.email}`} className="btn btn-ghost">Email us</a>
         </div>
       </section>

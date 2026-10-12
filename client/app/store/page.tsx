@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { getSettings, getSite } from "@/lib/settings";
 import { PageNote } from "@/components/ui/PageNote";
 import { Masthead } from "@/components/ui/Masthead";
-import { site } from "@/config/site";
+import { site, whatsappUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Store",
@@ -24,7 +24,7 @@ export default async function StorePage() {
           <p className="mt-5 text-lg text-muted">We are preparing sermon resources and VOBI merchandise. Message us and we will tell you the moment it opens.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href={`mailto:${site.email}?subject=VOBI%20Store`} className="btn btn-ink">Email us</a>
-            <a href={`tel:${site.phone.replace(/\s+/g, "")}`} className="btn btn-ghost text-ink">Call</a>
+            <a href={whatsappUrl(site.phone ?? "")} className="btn btn-ghost text-ink">WhatsApp</a>
           </div>
         </div>
       </section>
