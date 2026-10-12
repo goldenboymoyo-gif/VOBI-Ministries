@@ -40,7 +40,7 @@ export function NeedPrayer() {
               href={whatsappUrl(site.prayerPhone ?? "")}
               className="btn btn-ghost text-ink"
             >
-              Call the prayer line
+              WhatsApp the prayer line
             </a>
           </div>
         </div>
