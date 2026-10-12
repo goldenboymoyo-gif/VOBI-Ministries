@@ -85,7 +85,7 @@ export function VideoPlayer({ id, title, poster, next }: { id: string; title: st
       h.appendChild(el);
       player.current = new window.YT.Player(el, {
         videoId: id,
-        playerVars: { controls: 0, rel: 0, modestbranding: 1, iv_load_policy: 3, disablekb: 1, fs: 0, playsinline: 1 },
+        playerVars: { controls: 0, rel: 0, modestbranding: 1, iv_load_policy: 3, disablekb: 1, fs: 0, playsinline: 1, origin: window.location.origin, enablejsapi: 1 },
         events: {
           onReady: () => { window.clearTimeout(failTimer); setReady(true); if (wantPlay.current) player.current?.playVideo(); },
           onStateChange: (e: { data: number }) => {

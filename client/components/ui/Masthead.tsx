@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { BackButton } from "@/components/ui/BackButton";
+
 type Crumb = { label: string; href?: string };
 
 type Props = {
@@ -21,6 +23,7 @@ export function Masthead({ eyebrow, title, intro, crumbs = [], meta, image = "/p
         <div className="absolute inset-0 bg-ink/65" />
       </div>
       <div className="shell relative pb-14 pt-36 md:pb-20 md:pt-44">
+        <BackButton />
         {crumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm italic text-white/70">
             {crumbs.map((c, i) => (

@@ -34,19 +34,19 @@ export function LiveGate() {
 
   if (live) {
     return (
-      <div className="rounded-2xl bg-[#0f0f0f] p-2 text-white shadow-xl sm:p-3 md:p-5">
+      <div className="bg-[#0f0f0f] text-white md:rounded-2xl md:p-5 md:shadow-xl">
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_380px]">
           <div>
             <LivePlayer src={src} title={yt?.title || "VOBI live service"} />
-            <h2 className="mt-4 text-lg font-bold leading-snug md:text-xl">{yt?.title || "VOBI Sunday Service"}</h2>
-            <p className="mt-2 inline-flex items-center gap-2 text-sm text-white/70">
+            <h2 className="mt-3 px-3 text-lg font-bold leading-snug md:text-xl">{yt?.title || "VOBI Sunday Service"}</h2>
+            <p className="mt-2 inline-flex px-3 md:px-0 items-center gap-2 text-sm text-white/70">
               <span className="inline-flex items-center gap-1.5 rounded bg-red-600 px-2 py-0.5 text-xs font-bold uppercase text-white"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> Live</span>
               Valley of Blessings International Ministries
             </p>
           </div>
           <LiveChat session={yt?.live && yt.id ? yt.id : "live"} className="h-[280px] lg:h-auto lg:max-h-[520px] lg:min-h-[360px]" />
         </div>
-        <Engage videoId={yt?.live && yt.id ? yt.id : "live"} dark className="mt-6" />
+        <Engage videoId={yt?.live && yt.id ? yt.id : "live"} dark className="mt-4 px-3 pb-6 md:mt-6 md:px-0 md:pb-0" />
       </div>
     );
   }
