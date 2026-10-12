@@ -1,5 +1,6 @@
 "use client";
 
+import { LivePlayer } from "@/components/ui/LivePlayer";
 import { useEffect, useState } from "react";
 
 import { Countdown, nextService } from "@/components/ui/Countdown";
@@ -33,25 +34,17 @@ export function LiveGate() {
 
   if (live) {
     return (
-      <div className="rounded-2xl bg-[#0f0f0f] p-3 text-white md:p-5">
+      <div className="rounded-2xl bg-[#0f0f0f] p-2 text-white shadow-xl sm:p-3 md:p-5">
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_380px]">
           <div>
-            <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black">
-              <iframe
-                className="absolute inset-0 h-full w-full border-0"
-                src={src}
-                title={yt?.title || "VOBI live service"}
-                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                allowFullScreen
-              />
-            </div>
+            <LivePlayer src={src} title={yt?.title || "VOBI live service"} />
             <h2 className="mt-4 text-lg font-bold leading-snug md:text-xl">{yt?.title || "VOBI Sunday Service"}</h2>
             <p className="mt-2 inline-flex items-center gap-2 text-sm text-white/70">
               <span className="inline-flex items-center gap-1.5 rounded bg-red-600 px-2 py-0.5 text-xs font-bold uppercase text-white"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> Live</span>
               Valley of Blessings International Ministries
             </p>
           </div>
-          <LiveChat className="h-[460px] lg:h-auto lg:max-h-[640px] lg:min-h-[420px]" />
+          <LiveChat className="h-[280px] lg:h-auto lg:max-h-[520px] lg:min-h-[360px]" />
         </div>
         <Engage videoId="live" dark className="mt-6" />
       </div>

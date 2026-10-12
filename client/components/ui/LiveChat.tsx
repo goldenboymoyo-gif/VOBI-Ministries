@@ -23,7 +23,7 @@ export function LiveChat({ className = "" }: { className?: string }) {
       try {
         const r = await fetch("/api/chat", { cache: "no-store" });
         if (!r.ok) return setOff(true);
-        const j = await r.json(); if (!dead) setMsgs(j.messages);
+        const j = await r.json(); if (!dead) setMsgs((j.messages as M[]).filter((m) => !/^test$/i.test(m.name.trim()) && !/backend test/i.test(m.text)));
       } catch {}
     }
     void pull();
