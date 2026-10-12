@@ -87,6 +87,7 @@ export function SermonLibrary({ sermons }: { sermons: Sermon[] }) {
         <label className="block w-full lg:w-72">
           <span className="sr-only">Search messages</span>
           <input
+            id="sermon-search" name="q"
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

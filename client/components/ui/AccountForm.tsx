@@ -31,13 +31,13 @@ export function AccountForm({ onDone }: { onDone: (u: Me) => void }) {
   return (
     <form onSubmit={submit} className="space-y-2.5 p-4">
       <p className="text-sm font-semibold">{mode === "signup" ? "Create your VOBI account to join the chat" : "Log in to join the chat"}</p>
-      {mode === "signup" && <input className={input} placeholder="Full name" value={f.name} onChange={set("name")} maxLength={40} autoComplete="name" required />}
-      <input className={input} type="email" placeholder="Email address" value={f.email} onChange={set("email")} autoComplete="email" required />
-      {mode === "signup" && <input className={input} type="tel" placeholder="Phone (optional)" value={f.phone} onChange={set("phone")} autoComplete="tel" />}
-      <input className={input} type="password" placeholder="Password (8+ characters)" value={f.password} onChange={set("password")} autoComplete={mode === "signup" ? "new-password" : "current-password"} minLength={8} required />
+      {mode === "signup" && <input className={input} id="acc-name" name="name" placeholder="Full name" value={f.name} onChange={set("name")} maxLength={40} autoComplete="name" required />}
+      <input className={input} id="acc-email" name="email" type="email" placeholder="Email address" value={f.email} onChange={set("email")} autoComplete="email" required />
+      {mode === "signup" && <input className={input} id="acc-phone" name="phone" type="tel" placeholder="Phone (optional)" value={f.phone} onChange={set("phone")} autoComplete="tel" />}
+      <input className={input} id="acc-password" name="password" type="password" placeholder="Password (8+ characters)" value={f.password} onChange={set("password")} autoComplete={mode === "signup" ? "new-password" : "current-password"} minLength={8} required />
       {mode === "signup" && (
         <label className="flex items-start gap-2 text-xs leading-snug text-white/70">
-          <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0" />
+          <input id="acc-agree" name="agree" type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0" />
           <span>I accept the <Link href="/privacy" target="_blank" className="underline">Privacy Policy</Link> and agree to keep the chat respectful. Messages that break the rules are reported to the ministry, which may contact me.</span>
         </label>
       )}

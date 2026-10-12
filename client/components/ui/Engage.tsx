@@ -76,8 +76,8 @@ export function Engage({ videoId, className = "", dark = false }: { videoId: str
       <form onSubmit={send} className="mt-4 flex gap-3">
         <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold ${dark ? "bg-white/15" : "bg-gold-bright text-ink"}`}>{(name || "G").slice(0, 1).toUpperCase()}</span>
         <div className="min-w-0 flex-1">
-          <input value={hp} onChange={(e) => setHp(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
-          <input value={text} onChange={(e) => setText(e.target.value)} onFocus={() => setOpen(true)} maxLength={500} placeholder="Add a comment…" className={`w-full border-b bg-transparent px-0 py-2 text-sm outline-none ${field}`} />
+          <input name="website" value={hp} onChange={(e) => setHp(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
+          <input id={`comment-${videoId}`} name="comment" aria-label="Add a comment" value={text} onChange={(e) => setText(e.target.value)} onFocus={() => setOpen(true)} maxLength={500} placeholder="Add a comment…" className={`w-full border-b bg-transparent px-0 py-2 text-sm outline-none ${field}`} />
           {open && (
             <div className="mt-3 flex items-center justify-end gap-2">
               {err && <p className="mr-auto text-sm text-red-500">{err}</p>}

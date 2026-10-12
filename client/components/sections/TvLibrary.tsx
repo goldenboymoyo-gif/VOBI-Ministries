@@ -47,7 +47,7 @@ export function TvLibrary({ items }: { items: TvCard[] }) {
         </Link>
       </div>
 
-      <input type="search" value={q} onChange={(e) => { setQ(e.target.value); setShown(12); }} placeholder="Search by title, name or year"
+      <input id="tv-search" name="q" type="search" value={q} onChange={(e) => { setQ(e.target.value); setShown(12); }} placeholder="Search by title, name or year"
         className="mt-6 w-full rounded-xl border border-line bg-white px-4 py-3 text-base outline-none focus:border-gold md:max-w-md" aria-label="Search videos" />
       <ul className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {list.slice(0, shown).map((i) => (

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Fraunces } from "next/font/google";
+import { Archivo } from "next/font/google";
 
 import { site } from "@/config/site";
 import { MotionProvider } from "@/components/motion/MotionProvider";
@@ -9,12 +9,6 @@ import { CookieBanner } from "@/components/ui/CookieBanner";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { getSettings } from "@/lib/settings";
 import "./globals.css";
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-});
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -100,7 +94,7 @@ const jsonLd = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const settings = await getSettings();
   return (
-    <html lang="en" className={`${fraunces.variable} ${archivo.variable} h-full`} suppressHydrationWarning>
+    <html lang="en" className={`${archivo.variable} h-full`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>

@@ -64,10 +64,17 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
   const [flash, setFlash] = useState("");
   const [nativeFs, setNativeFs] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [go, setGo] = useState(false);
 
   // Build the player as soon as the page loads, so pressing play is instant.
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("autoplay") === "1") { wantPlay.current = true; setBusy(true); }
+    if (new URLSearchParams(window.location.search).get("autoplay") === "1") { wantPlay.current = true; setBusy(true); setGo(true); return; }
+    // Load YouTube's player script only when the visitor interacts (or after a few idle seconds), so the page itself loads fast.
+    const start = () => setGo(true);
+    const evs = ["pointerdown", "touchstart", "scroll", "keydown", "mousemove"] as const;
+    evs.forEach((e) => window.addEventListener(e, start, { once: true, passive: true }));
+    const t = window.setTimeout(start, 8000);
+    return () => { window.clearTimeout(t); evs.forEach((e) => window.removeEventListener(e, start)); };
   }, []);
 
   // After a video ends, count down and move to the next one.
@@ -79,6 +86,7 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
   }, [left, next, router]);
 
   useEffect(() => {
+    if (!go) return;
     let dead = false;
     const h = host.current;
     // If the custom player cannot start (blocked script, slow network), switch to the standard YouTube player.
@@ -104,7 +112,7 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
     });
     return () => { dead = true; window.clearTimeout(failTimer); try { player.current?.destroy(); } catch {} player.current = null; if (h) h.innerHTML = ""; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, attempt]);
+  }, [id, attempt, go]);
 
   useEffect(() => {
     const on = () => {
@@ -138,7 +146,7 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
   function toggle() {
     poke();
     const p = player.current;
-    if (!p || !ready) { wantPlay.current = true; setBusy(true); return; }
+    if (!p || !ready) { wantPlay.current = true; setBusy(true); setGo(true); return; }
     if (playing) p.pauseVideo(); else p.playVideo();
   }
 
@@ -203,7 +211,7 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
       <button type="button" aria-label={playing ? `Pause ${title}` : `Play ${title}`} onClick={tap} className="absolute inset-0 z-10 cursor-pointer touch-manipulation" />
       {!started && (
         <div className="pointer-events-none absolute inset-0 z-20 bg-black">
-          {poster && <Image src={poster} alt={title} fill sizes="100vw" className="object-cover opacity-80" />}
+          {poster && <Image src={poster} alt={title} fill priority sizes="(min-width: 1120px) 1120px, 100vw" className="object-cover opacity-80" />}
           <span className="absolute inset-0 grid place-items-center">
             <span className="grid h-20 w-20 place-items-center rounded-full bg-gold-bright text-ink shadow-xl">
               {busy ? <span className="h-8 w-8 animate-spin rounded-full border-4 border-ink/30 border-t-ink" /> :
@@ -233,7 +241,7 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
       )}
       {started && (
         <div className={`absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-black/85 to-transparent px-3 pb-2 pt-10 text-white transition-opacity duration-300 md:px-4 ${showUi ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-          {!live && <input type="range" min={0} max={dur || 1} step={1} value={Math.min(t, dur || 1)} aria-label="Seek"
+          {!live && <input id="seek" name="seek" type="range" min={0} max={dur || 1} step={1} value={Math.min(t, dur || 1)} aria-label="Seek"
             onChange={(e) => { const v = Number(e.target.value); setT(v); player.current?.seekTo(v, true); poke(); }}
             className="h-1.5 w-full cursor-pointer accent-[#e6c453]" />}
           <div className="mt-1 flex items-center gap-1">

@@ -88,7 +88,7 @@ export function LiveChat({ className = "", session = "live" }: { className?: str
         <form onSubmit={send} className="border-t border-white/15 p-3">
           <p className="mb-2 text-xs text-white/50">Chatting as <b className="text-white/80">{me.name}</b> · <button type="button" onClick={logout} className="underline">log out</button></p>
           <div className="flex items-center gap-2">
-            <input value={text} onChange={(e) => setText(e.target.value)} maxLength={200} placeholder="Chat…" className="min-w-0 flex-1 rounded-full bg-white/10 px-4 py-2.5 text-sm outline-none placeholder:text-white/40 focus:bg-white/15" />
+            <input id="live-chat-input" name="chat" aria-label="Chat message" value={text} onChange={(e) => setText(e.target.value)} maxLength={200} placeholder="Chat…" className="min-w-0 flex-1 rounded-full bg-white/10 px-4 py-2.5 text-sm outline-none placeholder:text-white/40 focus:bg-white/15" />
             <button type="submit" disabled={!text.trim()} aria-label="Send" className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 disabled:opacity-40">
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden><path d="M2 21l21-9L2 3v7l15 2-15 2z" /></svg>
             </button>
