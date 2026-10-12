@@ -17,29 +17,28 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const conn = (navigator as { connection?: { effectiveType?: string; saveData?: boolean; downlink?: number } }).connection;
-    // Only start the (large) video on a reasonably fast connection. Slow or data-saving visitors keep the light photo.
-    const fast = !conn || (conn.effectiveType === undefined || conn.effectiveType === "4g") && (conn.downlink === undefined || conn.downlink >= 2);
-    if (reduced || conn?.saveData || !fast) return;
-    let id = 0;
-    const start = () => { id = window.setTimeout(() => setShowVideo(true), 300); };
-    // Let the page and photo finish loading first, so the video never competes with them.
-    if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
-    return () => { window.clearTimeout(id); window.removeEventListener("load", start); };
+    if (reduced) return;
+    // Start straight away on every connection; the photo shows until the first frame plays.
+    const id = window.setTimeout(() => setShowVideo(true), 50);
+    return () => window.clearTimeout(id);
   }, []);
 
   // Browsers sometimes pause autoplay (tab in background, power saving, slow start). Keep nudging it to play.
   useEffect(() => {
     const v = vid.current;
     if (!showVideo || !v) return;
-    v.muted = true;
+    v.muted = true; v.defaultMuted = true; v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
     const go = () => { if (v.paused) v.play().catch(() => {}); };
+    // Phones in power-saving mode only allow autoplay after a touch: retry on the first interaction.
+    const kick = () => go();
+    (['touchstart', 'pointerdown', 'scroll', 'click', 'keydown'] as const).forEach((e) => window.addEventListener(e, kick, { once: true, passive: true }));
     go();
     const iv = window.setInterval(go, 2000);
     const vis = () => { if (document.visibilityState === "visible") go(); };
     document.addEventListener("visibilitychange", vis);
     v.addEventListener("loadeddata", go); v.addEventListener("canplay", go); v.addEventListener("stalled", go); v.addEventListener("pause", go);
     return () => {
+      (['touchstart', 'pointerdown', 'scroll', 'click', 'keydown'] as const).forEach((e) => window.removeEventListener(e, kick));
       window.clearInterval(iv); document.removeEventListener("visibilitychange", vis);
       v.removeEventListener("loadeddata", go); v.removeEventListener("canplay", go); v.removeEventListener("stalled", go); v.removeEventListener("pause", go);
     };
@@ -53,7 +52,7 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
           fill priority sizes="100vw" quality={82} className={`${ready ? "" : "kenburns"} object-cover object-center`} />
         {showVideo && videoFile && (
           <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover object-center transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
-            src={videoFile} autoPlay muted loop playsInline preload="auto" disablePictureInPicture aria-hidden="true" onPlaying={() => setReady(true)} />
+            src={videoFile} autoPlay muted loop playsInline preload="auto" poster={image || "/photos/hero.jpg"} onError={() => { window.setTimeout(() => vid.current?.load(), 1500); }} disablePictureInPicture aria-hidden="true" onPlaying={() => setReady(true)} />
         )}
         {showVideo && !videoFile && (
           <iframe
