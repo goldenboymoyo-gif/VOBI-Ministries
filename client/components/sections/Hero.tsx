@@ -79,7 +79,7 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
             {site.fullName}
           </h1>
           <p className="mt-3 border-l-4 border-gold-bright pl-3 text-sm font-semibold italic text-white md:mt-4 md:pl-4 md:text-xl">Because of Christ, we are saved.</p>
-          <div className="mt-4 flex flex-wrap gap-2 md:mt-6 md:gap-3 [&_.btn]:!px-4 [&_.btn]:!py-2 [&_.btn]:text-sm md:[&_.btn]:!px-[revert] md:[&_.btn]:!py-[revert] md:[&_.btn]:text-[length:revert]">
+          <div className="mt-5 flex flex-wrap gap-3 md:mt-6">
             <Link href="/live" className="btn btn-gold">Watch Live</Link>
             <Link href="/visit" className="btn btn-ghost">Visit Us</Link>
           </div>

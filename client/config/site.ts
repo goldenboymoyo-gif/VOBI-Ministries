@@ -66,6 +66,7 @@ export const nav: { label: string; href: string; children?: { label: string; hre
 ];
 
 export const navActions = [
+  { label: "Sign in", href: "/account", variant: "ghost" as const },
   { label: "Watch Live", href: "/live", variant: "ghost" as const },
   { label: "Plan Your Visit", href: "/visit", variant: "solid" as const },
 ];
