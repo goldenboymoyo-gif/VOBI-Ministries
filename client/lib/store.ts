@@ -36,7 +36,7 @@ export async function update<T>(file: string, fallback: T, fn: (d: T) => T): Pro
 }
 
 export type Comment = { id: string; name: string; text: string; at: number };
-export type Msg = { id: string; name: string; text: string; at: number };
+export type Msg = { id: string; name: string; text: string; at: number; s?: string };
 
 export const clean = (s: unknown, max: number) => String(s ?? "").replace(/[\u0000-\u001f]+/g, " ").trim().slice(0, max);
 export const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);

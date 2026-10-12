@@ -44,9 +44,9 @@ export function LiveGate() {
               Valley of Blessings International Ministries
             </p>
           </div>
-          <LiveChat className="h-[280px] lg:h-auto lg:max-h-[520px] lg:min-h-[360px]" />
+          <LiveChat session={yt?.live && yt.id ? yt.id : "live"} className="h-[280px] lg:h-auto lg:max-h-[520px] lg:min-h-[360px]" />
         </div>
-        <Engage videoId="live" dark className="mt-6" />
+        <Engage videoId={yt?.live && yt.id ? yt.id : "live"} dark className="mt-6" />
       </div>
     );
   }

@@ -68,12 +68,12 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
-      <div className="shell relative py-6 md:flex md:h-full md:items-end md:pb-24 md:pt-0">
+      <div className="shell relative -mt-16 pb-6 md:mt-0 md:py-0 md:flex md:h-full md:items-end md:pb-24 md:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.9, ease }}
-          className="max-w-xl rounded-2xl bg-ink/65 p-5 md:p-8"
+          className="max-w-xl rounded-2xl bg-ink/80 p-5 shadow-2xl backdrop-blur-sm md:bg-ink/65 md:p-8"
         >
           <p className="text-2xl font-light italic">Welcome to</p>
           <h1 className="mt-2 text-[clamp(1.5rem,3.2vw,2.5rem)] font-extrabold uppercase leading-tight text-gold-bright">

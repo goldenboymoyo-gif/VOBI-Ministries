@@ -7,7 +7,7 @@ type M = { id: string; name: string; text: string; at: number };
 const hue = (s: string) => { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
 
 /** YouTube-style live chat panel. Messages are saved on this site. */
-export function LiveChat({ className = "" }: { className?: string }) {
+export function LiveChat({ className = "", session = "live" }: { className?: string; session?: string }) {
   const [msgs, setMsgs] = useState<M[]>([]);
   const [off, setOff] = useState(false);
   const [name, setName] = useState("");
@@ -17,11 +17,12 @@ export function LiveChat({ className = "" }: { className?: string }) {
   const box = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMsgs([]);
     try { setName(localStorage.getItem("vobi-name") ?? ""); } catch {}
     let dead = false;
     async function pull() {
       try {
-        const r = await fetch("/api/chat", { cache: "no-store" });
+        const r = await fetch(`/api/chat?s=${encodeURIComponent(session)}`, { cache: "no-store" });
         if (!r.ok) return setOff(true);
         const j = await r.json(); if (!dead) setMsgs((j.messages as M[]).filter((m) => !/^test$/i.test(m.name.trim()) && !/backend test/i.test(m.text)));
       } catch {}
@@ -29,7 +30,7 @@ export function LiveChat({ className = "" }: { className?: string }) {
     void pull();
     const iv = window.setInterval(pull, 3000);
     return () => { dead = true; window.clearInterval(iv); };
-  }, []);
+  }, [session]);
 
   useEffect(() => { box.current?.scrollTo({ top: box.current.scrollHeight }); }, [msgs.length]);
 
@@ -37,7 +38,7 @@ export function LiveChat({ className = "" }: { className?: string }) {
     e.preventDefault(); const t = text.trim(); if (!t) return;
     if (!name.trim()) { setEditing(true); return; }
     setText(""); setErr("");
-    const r = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, text: t }) });
+    const r = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, text: t, s: session }) });
     const j = await r.json().catch(() => ({}));
     if (r.ok && j.message) setMsgs((m) => [...m, j.message]); else setErr(j.error ?? "Could not send");
   }
