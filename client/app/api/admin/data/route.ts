@@ -8,13 +8,13 @@ import type { Report } from "@/app/api/chat/report/route";
 
 export async function GET(req: Request) {
   if (!isAdmin(req)) return NextResponse.json({ error: "No" }, { status: 401 });
-  const [comments, chat, likes, users, reports, inquiries] = await Promise.all([
+  const [comments, chat, likes, users, reports, inquiries, visits] = await Promise.all([
     load<Record<string, Comment[]>>("comments.json", {}), load<Msg[]>("chat.json", []), load<Record<string, number>>("likes.json", {}),
-    load<User[]>("users.json", []), load<Report[]>("reports.json", []), load<Inquiry[]>("inquiries.json", []),
+    load<User[]>("users.json", []), load<Report[]>("reports.json", []), load<Inquiry[]>("inquiries.json", []), load<Record<string, unknown>>("visits.json", {}),
   ]);
   // Never send password hashes to the browser.
   const members = users.map(({ salt: _s, hash: _h, ...u }) => u);
-  return NextResponse.json({ comments, chat, likes, users: members, reports, inquiries });
+  return NextResponse.json({ comments, chat, likes, users: members, reports, inquiries, visits: Object.fromEntries(Object.entries(visits as Record<string, { seen?: string[] }>).map(([k, v]) => { const { seen: _s, ...rest } = v; return [k, rest]; })) });
 }
 
 export async function DELETE(req: Request) {

@@ -16,6 +16,7 @@ const sections = [
     body: [
       "This website collects what you choose to type into its contact and prayer request forms (your name, contact details and message), and the name and text you enter if you post a comment or a live chat message.",
       "If you create an account to use the live chat, we store your name, email address, optional phone number and a securely scrambled (hashed) password, plus your cookie choice. This lets the ministry contact you if a message breaks the community rules.",
+      "We count visits anonymously so the ministry can see how many people visit: one count per visitor per day, the page they arrived on and the site they came from. No cookies are used for this and no names or IP addresses are stored.",
       "The website does not use advertising trackers, profiling cookies or analytics scripts. Our hosting provider keeps standard server logs (such as IP address and pages requested) for security and reliability.",
     ],
   },

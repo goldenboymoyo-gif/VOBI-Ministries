@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { nav, navActions } from "@/config/site";
 import { socialLinks } from "@/config/socialLinks";
 import { Logo } from "@/components/ui/Logo";
+import { HeaderAccount } from "@/components/ui/HeaderAccount";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 
 export function SiteHeader({ menu }: { menu?: { label: string; href: string; children?: { label: string; href: string }[] }[] }) {
@@ -125,12 +126,15 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                 {a.label}
               </Link>
             ))}
+            <HeaderAccount />
           </div>
 
+          <div className="flex items-center gap-4 xl:hidden">
+          <HeaderAccount className="h-10 w-10" />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-3 text-[17px] font-semibold xl:hidden"
+            className="flex items-center gap-3 text-[17px] font-semibold"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
@@ -145,6 +149,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
               />
             </span>
           </button>
+          </div>
         </div>
       </header>
 
@@ -199,6 +204,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
 
             <div className="space-y-6">
               <div className="flex flex-col gap-3">
+                <Link href="/account" onClick={closeMenu} className="btn btn-ghost justify-center">Sign in / Sign up</Link>
                 {navActions.map((a) => (
                   <Link
                     key={a.href}

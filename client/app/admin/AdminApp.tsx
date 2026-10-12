@@ -386,6 +386,39 @@ function MenuEditor({ c, set }: any) {
   );
 }
 
+function VisitorsPanel({ notify }: any) {
+  const [d, setD] = useState<any>(null);
+  useEffect(() => { api("/api/admin/data").then(setD).catch((e: any) => notify(e.message, "error")); }, [notify]);
+  if (!d) return <div className="adm-loading">Loading…</div>;
+  const v: Record<string, any> = d.visits || {};
+  const days = Object.keys(v).sort();
+  const sum = (n: number) => days.slice(-n).reduce((t, k) => t + (v[k].visitors || 0), 0);
+  const today = new Date(Date.now() + 2 * 3600000).toISOString().slice(0, 10);
+  const all = days.reduce((t, k) => t + v[k].visitors, 0);
+  const mob = days.reduce((t, k) => t + v[k].mobile, 0);
+  const top = (key: string) => { const m: Record<string, number> = {}; days.forEach((k) => Object.entries(v[k][key] || {}).forEach(([p, n]) => { m[p] = (m[p] || 0) + (n as number); })); return Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, 8); };
+  const max = Math.max(1, ...days.slice(-14).map((k) => v[k].visitors));
+  return (
+    <Panel title="Visitors" intro="Anonymous visit counts. No names, cookies or IP addresses are stored. Each person is counted once a day.">
+      <Card title="Summary">
+        <p>Today: <b>{v[today]?.visitors || 0}</b> · Last 7 days: <b>{sum(7)}</b> · Last 30 days: <b>{sum(30)}</b> · Members signed up: <b>{(d.users || []).length}</b></p>
+        <p className="adm-hint">On phones: {all ? Math.round((mob / all) * 100) : 0}% of visitors.</p>
+      </Card>
+      <Card title="Last 14 days">
+        {!days.length ? <p className="adm-hint">No visits recorded yet. Counting starts after this update goes live.</p> : days.slice(-14).reverse().map((k) => (
+          <div key={k} style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0" }}>
+            <span style={{ width: 90 }} className="adm-hint">{k}</span>
+            <span style={{ height: 10, borderRadius: 5, background: "#d9c27a", width: Math.max(4, (v[k].visitors / max) * 60) + "%" }} />
+            <b>{v[k].visitors}</b>
+          </div>
+        ))}
+      </Card>
+      <Card title="Where visitors start">{top("entry").map(([p, n]) => <p key={p}>{p}: {n}</p>)}</Card>
+      <Card title="Where visitors come from">{top("from").map(([p, n]) => <p key={p}>{p}: {n}</p>)}</Card>
+    </Panel>
+  );
+}
+
 function ModerationEditor({ notify }: any) {
   const [d, setD] = useState<any>(null);
   const [open, setOpen] = useState<string | null>(null);
@@ -489,9 +522,9 @@ function Overview({ session, c, go }: any) {
 
 const TABS: [string, string][] = [
   ["overview", "Dashboard"], ["home", "Homepage"], ["videos", "VOBI TV videos"], ["events", "Events & Gatherings"], ["about", "About page"],
-  ["ministries", "Ministries"], ["contact", "Contact details"], ["menu", "Menu & pages"], ["moderation", "Comments & chat"],
+  ["ministries", "Ministries"], ["contact", "Contact details"], ["menu", "Menu & pages"], ["visitors", "Visitors"], ["moderation", "Comments & chat"],
 ];
-const ICONS: Record<string, string> = { overview: "▦", home: "⌂", videos: "▶", events: "▤", about: "✎", ministries: "♥", contact: "☎", menu: "☰", moderation: "✉" };
+const ICONS: Record<string, string> = { overview: "▦", home: "⌂", videos: "▶", events: "▤", about: "✎", ministries: "♥", contact: "☎", menu: "☰", moderation: "✉", visitors: "◔" };
 
 function MediaLibrary({ notify }: { notify: (t: string, k?: string) => void }) {
   const [files, setFiles] = useState<{ name: string; url: string; size: number }[]>([]);
@@ -611,6 +644,7 @@ export default function AdminApp() {
             {tab === "ministries" ? <MinistriesEditor {...p} /> : null}
             {tab === "contact" ? <ContactEditor {...p} /> : null}
             {tab === "menu" ? <MenuEditor {...p} /> : null}
+            {tab === "visitors" ? <VisitorsPanel notify={notify} /> : null}
             {tab === "moderation" ? <ModerationEditor notify={notify} /> : null}
           </>) : null}
         </main>
