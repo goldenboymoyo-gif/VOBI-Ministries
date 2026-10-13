@@ -16,7 +16,7 @@ const archivo = Archivo({
   display: "swap",
 });
 
-const SITE_URL = "https://vobi-ministries-two.vercel.app";
+const SITE_URL = "https://www.vobiministries.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -34,6 +34,11 @@ export const metadata: Metadata = {
     "VOBI",
     "church Victoria Falls",
     "Sermons Zimbabwe",
+    "church in Victoria Falls",
+    "VOBI Ministries live",
+    "Valley of Blessings Victoria Falls",
+    "prayer line Zimbabwe",
+    "Prophet Promise sermons",
   ],
   openGraph: {
     type: "website",
