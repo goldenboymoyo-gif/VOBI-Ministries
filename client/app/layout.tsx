@@ -21,7 +21,7 @@ const SITE_URL = "https://www.vobiministries.org";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${site.fullName}, ${site.city}, ${site.country}`,
+    default: `VOBI Ministries | ${site.fullName}, ${site.city}, ${site.country}`,
     template: `%s, ${site.shortName}`,
   },
   description: `${site.fullName} (VOBI) in ${site.city}, ${site.country}. Sunday services, sermons, prayer and testimonies with Prophet Promise. Watch services live and plan your visit.`,
