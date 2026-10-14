@@ -1,6 +1,6 @@
 import "server-only";
 
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 import { site } from "@/config/site";
 import { configured, load } from "@/lib/store";
@@ -32,7 +32,7 @@ export type Settings = {
 /** Content edited from the admin page, kept in the VOBI-Data repo. Falls back to nothing when not set up. */
 export async function getSettings(): Promise<Settings> {
   "use cache";
-  cacheLife({ stale: 30, revalidate: 60, expire: 3600 });
+  cacheLife({ stale: 30, revalidate: 30, expire: 3600 }); cacheTag("site");
   if (!configured()) return {};
   try {
     const [s, imported] = await Promise.all([load<Settings>("settings.json", {}), load<VideoEntry[]>("tv.json", [])]);

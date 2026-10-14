@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { isAdmin } from "@/lib/adminAuth";
+import { refreshSite } from "@/lib/refresh";
 import { clean, update } from "@/lib/store";
 
 const CATS = ["sermons", "testimony", "prophecy", "massprayer", "praise", "funny"];
@@ -14,5 +15,6 @@ export async function POST(req: Request) {
     id: String(v.id ?? ""), title: clean(v.title, 120), cat: CATS.includes(String(v.cat)) ? String(v.cat) : "sermons",
   })).filter((v) => /^[\w-]{11}$/.test(v.id) && v.title && !seen.has(v.id) && seen.add(v.id));
   await update("tv.json", [], () => videos);
+  refreshSite();
   return NextResponse.json({ ok: true, count: videos.length });
 }

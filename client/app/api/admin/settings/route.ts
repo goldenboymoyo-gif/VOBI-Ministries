@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { isAdmin } from "@/lib/adminAuth";
+import { refreshSite } from "@/lib/refresh";
 import { clean, load, uid, update } from "@/lib/store";
 import type { Settings } from "@/lib/settings";
 import { site, nav } from "@/config/site";
@@ -107,5 +108,6 @@ export async function PUT(req: Request) {
     return { id, slug: id, title: clean(e.title, 120), date: clean(e.date, 10), time: clean(e.time, 20) || null, location: clean(e.location, 120) || null, description: clean(e.description, 500) };
   }).filter((e) => e.title && /^\d{4}-\d{2}-\d{2}$/.test(e.date));
   await update<ChurchEvent[]>("events.json", [], () => events);
+  refreshSite();
   return NextResponse.json({ ok: true });
 }

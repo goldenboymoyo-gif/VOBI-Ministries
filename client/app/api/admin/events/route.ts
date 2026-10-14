@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { isAdmin } from "@/lib/adminAuth";
+import { refreshSite } from "@/lib/refresh";
 import { clean, load, uid, update } from "@/lib/store";
 import type { ChurchEvent } from "@/types";
 
@@ -19,6 +20,7 @@ export async function POST(req: Request) {
   const id = uid();
   const ev: ChurchEvent = { id, slug: id, title, date, time: clean(b.time, 20) || null, location: clean(b.location, 120) || null, description: clean(b.description, 500) };
   await update<ChurchEvent[]>(FILE, [], (d) => [...d, ev]);
+  refreshSite();
   return NextResponse.json({ event: ev });
 }
 
@@ -27,5 +29,6 @@ export async function DELETE(req: Request) {
   const { id } = (await req.json().catch(() => ({}))) as { id?: string };
   if (!id) return NextResponse.json({ error: "Bad request" }, { status: 400 });
   await update<ChurchEvent[]>(FILE, [], (d) => d.filter((e) => e.id !== id));
+  refreshSite();
   return NextResponse.json({ ok: true });
 }

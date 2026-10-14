@@ -146,7 +146,12 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
   function toggle() {
     poke();
     const p = player.current;
-    if (!p || !ready) { wantPlay.current = true; setBusy(true); setGo(true); return; }
+    if (!p || !ready) {
+      wantPlay.current = true; setBusy(true); setGo(true);
+      // The viewer is waiting: if our player is not ready in 4 seconds, use YouTube's standard player right away.
+      window.setTimeout(() => { if (!player.current || !wantPlay.current) return; setFallback(true); }, 4000);
+      return;
+    }
     if (playing) p.pauseVideo(); else p.playVideo();
   }
 

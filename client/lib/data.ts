@@ -1,6 +1,6 @@
 import "server-only";
 
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 import { site } from "@/config/site";
 import { configured, load as loadStore } from "@/lib/store";
@@ -36,13 +36,13 @@ async function fromApi<T>(path: string): Promise<T | null> {
 
 export async function getSettings(): Promise<SiteSettings> {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("minutes"); cacheTag("site");
   return (await fromApi<SiteSettings>("/api/settings")) ?? site;
 }
 
 export async function getSermons(): Promise<Sermon[]> {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("minutes"); cacheTag("site");
   const rows = await fromApi<Sermon[]>("/api/sermons");
   const base = rows?.length ? rows : [...seedServices, ...seedSermons];
   // Recordings of finished live services are added automatically.
@@ -52,14 +52,14 @@ export async function getSermons(): Promise<Sermon[]> {
 
 export async function getSermon(slug: string): Promise<Sermon | undefined> {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("minutes"); cacheTag("site");
   const all = await getSermons();
   return all.find((s) => s.slug === slug);
 }
 
 export async function getEvents(): Promise<ChurchEvent[]> {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("minutes"); cacheTag("site");
   const rows = await fromApi<ChurchEvent[]>("/api/events");
   let added: ChurchEvent[] = [];
   if (configured()) { try { added = await loadStore<ChurchEvent[]>("events.json", []); } catch {} }
@@ -68,14 +68,14 @@ export async function getEvents(): Promise<ChurchEvent[]> {
 
 export async function getEvent(slug: string): Promise<ChurchEvent | undefined> {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("minutes"); cacheTag("site");
   const rows = await getEvents();
   return rows.find((e) => e.slug === slug);
 }
 
 export async function getMinistries(): Promise<Ministry[]> {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("minutes"); cacheTag("site");
   const custom = (await getAdminSettings()).ministries;
   if (custom?.length) return custom;
   const rows = await fromApi<Ministry[]>("/api/ministries");
@@ -85,14 +85,14 @@ export async function getMinistries(): Promise<Ministry[]> {
 
 export async function getMinistry(slug: string): Promise<Ministry | undefined> {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("minutes"); cacheTag("site");
   const rows = await getMinistries();
   return rows.find((m) => m.slug === slug);
 }
 
 export async function getTestimonies(): Promise<Testimony[]> {
   "use cache";
-  cacheLife("hours");
+  cacheLife("hours"); cacheTag("site");
   const rows = await fromApi<Testimony[]>("/api/testimonies");
   if (rows?.length) return rows;
   return seedTestimonies;
