@@ -25,6 +25,28 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
     return () => { window.clearTimeout(id); window.removeEventListener("load", start); };
   }, []);
 
+  // YouTube hero: only reveal the iframe once YouTube reports it is playing. If it errors or never starts,
+  // the photo simply stays (no black box or "video unavailable" screen).
+  const ytFrame = useRef<HTMLIFrameElement>(null);
+  const [ytTry, setYtTry] = useState(0);
+  const [ytGiveUp, setYtGiveUp] = useState(false);
+  useEffect(() => {
+    if (!showVideo || videoFile || ytGiveUp) return;
+    const onMsg = (e: MessageEvent) => {
+      if (e.source !== ytFrame.current?.contentWindow) return;
+      let d: { event?: string; info?: unknown } | null = null;
+      try { d = typeof e.data === "string" ? JSON.parse(e.data) : e.data; } catch { return; }
+      if (!d) return;
+      const st = d.event === "onStateChange" ? d.info : (d.info as { playerState?: number } | undefined)?.playerState;
+      if (st === 1) setReady(true);
+      if (d.event === "onError") { setYtGiveUp(true); setReady(false); }
+    };
+    window.addEventListener("message", onMsg);
+    // Not playing after 12s: reload the frame once, then give up and keep the photo.
+    const t = window.setTimeout(() => { if (ytTry < 1) setYtTry((n) => n + 1); else setYtGiveUp(true); }, 12000);
+    return () => { window.removeEventListener("message", onMsg); window.clearTimeout(t); };
+  }, [showVideo, videoFile, ytTry, ytGiveUp]);
+
   // Browsers sometimes pause autoplay (tab in background, power saving, slow start). Keep nudging it to play.
   useEffect(() => {
     const v = vid.current;
@@ -56,11 +78,13 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
           <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover object-center transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
             src={videoFile} autoPlay muted loop playsInline preload="auto" poster={image || "/photos/hero.jpg"} onError={() => { window.setTimeout(() => vid.current?.load(), 1500); }} disablePictureInPicture aria-hidden="true" onPlaying={() => setReady(true)} />
         )}
-        {showVideo && !videoFile && (
+        {showVideo && !videoFile && !ytGiveUp && (
           <iframe
-            className="absolute left-1/2 top-1/2 border-0"
+            key={ytTry} ref={ytFrame}
+            className={`absolute left-1/2 top-1/2 border-0 transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
             style={{ width: "max(100cqw, 177.78cqh)", height: "max(56.25cqw, 100cqh)", transform: "translate(-50%, -50%)" }}
-            src={`https://www.youtube-nocookie.com/embed/${video}?autoplay=1&mute=1&loop=1&playlist=${video}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&vq=hd1080`}
+            src={`https://www.youtube-nocookie.com/embed/${video}?autoplay=1&mute=1&loop=1&playlist=${video}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1`}
+            onLoad={() => { try { ytFrame.current?.contentWindow?.postMessage(JSON.stringify({ event: "listening", id: 1, channel: "widget" }), "*"); } catch {} }}
             title="VOBI service footage" allow="autoplay; encrypted-media" tabIndex={-1} aria-hidden="true"
           />
         )}

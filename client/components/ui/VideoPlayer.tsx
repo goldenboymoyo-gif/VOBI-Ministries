@@ -63,7 +63,7 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
   const [pseudo, setPseudo] = useState(false);
   const [flash, setFlash] = useState("");
   const [nativeFs, setNativeFs] = useState(false);
-  const [attempt, setAttempt] = useState(0);
+  const [attempt] = useState(0);
   const [go, setGo] = useState(false);
 
   // Build the player as soon as the page loads, so pressing play is instant.
@@ -73,7 +73,7 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
     const start = () => setGo(true);
     const evs = ["pointerdown", "touchstart", "scroll", "keydown", "mousemove"] as const;
     evs.forEach((e) => window.addEventListener(e, start, { once: true, passive: true }));
-    const t = window.setTimeout(start, 8000);
+    const t = window.setTimeout(start, 2500);
     return () => { window.clearTimeout(t); evs.forEach((e) => window.removeEventListener(e, start)); };
   }, []);
 
@@ -90,7 +90,7 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
     let dead = false;
     const h = host.current;
     // If the custom player cannot start (blocked script, slow network), switch to the standard YouTube player.
-    const failTimer = window.setTimeout(() => { if (!dead) setFallback(true); }, 8000);
+    const failTimer = window.setTimeout(() => { if (!dead) setFallback(true); }, 15000);
     loadApi().then(() => {
       if (dead || !h || !window.YT) return;
       const el = document.createElement("div");
@@ -190,14 +190,12 @@ function VideoPlayerInner({ id, title, poster, next, live }: Props) {
   const btn = "grid h-11 min-w-11 touch-manipulation place-items-center px-2 text-sm font-bold text-white";
   const showUi = ui || !playing;
 
+  // If our custom player cannot start (slow network, blocked script), use YouTube's standard player instead of an error.
   if (fallback && !ready) {
     return (
-      <div className="grid aspect-video w-full place-items-center bg-black p-5 text-center text-white">
-        <div>
-          <p className="font-semibold">The video is taking a while to load</p>
-          <button type="button" onClick={() => { setFallback(false); setAttempt((a) => a + 1); }} className="btn btn-gold mt-4">Try again</button>
-        </div>
-      </div>
+      <iframe className="aspect-video w-full border-0 bg-black" title={title}
+        src={"https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&playsinline=1&rel=0&modestbranding=1"}
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
     );
   }
 
