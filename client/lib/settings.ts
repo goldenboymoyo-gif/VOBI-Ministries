@@ -18,6 +18,7 @@ export type Settings = {
   aboutWho?: string;
   videos?: VideoEntry[];
   hiddenVideos?: string[];
+  removedVideos?: string[];
   imported?: VideoEntry[];
   details?: Record<string, VideoDetail>;
   contact?: { phone?: string; prayerPhone?: string; email?: string; address?: string; serviceTime?: string };

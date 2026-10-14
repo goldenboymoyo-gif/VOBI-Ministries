@@ -278,7 +278,7 @@ function VideosEditor({ c, set, notify, blob }: any) {
       <p className="adm-hint">Press Hide to take a video off VOBI TV, or Show to bring it back. Then press Publish.</p>
       <input className="adm-search" placeholder="Search videos by title…" value={find} onChange={(e) => setFind(e.target.value)} />
       <div className="adm-tv">
-        {(c.tv || []).filter((v: C) => !find || `${v.title} ${(c.details || {})[v.id]?.person || ""}`.toLowerCase().includes(find.toLowerCase())).slice(0, allTv || find ? 5000 : 60).map((v: C) => {
+        {(c.tv || []).filter((v: C) => !(c.removedVideos || []).includes(v.id)).filter((v: C) => !find || `${v.title} ${(c.details || {})[v.id]?.person || ""}`.toLowerCase().includes(find.toLowerCase())).slice(0, allTv || find ? 5000 : 60).map((v: C) => {
           const off = (c.hiddenVideos || []).includes(v.id);
           return (
             <div key={v.id} className={`adm-tv-item ${off ? "off" : ""}`}>
@@ -287,6 +287,7 @@ function VideosEditor({ c, set, notify, blob }: any) {
               <div className="adm-tv-btns">
                 <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => setOpen(open === v.id ? "" : v.id)}>Details</button>
                 <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => set((n: C) => { const h = new Set(n.hiddenVideos || []); if (h.has(v.id)) h.delete(v.id); else h.add(v.id); n.hiddenVideos = [...h]; })}>{off ? "Show" : "Hide"}</button>
+                <button type="button" className="adm-btn adm-btn-small adm-btn-ghost" onClick={() => { if (window.confirm("Remove this video from the website for good? Then press Save.")) set((n: C) => { n.hiddenVideos = [...new Set([...(n.hiddenVideos || []), v.id])]; n.removedVideos = [...new Set([...(n.removedVideos || []), v.id])]; }); }}>Remove</button>
               </div>
               {open === v.id ? <div className="adm-tv-details"><DetailsEditor id={v.id} c={c} set={set} /></div> : null}
             </div>
@@ -578,7 +579,7 @@ export default function AdminApp() {
       const pick = (k: string) => (s[k]?.length ? s[k] : d[k]);
       const toBody = (m: C) => ({ ...m, body: Array.isArray(m.body) ? m.body : [m.body || ""] });
       setContent({
-        heroVideo: s.heroVideo || d.hero.video, heroImage: s.heroImage || d.hero.image, hiddenVideos: s.hiddenVideos || [], details: s.details || {}, tv: d.tv, heroDefault: d.hero, heroVideoFile: s.heroVideoFile || "", announcement: s.announcement || "", aboutWho: s.aboutWho || "",
+        heroVideo: s.heroVideo || d.hero.video, heroImage: s.heroImage || d.hero.image, hiddenVideos: s.hiddenVideos || [], removedVideos: s.removedVideos || [], details: s.details || {}, tv: d.tv, heroDefault: d.hero, heroVideoFile: s.heroVideoFile || "", announcement: s.announcement || "", aboutWho: s.aboutWho || "",
         videos: s.videos || [], events: events || [], ministries: pick("ministries").map(toBody), story: pick("story"), beliefs: pick("beliefs"), menu: pick("menu"),
         pages: (s.pages || []).map(toBody), contact: { ...d.contact, ...Object.fromEntries(Object.entries(s.contact || {}).filter(([, v]) => v)) }, notes: s.notes || {},
       });

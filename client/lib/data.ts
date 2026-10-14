@@ -41,6 +41,12 @@ export async function getSettings(): Promise<SiteSettings> {
 }
 
 export async function getSermons(): Promise<Sermon[]> {
+  const hide = new Set((await getAdminSettings()).hiddenVideos ?? []);
+  return (await getAllSermons()).filter((s) => !hide.has(s.id));
+}
+
+/** Every sermon, including ones hidden from the site (the admin page needs to see those too). */
+export async function getAllSermons(): Promise<Sermon[]> {
   "use cache";
   cacheLife("minutes"); cacheTag("site");
   const rows = await fromApi<Sermon[]>("/api/sermons");

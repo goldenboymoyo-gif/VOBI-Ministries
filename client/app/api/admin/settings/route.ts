@@ -4,6 +4,8 @@ import { isAdmin } from "@/lib/adminAuth";
 import { refreshSite } from "@/lib/refresh";
 import { clean, load, uid, update } from "@/lib/store";
 import type { Settings } from "@/lib/settings";
+import { getAllSermons } from "@/lib/data";
+import { getSettings as getPublicSettings } from "@/lib/settings";
 import { site, nav } from "@/config/site";
 import { seedMinistries } from "@/content/ministries";
 import { story } from "@/content/story";
@@ -52,8 +54,12 @@ export async function GET(req: Request) {
   if (!isAdmin(req)) return NextResponse.json({ error: "No" }, { status: 401 });
   const [settings0, events, imported] = await Promise.all([load<Settings>(FILE, {}), load<ChurchEvent[]>("events.json", []), load<{ id: string; title: string; cat: string }[]>("tv.json", [])]);
   const settings = { ...settings0, imported };
+  const auto = (await getPublicSettings()).imported ?? [];
+  const sermonRows = (await getAllSermons()).map((s) => ({ id: s.id, title: s.title, cat: "sermons" }));
+  const seen = new Set<string>();
+  const everything = [...tvItems, ...auto, ...sermonRows].filter((v) => v.id && !seen.has(v.id) && seen.add(v.id));
   const defaults = {
-    ministries: seedMinistries, story, beliefs, tv: [...tvItems, ...(((settings as Settings).imported as { id: string; title: string; cat: string }[] | undefined) ?? [])], hero: { image: "/photos/hero.jpg", video: "d5NuEDZKcZg" },
+    ministries: seedMinistries, story, beliefs, tv: everything, hero: { image: "/photos/hero.jpg", video: "d5NuEDZKcZg" },
     menu: nav.map((n) => ({ label: n.label, href: n.href })),
     contact: { phone: site.phone, prayerPhone: site.prayerPhone, email: site.email, address: site.address, serviceTime: site.service.time },
   };
@@ -92,7 +98,7 @@ export async function PUT(req: Request) {
   const dMenu = lists({ menu: nav.map((x) => ({ label: x.label, href: x.href })) }).menu;
 
   const next: Settings = {
-    heroVideo, heroImage, heroVideoFile, details, hiddenVideos: (Array.isArray(b.hiddenVideos) ? (b.hiddenVideos as unknown[]) : []).map(String).filter((x) => /^[\w-]{6,24}$/.test(x)).slice(0, 400), announcement: clean(b.announcement, 200), aboutWho: String(b.aboutWho ?? "").slice(0, 3000), videos,
+    heroVideo, heroImage, heroVideoFile, details, removedVideos: (Array.isArray(b.removedVideos) ? (b.removedVideos as unknown[]) : []).map(String).filter((x) => /^[\w-]{6,24}$/.test(x)).slice(0, 2000), hiddenVideos: (Array.isArray(b.hiddenVideos) ? (b.hiddenVideos as unknown[]) : []).map(String).filter((x) => /^[\w-]{6,24}$/.test(x)).slice(0, 3000), announcement: clean(b.announcement, 200), aboutWho: String(b.aboutWho ?? "").slice(0, 3000), videos,
     contact: { phone: clean(c.phone, 30), prayerPhone: clean(c.prayerPhone, 30), email: clean(c.email, 80), address: clean(c.address, 160), serviceTime: clean(c.serviceTime, 10) },
     notes: { store: String(n.store ?? "").slice(0, 800), give: String(n.give ?? "").slice(0, 800), visit: String(n.visit ?? "").slice(0, 800) },
     ministries: same(L.ministries, dMin) ? [] : (L.ministries as Settings["ministries"]),
