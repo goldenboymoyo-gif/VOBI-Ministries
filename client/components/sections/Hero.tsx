@@ -10,7 +10,8 @@ import { site } from "@/config/site";
 const HERO_VIDEO = "d5NuEDZKcZg"; // "Highlight | Power in Presence", a short highlight, not a full service
 const ease = [0.16, 1, 0.3, 1] as const;
 
-export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string; image?: string; videoFile?: string }) {
+export function Hero({ video = HERO_VIDEO, image, videoFile: adminFile }: { video?: string; image?: string; videoFile?: string }) {
+  const videoFile = adminFile || "/hero.mp4";
   const [showVideo, setShowVideo] = useState(false);
   const [ready, setReady] = useState(false);
   const vid = useRef<HTMLVideoElement>(null);
@@ -20,7 +21,7 @@ export function Hero({ video = HERO_VIDEO, image, videoFile }: { video?: string;
     if (reduced) return;
     // Let the page finish loading first (keeps the photo/text paint fast), then start the video; the photo shows until the first frame plays.
     let id = 0;
-    const start = () => { id = window.setTimeout(() => setShowVideo(true), 400); };
+    const start = () => { id = window.setTimeout(() => setShowVideo(true), 3000); };
     if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
     return () => { window.clearTimeout(id); window.removeEventListener("load", start); };
   }, []);
