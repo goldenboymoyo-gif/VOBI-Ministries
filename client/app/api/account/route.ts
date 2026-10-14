@@ -39,6 +39,7 @@ export async function POST(req: Request) {
   }
 
   const email = clean(b.email, 120).toLowerCase();
+  const canon = (e: string) => { const [l, d = ""] = e.split("@"); const dom = d === "googlemail.com" ? "gmail.com" : d; const base = l.split("+")[0]; return `${dom === "gmail.com" ? base.replace(/\./g, "") : base}@${dom}`; };
   const password = String(b.password ?? "");
   if (!EMAIL.test(email)) return json({ error: "Enter a valid email address." }, { status: 400 });
   if (password.length < 8 || password.length > 100) return json({ error: "Password must be at least 8 characters." }, { status: 400 });
@@ -49,10 +50,13 @@ export async function POST(req: Request) {
     if (b.agree !== true) return json({ error: "Please accept the privacy policy and community rules." }, { status: 400 });
     const salt = newSalt(); const hash = await hashPassword(password, salt);
     const sp = savePrefs(b.cookies);
-    const user: User = { id: uid(), name, email, phone: clean(b.phone, 30) || undefined, salt, hash, createdAt: Date.now(), ...(sp ?? {}), consentAt: sp ? Date.now() : undefined };
+    const photo = typeof b.photo === "string" && b.photo.length < 70000 && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(b.photo) ? b.photo : undefined;
+    const user: User = { id: uid(), name, email, phone: clean(b.phone, 30) || undefined, salt, hash, createdAt: Date.now(), ...(photo ? { photo } : {}), ...(sp ?? {}), consentAt: sp ? Date.now() : undefined };
     let dup = false;
-    await update<User[]>("users.json", [], (d) => { if (d.some((x) => x.email === email)) { dup = true; return d; } return [...d, user]; });
-    if (dup) return json({ error: "That email already has an account. Log in instead." }, { status: 409 });
+    const digits = (user.phone ?? "").replace(/\D/g, "");
+    const phoneKey = digits.length >= 9 ? digits.slice(-9) : "";
+    await update<User[]>("users.json", [], (d) => { if (d.some((x) => canon(x.email) === canon(email) || (phoneKey && x.phone && x.phone.replace(/\D/g, "").slice(-9) === phoneKey))) { dup = true; return d; } return [...d, user]; });
+    if (dup) return json({ error: "You already have an account with this email or phone number. Please log in instead." }, { status: 409 });
     return json({ user: pub(user) }, { cookie: cookieHeader(userToken(user.id)) });
   }
 

@@ -204,7 +204,6 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
 
             <div className="space-y-6">
               <div className="flex flex-col gap-3">
-                <Link href="/account" onClick={closeMenu} className="btn btn-ghost justify-center">Sign in / Sign up</Link>
                 {navActions.map((a) => (
                   <Link
                     key={a.href}

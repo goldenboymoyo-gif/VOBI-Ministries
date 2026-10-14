@@ -14,6 +14,18 @@ export function AccountForm({ onDone }: { onDone: (u: Me) => void }) {
   const [agree, setAgree] = useState(false);
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const [photo, setPhoto] = useState("");
+  function pickPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]; if (!file || !file.type.startsWith("image/")) return;
+    const img = new window.Image(); const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const c = document.createElement("canvas"); c.width = c.height = 128;
+      const g = c.getContext("2d"); const s = Math.min(img.width, img.height);
+      g?.drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, 128, 128);
+      setPhoto(c.toDataURL("image/jpeg", 0.8)); URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  }
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) => setF({ ...f, [k]: e.target.value });
   const input = "w-full rounded-lg bg-white/10 px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/40 focus:bg-white/15";
 
@@ -21,7 +33,7 @@ export function AccountForm({ onDone }: { onDone: (u: Me) => void }) {
     e.preventDefault(); setErr(""); setBusy(true);
     const cookies = storedConsent() ?? undefined;
     try {
-      const r = await fetch("/api/account", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: mode, ...f, agree, cookies }) });
+      const r = await fetch("/api/account", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: mode, ...f, agree, cookies, photo: mode === "signup" ? photo : undefined }) });
       const j = await r.json().catch(() => ({}));
       if (!r.ok) setErr(j.error ?? "Something went wrong."); else onDone(j.user);
     } catch { setErr("No connection. Try again."); }
@@ -33,6 +45,13 @@ export function AccountForm({ onDone }: { onDone: (u: Me) => void }) {
       <p className="text-sm font-semibold">{mode === "signup" ? "Create your VOBI account to join the chat" : "Log in to join the chat"}</p>
       {mode === "signup" && <input className={input} id="acc-name" name="name" placeholder="Full name" value={f.name} onChange={set("name")} maxLength={40} autoComplete="name" required />}
       <input className={input} id="acc-email" name="email" type="email" placeholder="Email address" value={f.email} onChange={set("email")} autoComplete="email" required />
+      {mode === "signup" && (
+        <label className="flex cursor-pointer items-center gap-3 text-xs text-white/70">
+          <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-white/10 text-lg">{/* eslint-disable-next-line @next/next/no-img-element */}{photo ? <img src={photo} alt="" className="h-full w-full object-cover" /> : "\u{1F4F7}"}</span>
+          <span>Profile photo (optional). If you skip it, we use the picture your email already has.</span>
+          <input type="file" accept="image/*" onChange={pickPhoto} className="hidden" />
+        </label>
+      )}
       {mode === "signup" && <input className={input} id="acc-phone" name="phone" type="tel" placeholder="Phone (optional)" value={f.phone} onChange={set("phone")} autoComplete="tel" />}
       <input className={input} id="acc-password" name="password" type="password" placeholder="Password (8+ characters)" value={f.password} onChange={set("password")} autoComplete={mode === "signup" ? "new-password" : "current-password"} minLength={8} required />
       {mode === "signup" && (

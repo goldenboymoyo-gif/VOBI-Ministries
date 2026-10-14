@@ -5,7 +5,7 @@ const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://i.ytimg.com https://img.youtube.com https://*.public.blob.vercel-storage.com",
+  "img-src 'self' data: blob: https://i.ytimg.com https://img.youtube.com https://www.gravatar.com https://*.public.blob.vercel-storage.com",
   "media-src 'self' blob: https://*.public.blob.vercel-storage.com",
   "font-src 'self' data:",
   "frame-src https://www.youtube-nocookie.com https://www.youtube.com https://maps.google.com https://www.google.com",

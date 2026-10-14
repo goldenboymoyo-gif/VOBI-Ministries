@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { userFrom } from "@/lib/userAuth";
 import { clean, configured, load, throttle, uid, update, type Comment } from "@/lib/store";
 
 const ok = (v: string) => /^[\w-]{3,24}$/.test(v);
@@ -23,9 +24,10 @@ export async function POST(req: Request, { params }: Ctx) {
     const all = await update<Record<string, number>>("likes.json", {}, (d) => ({ ...d, [video]: (d[video] ?? 0) + 1 }));
     return NextResponse.json({ likes: all[video] });
   }
-  const text = clean(b.text, 500), name = clean(b.name, 40) || "Guest";
+  const me = await userFrom(req);
+  const text = clean(b.text, 500), name = me && !me.banned ? me.name : clean(b.name, 40) || "Guest";
   if (!text) return NextResponse.json({ error: "Write a comment first" }, { status: 400 });
-  const c: Comment = { id: uid(), name, text, at: Date.now() };
+  const c: Comment = { id: uid(), name, text, at: Date.now(), ...(me && !me.banned ? { uid: me.id } : {}) };
   await update<Record<string, Comment[]>>("comments.json", {}, (d) => ({ ...d, [video]: [...(d[video] ?? []), c].slice(-300) }));
   return NextResponse.json({ comment: c });
 }

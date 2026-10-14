@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { Avatar } from "@/components/ui/Avatar";
 import { AccountForm, type Me } from "@/components/ui/AccountForm";
 import { openCookieSettings } from "@/lib/consent";
 
@@ -21,6 +22,7 @@ export function AccountPanel() {
     <div className="mx-auto max-w-md overflow-hidden rounded-2xl bg-[#0f0f0f] text-white shadow-xl">
       {!ready ? <p className="p-6 text-sm text-white/60">Loading…</p> : me ? (
         <div className="space-y-4 p-6">
+          <Avatar uid={me.id} name={me.name} dark className="h-16 w-16 text-xl" />
           <p className="text-sm text-white/60">Signed in</p>
           <p className="text-xl font-bold">{me.name}</p>
           <p className="text-sm text-white/80">{me.email}</p>

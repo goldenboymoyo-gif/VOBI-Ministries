@@ -13,7 +13,7 @@ export async function GET(req: Request) {
     load<User[]>("users.json", []), load<Report[]>("reports.json", []), load<Inquiry[]>("inquiries.json", []), load<Record<string, unknown>>("visits.json", {}),
   ]);
   // Never send password hashes to the browser.
-  const members = users.map(({ salt: _s, hash: _h, ...u }) => u);
+  const members = users.map(({ salt: _s, hash: _h, photo: _p, ...u }) => u);
   return NextResponse.json({ comments, chat, likes, users: members, reports, inquiries, visits: Object.fromEntries(Object.entries(visits as Record<string, { seen?: string[] }>).map(([k, v]) => { const { seen: _s, ...rest } = v; return [k, rest]; })) });
 }
 

@@ -7,9 +7,9 @@ const DAYS = 60;
 
 export type User = {
   id: string; name: string; email: string; phone?: string; salt: string; hash: string; createdAt: number;
-  cookies?: "accepted" | "declined" | "custom"; prefs?: { preferences: boolean; media: boolean }; consentAt?: number; banned?: boolean;
+  cookies?: "accepted" | "declined" | "custom"; prefs?: { preferences: boolean; media: boolean }; consentAt?: number; banned?: boolean; photo?: string;
 };
-export type PublicUser = { id: string; name: string; email: string };
+export type PublicUser = { id: string; name: string; email: string; avatar: string };
 
 const scrypt = (p: string, salt: string) => new Promise<string>((res, rej) => scryptCb(p, salt, 32, (e, k) => (e ? rej(e) : res(k.toString("hex")))));
 export const newSalt = () => randomBytes(16).toString("hex");
@@ -35,4 +35,4 @@ export async function userFrom(req: Request): Promise<User | null> {
   return users.find((u) => u.id === id) ?? null;
 }
 
-export const pub = (u: User): PublicUser => ({ id: u.id, name: u.name, email: u.email });
+export const pub = (u: User): PublicUser => ({ id: u.id, name: u.name, email: u.email, avatar: `/api/avatar/${u.id}` });

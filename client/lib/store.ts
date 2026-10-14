@@ -35,7 +35,7 @@ export async function update<T>(file: string, fallback: T, fn: (d: T) => T): Pro
   throw new Error("store busy");
 }
 
-export type Comment = { id: string; name: string; text: string; at: number };
+export type Comment = { id: string; name: string; text: string; at: number; uid?: string };
 export type Msg = { id: string; name: string; text: string; at: number; s?: string };
 
 export const clean = (s: unknown, max: number) => String(s ?? "").replace(/[\u0000-\u001f]+/g, " ").trim().slice(0, max);
