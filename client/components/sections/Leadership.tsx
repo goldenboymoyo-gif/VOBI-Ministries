@@ -8,14 +8,14 @@ export function Leadership() {
     <section className="border-b border-line bg-paper py-20 md:py-28">
       <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="reveal lg:col-span-5">
-          <div className="frame aspect-video">
+          <div className="frame">
             <Image
               src="/photos/prophet.jpg"
               alt="Prophet Promise ministering in a VOBI Sunday service"
-              width={1280}
-              height={720}
+              width={1333}
+              height={2000}
               sizes="(max-width: 1024px) 100vw, 42vw"
-              className="object-cover"
+              className="h-auto w-full"
             />
           </div>
         </div>
