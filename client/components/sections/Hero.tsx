@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Image from "next/image";
 
 import { site } from "@/config/site";
 
@@ -12,6 +13,10 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function Hero({ image, videoFile: adminFile }: { video?: string; image?: string; videoFile?: string }) {
   const videoFile = adminFile || "/hero.mp4";
   const vid = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [wait, setWait] = useState(false);
+  useEffect(() => { const t = window.setTimeout(() => setWait(true), 3000); return () => window.clearTimeout(t); }, []);
+  const show = playing && wait;
   const [playing, setPlaying] = useState(false);
   const [wait, setWait] = useState(false);
   useEffect(() => { const t = window.setTimeout(() => setWait(true), 3000); return () => window.clearTimeout(t); }, []);
