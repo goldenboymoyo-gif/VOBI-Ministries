@@ -1,16 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 import { site } from "@/config/site";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-export function Hero({ videoFile: adminFile }: { video?: string; image?: string; videoFile?: string }) {
+export function Hero({ image, videoFile: adminFile }: { video?: string; image?: string; videoFile?: string }) {
   const videoFile = adminFile || "/hero.mp4";
   const vid = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [wait, setWait] = useState(false);
+  useEffect(() => { const t = window.setTimeout(() => setWait(true), 3000); return () => window.clearTimeout(t); }, []);
+  const show = playing && wait;
 
   // Browsers sometimes pause autoplay (power saving, slow start). Keep nudging it to play.
   useEffect(() => {
@@ -33,8 +38,10 @@ export function Hero({ videoFile: adminFile }: { video?: string; image?: string;
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white h-[84svh] min-h-[500px] max-h-[760px] md:h-[100svh] md:max-h-none md:min-h-[560px]">
       <div className="absolute inset-0 -z-10 overflow-hidden bg-ink">
-        <video ref={vid} className="absolute inset-0 h-full w-full transform-gpu object-cover object-center"
-          src={videoFile} autoPlay muted loop playsInline preload="auto" onError={() => { window.setTimeout(() => vid.current?.load(), 1500); }} disablePictureInPicture aria-hidden="true" />
+        <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
+          fill priority sizes="100vw" quality={82} className="object-cover object-center" />
+        <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover object-center transition-opacity duration-1000 ${show ? "opacity-100" : "opacity-0"}`}
+          src={videoFile} autoPlay muted loop playsInline preload="auto" onPlaying={() => setPlaying(true)} onError={() => { window.setTimeout(() => vid.current?.load(), 1500); }} disablePictureInPicture aria-hidden="true" />
         <div className="absolute inset-0 bg-ink/45" />
                 <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.45)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
