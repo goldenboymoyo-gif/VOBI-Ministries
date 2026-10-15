@@ -47,19 +47,19 @@ export function Hero({ image, videoFile: adminFile }: { video?: string; image?: 
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
-      <div className="shell relative flex h-full items-end pb-8 md:pb-24">
+      <div className="shell relative flex h-full items-center justify-center text-center">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.9, ease }}
-          className="max-w-[19rem] rounded-2xl bg-ink/55 p-4 backdrop-blur-sm sm:max-w-sm md:max-w-xl md:bg-ink/65 md:p-8"
+          className="mx-auto max-w-3xl px-2 [text-shadow:0_2px_18px_rgba(0,0,0,0.6)]"
         >
-          <p className="text-base font-light italic md:text-2xl">Welcome to</p>
-          <h1 className="mt-2 text-[clamp(1.05rem,4.6vw,2.5rem)] font-extrabold uppercase leading-tight text-gold-bright">
+          <p className="text-lg font-light italic md:text-3xl">Welcome to</p>
+          <h1 className="mt-2 text-[clamp(1.6rem,6.5vw,4rem)] font-extrabold uppercase leading-tight text-gold-bright">
             {site.fullName}
           </h1>
-          <p className="mt-3 border-l-4 border-gold-bright pl-3 text-sm font-semibold italic text-white md:mt-4 md:pl-4 md:text-xl">Because of Christ, we are saved.</p>
-          <div className="mt-5 flex flex-wrap gap-3 md:mt-6">
+          <p className="mt-4 text-base font-semibold italic text-white md:mt-5 md:text-2xl">Because of Christ, we are saved.</p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3 md:mt-9">
             <Link href="/live" className="btn btn-gold">Watch Live</Link>
             <Link href="/visit" className="btn btn-ghost">Visit Us</Link>
           </div>
