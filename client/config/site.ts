@@ -59,6 +59,7 @@ export const nav: { label: string; href: string; children?: { label: string; hre
   },
   { label: "Store", href: "/store" },
   { label: "Events", href: "/events" },
+  { label: "Give & Partner", href: "/give" },
   {
     label: "Contact",
     href: "/contact",
