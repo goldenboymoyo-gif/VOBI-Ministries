@@ -54,7 +54,7 @@ export default async function VisitPage() {
       />
 
       <Split
-        image="/media/yBesC26mSSA-maxresdefault.jpg"
+        image="/photos/church.jpg"
         alt="Prophet Promise walking through the VOBI church hall during a service"
         title="Our church in Mkhosana"
       >
