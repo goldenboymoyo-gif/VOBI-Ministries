@@ -19,8 +19,8 @@ export function Split({ image, alt, title, children, reverse, dark, cta, cta2 }:
     <section className={dark ? "bg-ink text-paper" : "bg-paper text-ink"}>
       <div className="shell grid items-center gap-10 py-16 md:py-24 lg:grid-cols-2 lg:gap-16">
         <div className={`reveal ${reverse ? "lg:order-2" : ""}`}>
-          <div className="frame frame-hover aspect-[4/3]">
-            <Image src={image} alt={alt} width={1280} height={960} sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+          <div className={`frame frame-hover ${image === "/photos/church.jpg" ? "" : "aspect-[4/3]"}`}>
+            <Image src={image} alt={alt} width={1280} height={960} sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" style={image === "/photos/church.jpg" ? { height: "auto" } : undefined} />
           </div>
         </div>
         <div className="reveal">
