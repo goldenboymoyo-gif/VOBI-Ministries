@@ -36,7 +36,7 @@ export function Hero({ image, videoFile: adminFile }: { video?: string; image?: 
   }, [videoFile]);
 
   return (
-    <section className="relative isolate overflow-hidden bg-ink text-white h-[84svh] min-h-[500px] max-h-[760px] md:h-[100svh] md:max-h-none md:min-h-[560px]">
+    <section className="relative isolate overflow-hidden bg-ink text-white">
       <div className="absolute inset-0 -z-10 overflow-hidden bg-ink">
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className="object-cover object-center" />
@@ -47,15 +47,15 @@ export function Hero({ image, videoFile: adminFile }: { video?: string; image?: 
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
-      <div className="shell relative flex h-full items-end pb-16 md:pb-28">
+      <div className="shell relative flex min-h-[84svh] items-end pb-12 pt-32 md:min-h-[100svh] md:pb-20 md:pt-40">
         <div className="max-w-[94vw] md:max-w-4xl">
           <motion.p
             initial={{ opacity: 0, x: -90 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 1, ease }}
-            className="inline-block bg-ink/55 px-3 py-1 text-[clamp(1.5rem,5vw,3.6rem)] font-light italic leading-tight text-white"
+            className="inline-block bg-ink/55 px-3 py-1 text-[clamp(1.3rem,min(5vw,6vh),3.2rem)] font-light italic leading-tight text-white"
           >Welcome To</motion.p>
           <motion.h1
             initial={{ opacity: 0, x: -140 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.55, duration: 1.1, ease }}
-            className="mt-1 text-[clamp(1.6rem,5.4vw,4.2rem)] font-extrabold uppercase leading-[1.3] text-gold-bright"
+            className="mt-1 text-[clamp(1.5rem,min(5.4vw,8vh),4.2rem)] font-extrabold uppercase leading-[1.3] text-gold-bright"
           >
             <span className="box-decoration-clone bg-ink/55 px-3 py-1">{site.fullName}</span>
           </motion.h1>

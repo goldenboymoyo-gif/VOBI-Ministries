@@ -73,13 +73,13 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
             <Logo tone={isDark ? "reverse" : "solid"} variant="mark" />
           </Link>
 
-          <nav className="hidden items-center gap-9 xl:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-5 whitespace-nowrap 2xl:gap-9 xl:flex" aria-label="Primary">
             {items.map((item) =>
               item.children ? (
                 <div key={item.href} className="group relative">
                   <Link
                     href={item.href}
-                    className="link-underline py-6 text-[17px] font-semibold"
+                    className="link-underline py-6 text-[15px] font-semibold 2xl:text-[17px]"
                   >
                     {item.label}
                   </Link>
@@ -102,7 +102,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="link-underline py-6 text-[17px] font-semibold"
+                  className="link-underline py-6 text-[15px] font-semibold 2xl:text-[17px]"
                 >
                   {item.label}
                 </Link>
@@ -110,7 +110,7 @@ export function SiteHeader({ menu }: { menu?: { label: string; href: string; chi
             )}
           </nav>
 
-          <div className="hidden items-center gap-3 xl:flex">
+          <div className="hidden items-center gap-2 whitespace-nowrap 2xl:gap-3 xl:flex">
             {navActions.map((a) => (
               <Link
                 key={a.href}
