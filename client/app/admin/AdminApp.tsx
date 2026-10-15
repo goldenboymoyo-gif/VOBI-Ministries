@@ -299,18 +299,19 @@ function VideosEditor({ c, set, notify, blob }: any) {
   );
 }
 
-function EventsEditor({ c, set }: any) {
+function EventsEditor({ c, set, notify }: any) {
   return (
-    <Panel title="Events" intro="Upcoming events shown on the Events page and the home page.">
+    <Panel title="Events" intro="Add the events you want on the website. Remove one with the X, then press Save.">
       <ListEditor items={c.events} onChange={(v: any) => set((n: C) => { n.events = v; })} itemTitle={(e: C) => e.title || "New event"} addLabel="Add event"
-        newItem={() => ({ id: "", title: "", date: "", time: "", location: "", description: "" })}
+        newItem={() => ({ id: "", title: "", date: "", time: "", location: "", description: "", image: "" })}
         renderItem={(e: C, up: any) => (
           <>
             <Field label="Event name" value={e.title} onChange={(v: string) => up({ ...e, title: v })} />
             <Field label="Date" type="date" value={e.date} onChange={(v: string) => up({ ...e, date: v })} />
             <Field label="Time" placeholder="08:30" value={e.time} onChange={(v: string) => up({ ...e, time: v })} />
             <Field label="Place" value={e.location} onChange={(v: string) => up({ ...e, location: v })} />
-            <Field label="Short description" textarea rows={3} value={e.description} onChange={(v: string) => up({ ...e, description: v })} />
+            <Field label="Description" textarea rows={4} value={e.description} onChange={(v: string) => up({ ...e, description: v })} />
+            <ImageField label="Event picture (optional)" value={e.image} onChange={(v: string) => up({ ...e, image: v })} notify={notify} />
           </>
         )} />
     </Panel>
@@ -576,7 +577,7 @@ export default function AdminApp() {
     setLoadError("");
     try {
       const { settings: s, events, defaults: d } = await api("/api/admin/settings");
-      const pick = (k: string) => (s[k]?.length ? s[k] : d[k]);
+      const pick = (k: string) => (s.emptied?.includes(k) ? [] : s[k]?.length ? s[k] : d[k]);
       const toBody = (m: C) => ({ ...m, body: Array.isArray(m.body) ? m.body : [m.body || ""] });
       setContent({
         heroVideo: s.heroVideo || d.hero.video, heroImage: s.heroImage || d.hero.image, hiddenVideos: s.hiddenVideos || [], removedVideos: s.removedVideos || [], details: s.details || {}, tv: d.tv, heroDefault: d.hero, heroVideoFile: s.heroVideoFile || "", announcement: s.announcement || "", aboutWho: s.aboutWho || "",

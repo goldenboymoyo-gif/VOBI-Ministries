@@ -21,6 +21,7 @@ function fmtDate(iso: string) {
 }
 
 export function UpcomingEvents({ events }: { events: ChurchEvent[] }) {
+  if (events.length === 0) return null;
   return (
     <section className="border-b border-line bg-paper-dim py-20 md:py-28">
       <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -36,11 +37,13 @@ export function UpcomingEvents({ events }: { events: ChurchEvent[] }) {
             <ul className="mt-7 space-y-px border border-line bg-line">
               {events.map((e) => (
                 <li key={e.id} className="bg-paper-dim px-6 py-5">
+                  {e.image && (/* eslint-disable-next-line @next/next/no-img-element */ <img src={e.image} alt={e.title} loading="lazy" className="mb-4 aspect-[16/9] w-full object-cover" />)}
                   <p className="text-sm font-semibold text-gold">
                     {fmtDate(e.date)}
                   </p>
                   <p className="display-sm mt-2">{e.title}</p>
-                  {e.location && <p className="mt-2 text-[14px] text-muted">{e.location}</p>}
+                  {e.location && <p className="mt-2 text-[14px] text-muted">{e.time ? `${e.time} \u00b7 ` : ""}{e.location}</p>}
+                  {e.description && <p className="mt-2 text-[14px] leading-relaxed text-muted">{e.description}</p>}
                 </li>
               ))}
             </ul>

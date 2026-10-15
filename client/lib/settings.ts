@@ -19,6 +19,8 @@ export type Settings = {
   videos?: VideoEntry[];
   hiddenVideos?: string[];
   removedVideos?: string[];
+  /** lists the admin emptied on purpose (so the built-in defaults do not come back) */
+  emptied?: string[];
   imported?: VideoEntry[];
   details?: Record<string, VideoDetail>;
   contact?: { phone?: string; prayerPhone?: string; email?: string; address?: string; serviceTime?: string };

@@ -1,94 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 import { site } from "@/config/site";
 
-const HERO_VIDEO = "d5NuEDZKcZg"; // "Highlight | Power in Presence", a short highlight, not a full service
 const ease = [0.16, 1, 0.3, 1] as const;
 
-export function Hero({ video = HERO_VIDEO, image, videoFile: adminFile }: { video?: string; image?: string; videoFile?: string }) {
+export function Hero({ videoFile: adminFile }: { video?: string; image?: string; videoFile?: string }) {
   const videoFile = adminFile || "/hero.mp4";
-  const [showVideo, setShowVideo] = useState(false);
-  const [ready, setReady] = useState(false);
   const vid = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-    // Let the page finish loading first (keeps the photo/text paint fast), then start the video; the photo shows until the first frame plays.
-    let id = 0;
-    const start = () => { id = window.setTimeout(() => setShowVideo(true), 3000); };
-    if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
-    return () => { window.clearTimeout(id); window.removeEventListener("load", start); };
-  }, []);
-
-  // YouTube hero: only reveal the iframe once YouTube reports it is playing. If it errors or never starts,
-  // the photo simply stays (no black box or "video unavailable" screen).
-  const ytFrame = useRef<HTMLIFrameElement>(null);
-  const [ytTry, setYtTry] = useState(0);
-  const [ytGiveUp, setYtGiveUp] = useState(false);
-  useEffect(() => {
-    if (!showVideo || videoFile || ytGiveUp) return;
-    const onMsg = (e: MessageEvent) => {
-      if (e.source !== ytFrame.current?.contentWindow) return;
-      let d: { event?: string; info?: unknown } | null = null;
-      try { d = typeof e.data === "string" ? JSON.parse(e.data) : e.data; } catch { return; }
-      if (!d) return;
-      const st = d.event === "onStateChange" ? d.info : (d.info as { playerState?: number } | undefined)?.playerState;
-      if (st === 1) setReady(true);
-      if (d.event === "onError") { setYtGiveUp(true); setReady(false); }
-    };
-    window.addEventListener("message", onMsg);
-    // Not playing after 12s: reload the frame once, then give up and keep the photo.
-    const t = window.setTimeout(() => { if (ytTry < 1) setYtTry((n) => n + 1); else setYtGiveUp(true); }, 12000);
-    return () => { window.removeEventListener("message", onMsg); window.clearTimeout(t); };
-  }, [showVideo, videoFile, ytTry, ytGiveUp]);
-
-  // Browsers sometimes pause autoplay (tab in background, power saving, slow start). Keep nudging it to play.
+  // Browsers sometimes pause autoplay (power saving, slow start). Keep nudging it to play.
   useEffect(() => {
     const v = vid.current;
-    if (!showVideo || !v) return;
+    if (!v) return;
     v.muted = true; v.defaultMuted = true; v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
     const go = () => { if (v.paused) v.play().catch(() => {}); };
-    // Phones in power-saving mode only allow autoplay after a touch: retry on the first interaction.
     const kick = () => go();
-    (['touchstart', 'pointerdown', 'scroll', 'click', 'keydown'] as const).forEach((e) => window.addEventListener(e, kick, { once: true, passive: true }));
+    (["touchstart", "pointerdown", "scroll", "click", "keydown"] as const).forEach((e) => window.addEventListener(e, kick, { once: true, passive: true }));
     go();
     const iv = window.setInterval(go, 2000);
-    const vis = () => { if (document.visibilityState === "visible") go(); };
-    document.addEventListener("visibilitychange", vis);
-    v.addEventListener("loadeddata", go); v.addEventListener("canplay", go); v.addEventListener("stalled", go); v.addEventListener("pause", go);
+    v.addEventListener("loadeddata", go); v.addEventListener("canplay", go); v.addEventListener("pause", go);
     return () => {
-      (['touchstart', 'pointerdown', 'scroll', 'click', 'keydown'] as const).forEach((e) => window.removeEventListener(e, kick));
-      window.clearInterval(iv); document.removeEventListener("visibilitychange", vis);
-      v.removeEventListener("loadeddata", go); v.removeEventListener("canplay", go); v.removeEventListener("stalled", go); v.removeEventListener("pause", go);
+      (["touchstart", "pointerdown", "scroll", "click", "keydown"] as const).forEach((e) => window.removeEventListener(e, kick));
+      window.clearInterval(iv);
+      v.removeEventListener("loadeddata", go); v.removeEventListener("canplay", go); v.removeEventListener("pause", go);
     };
-  }, [showVideo, videoFile]);
+  }, [videoFile]);
 
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white h-[84svh] min-h-[500px] max-h-[760px] md:h-[100svh] md:max-h-none md:min-h-[560px]">
-      {/* Phones: the video sits in a normal 16:9 frame (no zoom), with the welcome card below. From tablet up it fills the hero. */}
-      <div className="absolute inset-0 -z-10 overflow-hidden [container-type:size]">
-        <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
-          fill priority sizes="100vw" quality={82} className={`${ready ? "" : "kenburns"} object-cover object-center`} />
-        {showVideo && videoFile && (
-          <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover object-center transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
-            src={videoFile} autoPlay muted loop playsInline preload="auto" poster={image || "/photos/hero.jpg"} onError={() => { window.setTimeout(() => vid.current?.load(), 1500); }} disablePictureInPicture aria-hidden="true" onPlaying={() => setReady(true)} />
-        )}
-        {showVideo && !videoFile && !ytGiveUp && (
-          <iframe
-            key={ytTry} ref={ytFrame}
-            className={`absolute left-1/2 top-1/2 border-0 transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
-            style={{ width: "max(100cqw, 177.78cqh)", height: "max(56.25cqw, 100cqh)", transform: "translate(-50%, -50%)" }}
-            src={`https://www.youtube-nocookie.com/embed/${video}?autoplay=1&mute=1&loop=1&playlist=${video}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1`}
-            onLoad={() => { try { ytFrame.current?.contentWindow?.postMessage(JSON.stringify({ event: "listening", id: 1, channel: "widget" }), "*"); } catch {} }}
-            title="VOBI service footage" allow="autoplay; encrypted-media" tabIndex={-1} aria-hidden="true"
-          />
-        )}
+      <div className="absolute inset-0 -z-10 overflow-hidden bg-ink">
+        <video ref={vid} className="absolute inset-0 h-full w-full transform-gpu object-cover object-center"
+          src={videoFile} autoPlay muted loop playsInline preload="auto" onError={() => { window.setTimeout(() => vid.current?.load(), 1500); }} disablePictureInPicture aria-hidden="true" />
         <div className="absolute inset-0 bg-ink/45" />
                 <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.45)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />

@@ -106,12 +106,13 @@ export async function PUT(req: Request) {
     beliefs: same(L.beliefs, dBel) ? [] : L.beliefs,
     menu: same(L.menu, dMenu) ? [] : L.menu,
     pages: L.pages,
+    emptied: ([["ministries", L.ministries, dMin], ["story", L.story, dStory], ["beliefs", L.beliefs, dBel]] as [string, unknown[], unknown[]][]).filter(([, l, d]) => l.length === 0 && d.length > 0).map(([k]) => k),
   };
   await update<Settings>(FILE, {}, () => next);
 
   const events: ChurchEvent[] = arr(b.events).map((e) => {
     const id = clean(e.id, 24).replace(/[^\w-]/g, "") || uid();
-    return { id, slug: id, title: clean(e.title, 120), date: clean(e.date, 10), time: clean(e.time, 20) || null, location: clean(e.location, 120) || null, description: clean(e.description, 500) };
+    return { id, slug: id, title: clean(e.title, 120), date: clean(e.date, 10), time: clean(e.time, 20) || null, location: clean(e.location, 120) || null, description: clean(e.description, 500), image: clean(e.image, 400) || null, registrationUrl: clean(e.registrationUrl, 300) || null };
   }).filter((e) => e.title && /^\d{4}-\d{2}-\d{2}$/.test(e.date));
   await update<ChurchEvent[]>("events.json", [], () => events);
   refreshSite();

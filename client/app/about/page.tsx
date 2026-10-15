@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 
 export default async function AboutPage() {
   const settings = await getSettings();
-  const story = settings.story?.length ? settings.story : defaultStory;
-  const beliefs = settings.beliefs?.length ? settings.beliefs : defaultBeliefs;
+  const story = settings.emptied?.includes("story") ? [] : settings.story?.length ? settings.story : defaultStory;
+  const beliefs = settings.emptied?.includes("beliefs") ? [] : settings.beliefs?.length ? settings.beliefs : defaultBeliefs;
   const who = settings.aboutWho?.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   return (
     <>

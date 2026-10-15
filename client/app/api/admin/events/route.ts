@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   const title = clean(b.title, 120), date = clean(b.date, 10);
   if (!title || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return NextResponse.json({ error: "Title and date are needed" }, { status: 400 });
   const id = uid();
-  const ev: ChurchEvent = { id, slug: id, title, date, time: clean(b.time, 20) || null, location: clean(b.location, 120) || null, description: clean(b.description, 500) };
+  const ev: ChurchEvent = { id, slug: id, title, date, time: clean(b.time, 20) || null, location: clean(b.location, 120) || null, description: clean(b.description, 500), image: clean(b.image, 400) || null };
   await update<ChurchEvent[]>(FILE, [], (d) => [...d, ev]);
   refreshSite();
   return NextResponse.json({ event: ev });

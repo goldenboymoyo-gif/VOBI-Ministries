@@ -9,7 +9,6 @@ import { seedSermons, seedServices } from "@/content/sermons";
 import { getNewSermons, getPastLiveStreams } from "@/lib/liveArchive";
 import { seedMinistries } from "@/content/ministries";
 import { seedTestimonies } from "@/content/testimonies";
-import { seedEvents } from "@/content/events";
 import type {
   ChurchEvent,
   Ministry,
@@ -69,7 +68,7 @@ export async function getEvents(): Promise<ChurchEvent[]> {
   const rows = await fromApi<ChurchEvent[]>("/api/events");
   let added: ChurchEvent[] = [];
   if (configured()) { try { added = await loadStore<ChurchEvent[]>("events.json", []); } catch {} }
-  return sortByEventDate([...(rows ?? seedEvents), ...added]);
+  return sortByEventDate([...(rows ?? []), ...added]);
 }
 
 export async function getEvent(slug: string): Promise<ChurchEvent | undefined> {
@@ -82,7 +81,9 @@ export async function getEvent(slug: string): Promise<ChurchEvent | undefined> {
 export async function getMinistries(): Promise<Ministry[]> {
   "use cache";
   cacheLife("minutes"); cacheTag("site");
-  const custom = (await getAdminSettings()).ministries;
+  const adm = await getAdminSettings();
+  if (adm.emptied?.includes("ministries")) return [];
+  const custom = adm.ministries;
   if (custom?.length) return custom;
   const rows = await fromApi<Ministry[]>("/api/ministries");
   if (rows?.length) return rows;
