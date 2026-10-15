@@ -47,23 +47,30 @@ export function Hero({ image, videoFile: adminFile }: { video?: string; image?: 
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
 
-      <div className="shell relative flex h-full items-center justify-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.9, ease }}
-          className="mx-auto max-w-3xl px-2 [text-shadow:0_2px_18px_rgba(0,0,0,0.6)]"
-        >
-          <p className="text-lg font-light italic md:text-3xl">Welcome to</p>
-          <h1 className="mt-2 text-[clamp(1.6rem,6.5vw,4rem)] font-extrabold uppercase leading-tight text-gold-bright">
-            {site.fullName}
-          </h1>
-          <p className="mt-4 text-base font-semibold italic text-white md:mt-5 md:text-2xl">Because of Christ, we are saved.</p>
-          <div className="mt-7 flex flex-wrap justify-center gap-3 md:mt-9">
+      <div className="shell relative flex h-full items-end pb-16 md:pb-28">
+        <div className="max-w-[94vw] md:max-w-4xl">
+          <motion.p
+            initial={{ opacity: 0, x: -90 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 1, ease }}
+            className="inline-block bg-ink/55 px-3 py-1 text-[clamp(1.5rem,5vw,3.6rem)] font-light italic leading-tight text-white"
+          >Welcome To</motion.p>
+          <motion.h1
+            initial={{ opacity: 0, x: -140 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.55, duration: 1.1, ease }}
+            className="mt-1 text-[clamp(1.6rem,5.4vw,4.2rem)] font-extrabold uppercase leading-[1.3] text-gold-bright"
+          >
+            <span className="box-decoration-clone bg-ink/55 px-3 py-1">{site.fullName}</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, x: -90 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1, duration: 1, ease }}
+            className="mt-3 inline-block bg-ink/55 px-3 py-1 text-sm font-semibold italic text-white md:text-xl"
+          >Because of Christ, we are saved.</motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.4, duration: 0.9, ease }}
+            className="mt-6 flex flex-wrap gap-3"
+          >
             <Link href="/live" className="btn btn-gold">Watch Live</Link>
             <Link href="/visit" className="btn btn-ghost">Visit Us</Link>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
