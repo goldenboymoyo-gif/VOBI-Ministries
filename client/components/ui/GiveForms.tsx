@@ -4,29 +4,29 @@ import { useRef, useState, type FormEvent } from "react";
 
 type Way = "online" | "offering" | "bank" | "partner";
 
-const WAYS: { id: Way; tag: string; t: string; d: string; cta: string }[] = [
-  { id: "online", tag: "Give", t: "Give online", d: "Mobile money, card or online transfer from anywhere in the world.", cta: "Give online" },
-  { id: "offering", tag: "Give", t: "One-time offering", d: "Sow a seed for a single need: the service, the broadcast, an outreach or a project.", cta: "Sow a seed" },
-  { id: "bank", tag: "Give", t: "Bank transfer", d: "Pay straight from your bank, then tell us so we can confirm and thank you.", cta: "Bank transfer" },
-  { id: "partner", tag: "Partner", t: "Become a partner", d: "Stand with VOBI regularly in prayer and giving as the Gospel reaches more people.", cta: "Partner with us" },
+const WAYS: { id: Way; t: string; d: string }[] = [
+  { id: "online", t: "Give online", d: "Mobile money, card or online transfer, from anywhere in the world." },
+  { id: "offering", t: "One-time offering", d: "Sow a seed for a single need: the service, the broadcast, an outreach or a project." },
+  { id: "bank", t: "Bank transfer", d: "Pay straight from your bank, then tell us so we can confirm and thank you." },
+  { id: "partner", t: "Become a partner", d: "Stand with VOBI regularly in prayer and giving as the Gospel reaches more people." },
 ];
 
 const PURPOSES = ["Tithe", "Offering", "Seed", "Outreach and charity", "The broadcast", "Building project", "Missions", "Other"];
 const CURRENCIES = ["USD", "ZAR", "BWP", "ZMW", "GBP", "EUR", "ZWL", "Other"];
 const PARTNER = ["Monthly partner (prayer and giving)", "Prayer partner", "Project partner", "Business or church partner"];
 
-const input = "mt-1 w-full rounded-lg border border-line bg-white px-3 py-3 text-[15px] text-ink outline-none focus:border-gold";
-const label = "block text-sm font-semibold text-ink";
+const eb = "eyebrow text-muted-light";
 
 export function GiveForms() {
   const [way, setWay] = useState<Way | null>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState("");
-  const panel = useRef<HTMLDivElement>(null);
+  const rows = useRef<Record<string, HTMLLIElement | null>>({});
 
-  const pick = (w: Way) => {
-    setWay(w); setStatus("idle"); setError("");
-    window.setTimeout(() => panel.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  const toggle = (w: Way) => {
+    const open = way === w;
+    setWay(open ? null : w); setStatus("idle"); setError("");
+    if (!open) window.setTimeout(() => rows.current[w]?.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
   };
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -59,101 +59,85 @@ export function GiveForms() {
     }
   }
 
-  const giving = way && way !== "partner";
-
   return (
-    <>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {WAYS.map((w) => (
-          <article key={w.id} className={`flex flex-col rounded-2xl bg-white p-6 shadow-md ring-2 transition ${way === w.id ? "ring-gold-bright" : "ring-transparent"}`}>
-            <p className="text-xs font-bold uppercase tracking-wider text-gold">{w.tag}</p>
-            <h3 className="mt-2 text-lg font-bold">{w.t}</h3>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{w.d}</p>
-            <button type="button" onClick={() => pick(w.id)} className="btn btn-gold mt-5 self-start">{w.cta}</button>
-          </article>
-        ))}
-      </div>
+    <ul className="border-b border-line">
+      {WAYS.map((w, i) => {
+        const open = way === w.id;
+        const giving = w.id !== "partner";
+        return (
+          <li key={w.id} ref={(el) => { rows.current[w.id] = el; }} className="scroll-mt-24 border-t border-line">
+            <button type="button" onClick={() => toggle(w.id)} aria-expanded={open}
+              className="grid w-full grid-cols-[2.5rem_1fr_auto] items-center gap-x-4 py-7 text-left md:grid-cols-[4.5rem_1fr_auto] md:py-9">
+              <span className="font-display text-[1.4rem] text-gold md:text-[1.9rem]">{String(i + 1).padStart(2, "0")}</span>
+              <span>
+                <span className="display-sm block">{w.t}</span>
+                <span className="mt-2 block max-w-xl text-[15px] leading-relaxed text-muted">{w.d}</span>
+              </span>
+              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-ink text-xl leading-none text-ink transition-transform" style={{ transform: open ? "rotate(45deg)" : "none" }} aria-hidden="true">+</span>
+            </button>
 
-      <div ref={panel} className="scroll-mt-24">
-        {way && (
-          <div className="mt-8 rounded-2xl bg-white p-6 shadow-md md:p-9">
-            {status === "sent" ? (
-              <div role="status" className="py-6 text-center">
-                <h3 className="text-2xl font-extrabold">Thank you. God bless you.</h3>
-                <p className="mx-auto mt-3 max-w-md text-muted">We have received your details and will contact you soon to confirm and share the next steps.</p>
-                <button type="button" onClick={() => { setStatus("idle"); setWay(null); }} className="btn btn-ink mt-6">Done</button>
+            {open && (
+              <div className="pb-10 md:pl-[4.5rem]">
+                {status === "sent" ? (
+                  <div role="status" className="border-l-2 border-gold py-2 pl-5">
+                    <p className="display-sm">Thank you. God bless you.</p>
+                    <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted">We have received your details and will contact you soon to confirm and share the next steps.</p>
+                    <button type="button" onClick={() => { setStatus("idle"); setWay(null); }} className="btn btn-ink mt-6">Close</button>
+                  </div>
+                ) : (
+                  <form onSubmit={onSubmit} className="grid max-w-3xl gap-x-8 gap-y-7 sm:grid-cols-2">
+                    {w.id === "bank" && (
+                      <p className="border-l-2 border-gold pl-4 text-[15px] leading-relaxed text-ink sm:col-span-2">
+                        Our bank account details will be published here soon. Fill in this form to tell us about your gift or to ask for the account details, and we will reply with everything you need.
+                      </p>
+                    )}
+                    <label className="block"><span className={eb}>Full name *</span><input name="name" required maxLength={80} className="field mt-2" autoComplete="name" /></label>
+                    <label className="block"><span className={eb}>Email *</span><input name="email" type="email" required maxLength={120} className="field mt-2" autoComplete="email" /></label>
+                    <label className="block"><span className={eb}>Phone / WhatsApp</span><input name="phone" maxLength={30} className="field mt-2" autoComplete="tel" /></label>
+                    <label className="block"><span className={eb}>Country *</span><input name="country" required maxLength={60} className="field mt-2" autoComplete="country-name" /></label>
+
+                    {giving && (
+                      <label className="block"><span className={eb}>What is it for?</span>
+                        <select name="purpose" className="field mt-2" defaultValue="Offering">{PURPOSES.map((p) => <option key={p}>{p}</option>)}</select>
+                      </label>
+                    )}
+                    {w.id === "partner" && (
+                      <label className="block"><span className={eb}>How would you like to partner?</span>
+                        <select name="partnerType" className="field mt-2">{PARTNER.map((p) => <option key={p}>{p}</option>)}</select>
+                      </label>
+                    )}
+                    <div className="grid grid-cols-[6rem_1fr] gap-4">
+                      <label className="block"><span className={eb}>Currency</span>
+                        <select name="currency" className="field mt-2" defaultValue="USD">{CURRENCIES.map((c) => <option key={c}>{c}</option>)}</select>
+                      </label>
+                      <label className="block"><span className={eb}>{w.id === "partner" ? "Monthly amount (optional)" : "Amount"}</span>
+                        <input name="amount" inputMode="decimal" maxLength={14} className="field mt-2" placeholder="0.00" />
+                      </label>
+                    </div>
+                    {w.id === "bank" && (
+                      <>
+                        <label className="block"><span className={eb}>Date of transfer (if sent)</span><input name="paidOn" type="date" className="field mt-2" /></label>
+                        <label className="block"><span className={eb}>Bank reference</span><input name="reference" maxLength={60} className="field mt-2" /></label>
+                      </>
+                    )}
+                    <label className="block sm:col-span-2"><span className={eb}>Note or prayer point (optional)</span>
+                      <textarea name="note" rows={3} maxLength={1000} className="field mt-2 resize-y" />
+                    </label>
+                    <label className="flex items-start gap-3 text-[13px] leading-relaxed text-muted sm:col-span-2">
+                      <input type="checkbox" name="consent" required className="mt-1 h-4 w-4 accent-[#7d5f12]" />
+                      <span>I agree that VOBI Ministries may contact me about this. My details are kept private and never published.</span>
+                    </label>
+                    {status === "error" && <p role="alert" className="border-l-2 border-gold pl-4 text-[14px] text-gold sm:col-span-2">{error}</p>}
+                    <div className="sm:col-span-2">
+                      <button type="submit" disabled={status === "sending"} className="btn btn-ink">{status === "sending" ? "Sending..." : w.id === "partner" ? "Send my partner request" : "Submit"}</button>
+                    </div>
+                  </form>
+                )}
               </div>
-            ) : (
-              <form onSubmit={onSubmit} className="grid gap-5 md:grid-cols-2">
-                <div className="md:col-span-2">
-                  <h3 className="text-xl font-extrabold uppercase">{WAYS.find((x) => x.id === way)!.t}</h3>
-                  {way === "bank" && (
-                    <p className="mt-2 rounded-lg bg-gold-bright/20 p-4 text-sm leading-relaxed text-ink">
-                      <b>Bank account details:</b> they will be shown here very soon. Fill in this form now to tell us about your gift or to ask for the account details, and we will reply with everything you need.
-                    </p>
-                  )}
-                  {way === "online" && <p className="mt-2 text-sm text-muted">Tell us how you would like to give and we will send the right payment option for your country.</p>}
-                  {way === "partner" && <p className="mt-2 text-sm text-muted">Welcome. Tell us a little about you and how you want to partner.</p>}
-                </div>
-
-                <label className={label}>Full name *<input name="name" required maxLength={80} className={input} autoComplete="name" /></label>
-                <label className={label}>Email *<input name="email" type="email" required maxLength={120} className={input} autoComplete="email" /></label>
-                <label className={label}>Phone / WhatsApp<input name="phone" maxLength={30} className={input} autoComplete="tel" /></label>
-                <label className={label}>Country *<input name="country" required maxLength={60} className={input} autoComplete="country-name" /></label>
-
-                {giving && (
-                  <>
-                    <label className={label}>What is it for?
-                      <select name="purpose" className={input} defaultValue="Offering">{PURPOSES.map((p) => <option key={p}>{p}</option>)}</select>
-                    </label>
-                    <div className="grid grid-cols-[110px_1fr] gap-3">
-                      <label className={label}>Currency
-                        <select name="currency" className={input} defaultValue="USD">{CURRENCIES.map((c) => <option key={c}>{c}</option>)}</select>
-                      </label>
-                      <label className={label}>Amount
-                        <input name="amount" inputMode="decimal" maxLength={14} className={input} placeholder="0.00" />
-                      </label>
-                    </div>
-                  </>
-                )}
-                {way === "bank" && (
-                  <>
-                    <label className={label}>Date of transfer (if already sent)<input name="paidOn" type="date" className={input} /></label>
-                    <label className={label}>Bank reference or proof number<input name="reference" maxLength={60} className={input} /></label>
-                  </>
-                )}
-                {way === "partner" && (
-                  <>
-                    <label className={label}>How would you like to partner?
-                      <select name="partnerType" className={input}>{PARTNER.map((p) => <option key={p}>{p}</option>)}</select>
-                    </label>
-                    <div className="grid grid-cols-[110px_1fr] gap-3">
-                      <label className={label}>Currency
-                        <select name="currency" className={input} defaultValue="USD">{CURRENCIES.map((c) => <option key={c}>{c}</option>)}</select>
-                      </label>
-                      <label className={label}>Monthly amount (optional)
-                        <input name="amount" inputMode="decimal" maxLength={14} className={input} placeholder="0.00" />
-                      </label>
-                    </div>
-                  </>
-                )}
-
-                <label className={`${label} md:col-span-2`}>Note or prayer point (optional)
-                  <textarea name="note" rows={3} maxLength={1000} className={input} />
-                </label>
-                <label className="flex items-start gap-3 text-sm text-muted md:col-span-2">
-                  <input type="checkbox" name="consent" required className="mt-1 h-4 w-4" />
-                  <span>I agree that VOBI Ministries may contact me about this. My details are kept private and never published.</span>
-                </label>
-                {status === "error" && <p role="alert" className="text-sm font-semibold text-red-700 md:col-span-2">{error}</p>}
-                <div className="md:col-span-2">
-                  <button type="submit" disabled={status === "sending"} className="btn btn-gold">{status === "sending" ? "Sending..." : way === "partner" ? "Send my partner request" : "Submit"}</button>
-                </div>
-              </form>
             )}
-          </div>
-        )}
-      </div>
-    </>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
