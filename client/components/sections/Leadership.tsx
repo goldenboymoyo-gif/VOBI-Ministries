@@ -10,7 +10,7 @@ export function Leadership() {
         <div className="reveal lg:col-span-5">
           <div className="frame">
             <Image
-              src="/photos/prophet.jpg"
+              src="/photos/prophet-new.jpg"
               alt="Prophet Promise ministering in a VOBI Sunday service"
               width={1333}
               height={2000}
