@@ -20,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/ministries",
     "/sermons",
     "/events",
-    "/prayer", "/blog", "/devotionals", "/branches", "/give", "/store",
+    "/prayer", "/blog", "/devotionals", "/give", "/store",
     "/testimonies",
     "/live", "/tv", "/media", "/privacy", "/terms", "/cookies",
     "/visit",

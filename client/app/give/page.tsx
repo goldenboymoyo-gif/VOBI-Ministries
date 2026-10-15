@@ -16,7 +16,7 @@ const goes = [
   "Keeps the Sunday service and the live broadcast on air",
   "Supports mass prayer and the prayer lines",
   "Funds humanitarian outreach and the feeding of families",
-  "Carries mission trips into Botswana and Zambia, and new branches",
+  "Carries mission trips into Botswana and Zambia",
 ];
 
 export default async function GivePage() {
@@ -49,9 +49,9 @@ export default async function GivePage() {
       <section className="border-b border-line bg-paper-dim py-16 md:py-24">
         <div className="shell grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-6">
-            <div className="relative aspect-[4/3] overflow-hidden">
+            <div className="relative aspect-[5/6] overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/photos/hero.jpg" alt="Prophet Promise praying for a member of the congregation" loading="lazy" className="h-full w-full object-cover" />
+              <img src="/photos/partner.jpg" alt="Church members taking notes from the Bible during a VOBI service" loading="lazy" className="h-full w-full object-cover object-top" />
             </div>
           </div>
           <div className="lg:col-span-6">
