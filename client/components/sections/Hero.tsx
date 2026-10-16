@@ -41,7 +41,7 @@ export function Hero({ image, videoFile: adminFile }: { video?: string; image?: 
       <div className="absolute inset-0 -z-10 overflow-hidden bg-ink">
         <Image src={image || "/photos/hero.jpg"} unoptimized={Boolean(image)} alt="Prophet Promise praying for a member of the congregation during a VOBI service"
           fill priority sizes="100vw" quality={82} className="object-cover object-center" />
-        {wait && !slow && <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover object-center transition-opacity duration-1000 ${show ? "opacity-100" : "opacity-0"}`}
+        {!slow && <video ref={vid} className={`absolute inset-0 h-full w-full transform-gpu object-cover object-center transition-opacity duration-1000 ${show ? "opacity-100" : "opacity-0"}`}
           src={videoFile} autoPlay muted loop playsInline preload="auto" onPlaying={() => setPlaying(true)} onError={() => { window.setTimeout(() => vid.current?.load(), 1500); }} disablePictureInPicture aria-hidden="true" />}
         <div className="absolute inset-0 bg-ink/45" />
                 <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.45)_100%)]" />
