@@ -37,7 +37,7 @@ export function UpcomingEvents({ events }: { events: ChurchEvent[] }) {
             <ul className="mt-7 space-y-px border border-line bg-line">
               {events.map((e) => (
                 <li key={e.id} className="bg-paper-dim px-6 py-5">
-                  {e.image && (/* eslint-disable-next-line @next/next/no-img-element */ <img src={e.image} alt={e.title} loading="lazy" className="mb-4 aspect-[16/9] w-full object-cover" />)}
+                  {e.image && (/* eslint-disable-next-line @next/next/no-img-element */ <img src={e.image} alt={e.title} loading="lazy" className="mb-4 block h-auto w-full" />)}
                   <p className="text-sm font-semibold text-gold">
                     {fmtDate(e.date)}
                   </p>

@@ -28,9 +28,9 @@ export default async function EventsPage() {
                 return (
                   <article key={e.id} className="overflow-hidden rounded-2xl bg-white shadow-md">
                     {e.image && (
-                      <div className="relative aspect-[16/9] overflow-hidden">
+                      <div className="relative overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={e.image} alt={e.title} loading="lazy" className="h-full w-full object-cover" />
+                        <img src={e.image} alt={e.title} loading="lazy" className="block h-auto w-full" />
                       </div>
                     )}
                     <div className="p-6 md:p-7">
