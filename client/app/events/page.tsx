@@ -22,22 +22,22 @@ export default async function EventsPage() {
           {events.length === 0 ? (
             <p className="mx-auto max-w-md text-center text-muted">No events right now. New events will appear here when they are announced.</p>
           ) : (
-            <div className="mx-auto grid max-w-5xl gap-8">
+            <div className={"mx-auto grid gap-8 " + (>
               {events.map((e) => {
                 const d = new Date(`${e.date}T12:00:00Z`);
                 return (
                   <article key={e.id} className="overflow-hidden rounded-2xl bg-white shadow-md md:flex">
                     {e.image && (
-                      <div className="md:w-[320px] md:shrink-0">
+                      <div className={"md:shrink-0 " + (>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={e.image} alt={e.title} loading="lazy" className="block h-auto w-full" />
                       </div>
                     )}
-                    <div className="p-6 md:flex md:flex-1 md:flex-col md:justify-center md:p-10">
+                    <div className={"p-6 md:flex md:flex-1 md:flex-col md:justify-center " + (>
                       <p className="text-sm font-bold uppercase tracking-wider text-gold">
                         {d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}{e.time ? ` \u00b7 ${e.time}` : ""}
                       </p>
-                      <h3 className="mt-2 text-xl font-bold md:text-3xl">{e.title}</h3>
+                      <h3 className={"mt-2 text-xl font-bold " + (>{e.title}</h3>
                       {e.location && <p className="mt-1 text-sm font-semibold text-muted">{e.location}</p>}
                       {e.description && <p className="mt-4 whitespace-pre-line leading-relaxed text-muted md:text-lg">{e.description}</p>}
                       <div className="mt-6 flex flex-wrap gap-3">
