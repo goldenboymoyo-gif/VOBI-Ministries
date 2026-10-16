@@ -22,22 +22,22 @@ export default async function EventsPage() {
           {events.length === 0 ? (
             <p className="mx-auto max-w-md text-center text-muted">No events right now. New events will appear here when they are announced.</p>
           ) : (
-            <div className={"mx-auto grid gap-8 " + (>
+            <div className={"mx-auto grid gap-8 " + (events.length > 1 ? "max-w-6xl lg:grid-cols-2" : "max-w-5xl")}>
               {events.map((e) => {
                 const d = new Date(`${e.date}T12:00:00Z`);
                 return (
                   <article key={e.id} className="overflow-hidden rounded-2xl bg-white shadow-md md:flex">
                     {e.image && (
-                      <div className={"md:shrink-0 " + (>
+                      <div className={"md:shrink-0 " + (events.length > 1 ? "md:w-[190px]" : "md:w-[320px]")}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={e.image} alt={e.title} loading="lazy" className="block h-auto w-full" />
                       </div>
                     )}
-                    <div className={"p-6 md:flex md:flex-1 md:flex-col md:justify-center " + (>
+                    <div className={"p-6 md:flex md:flex-1 md:flex-col md:justify-center " + (events.length > 1 ? "md:p-6" : "md:p-10")}>
                       <p className="text-sm font-bold uppercase tracking-wider text-gold">
                         {d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}{e.time ? ` \u00b7 ${e.time}` : ""}
                       </p>
-                      <h3 className={"mt-2 text-xl font-bold " + (>{e.title}</h3>
+                      <h3 className={"mt-2 text-xl font-bold " + (events.length > 1 ? "md:text-2xl" : "md:text-3xl")}>{e.title}</h3>
                       {e.location && <p className="mt-1 text-sm font-semibold text-muted">{e.location}</p>}
                       {e.description && <p className="mt-4 whitespace-pre-line leading-relaxed text-muted md:text-lg">{e.description}</p>}
                       <div className="mt-6 flex flex-wrap gap-3">
