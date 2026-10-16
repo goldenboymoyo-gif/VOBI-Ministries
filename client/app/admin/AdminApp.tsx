@@ -175,7 +175,7 @@ function Login({ session, onDone }: { session: Session; onDone: () => void }) {
           : !session.configured ? <div className="adm-note error">The admin password has not been set up yet. Add <code>ADMIN_PASSWORD</code> in Vercel → Settings → Environment Variables, then redeploy.</div>
           : (<>
             <label htmlFor="adm-pass">Password</label>
-            <input id="adm-pass" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} autoFocus required />
+            <input id="adm-pass" type="password" autoComplete="new-password" data-lpignore="true" data-1p-ignore="true" data-form-type="other" value={password} onChange={(e) => setPassword(e.target.value)} autoFocus required />
             {error ? <p className="adm-error">{error}</p> : null}
             <button className="adm-btn adm-btn-block" disabled={busy || !password}>{busy ? "Checking…" : "Log in"}</button>
           </>)}
