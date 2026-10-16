@@ -41,7 +41,7 @@ export function Leadership() {
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/about/leadership" className="btn btn-ink">
-              Read more
+              About Prophet Promise
             </Link>
             <Link href="/sermons" className="btn btn-ghost text-ink">
               His messages
