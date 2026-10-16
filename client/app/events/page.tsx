@@ -22,18 +22,18 @@ export default async function EventsPage() {
           {events.length === 0 ? (
             <p className="mx-auto max-w-md text-center text-muted">No events right now. New events will appear here when they are announced.</p>
           ) : (
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="mx-auto grid max-w-5xl gap-8">
               {events.map((e) => {
                 const d = new Date(`${e.date}T12:00:00Z`);
                 return (
-                  <article key={e.id} className="overflow-hidden rounded-2xl bg-white shadow-md">
+                  <article key={e.id} className="overflow-hidden rounded-2xl bg-white shadow-md md:flex">
                     {e.image && (
-                      <div className="relative overflow-hidden bg-[#efe8d8]">
+                      <div className="md:w-[320px] md:shrink-0">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={e.image} alt={e.title} loading="lazy" className="mx-auto block h-auto max-h-[420px] w-full object-contain" />
+                        <img src={e.image} alt={e.title} loading="lazy" className="block h-auto w-full" />
                       </div>
                     )}
-                    <div className="p-6 md:p-7">
+                    <div className="p-6 md:flex-1 md:p-8">
                       <p className="text-sm font-bold uppercase tracking-wider text-gold">
                         {d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}{e.time ? ` \u00b7 ${e.time}` : ""}
                       </p>
