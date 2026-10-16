@@ -17,7 +17,6 @@ const quick = [
   { label: "Testimonies", href: "/testimonies" },
   { label: "Events", href: "/events" },
   { label: "Give & Partner", href: "/give" },
-  { label: "Store", href: "/store" },
 ];
 
 const help = [
