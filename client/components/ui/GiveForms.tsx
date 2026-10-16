@@ -5,14 +5,15 @@ import { useRef, useState, type FormEvent } from "react";
 type Way = "online" | "offering" | "bank" | "partner";
 
 const WAYS: { id: Way; t: string; d: string }[] = [
-  { id: "online", t: "Give online", d: "Mobile money, card or online transfer, from anywhere in the world." },
+  { id: "online", t: "Give online", d: "Pay by EcoCash, card or bank transfer. We send you our payment details privately." },
   { id: "offering", t: "One-time offering", d: "Sow a seed for a single need: the service, the broadcast, an outreach or a project." },
-  { id: "bank", t: "Bank transfer", d: "Pay straight from your bank, then tell us so we can confirm and thank you." },
+  { id: "bank", t: "Bank transfer", d: "Tell us how you want to pay. We send our payment details to you privately, so you can pay and we can confirm." },
   { id: "partner", t: "Become a partner", d: "Stand with VOBI regularly in prayer and giving as the Gospel reaches more people." },
 ];
 
 const PURPOSES = ["Tithe", "Offering", "Seed", "Outreach and charity", "The broadcast", "Building project", "Missions", "Other"];
 const CURRENCIES = ["USD", "ZiG"];
+const PAYVIA = ["EcoCash", "Card or bank transfer (USD)", "Card or bank transfer (ZiG)"];
 const PARTNER = ["Monthly partner (prayer and giving)", "Prayer partner", "Project partner", "Business or church partner"];
 
 const eb = "eyebrow text-muted-light";
@@ -40,6 +41,7 @@ export function GiveForms() {
       d.purpose ? `Purpose: ${d.purpose}` : "",
       d.partnerType ? `Partnership: ${d.partnerType}` : "",
       d.amount ? `Amount: ${d.currency || ""} ${d.amount}` : "",
+      d.payVia ? `Pay by: ${d.payVia}` : "",
       d.paidOn ? `Date of transfer: ${d.paidOn}` : "",
       d.reference ? `Bank reference: ${d.reference}` : "",
       `Country: ${d.country || "-"}`,
@@ -81,14 +83,14 @@ export function GiveForms() {
                 {status === "sent" ? (
                   <div role="status" className="border-l-2 border-gold py-2 pl-5">
                     <p className="display-sm">Thank you. God bless you.</p>
-                    <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted">We have received your details and will contact you soon to confirm and share the next steps.</p>
+                    <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted">We have received your details. We will contact you soon with our payment details, privately, so you can pay safely.</p>
                     <button type="button" onClick={() => { setStatus("idle"); setWay(null); }} className="btn btn-ink mt-6">Close</button>
                   </div>
                 ) : (
                   <form onSubmit={onSubmit} className="grid max-w-3xl gap-x-8 gap-y-7 sm:grid-cols-2">
-                    {w.id === "bank" && (
+                    {giving && (
                       <p className="border-l-2 border-gold pl-4 text-[15px] leading-relaxed text-ink sm:col-span-2">
-                        Our bank account details will be published here soon. Fill in this form to tell us about your gift or to ask for the account details, and we will reply with everything you need.
+                        We do not publish our payment details. Fill in this form, choose how you want to pay, and we will send you the right details privately by WhatsApp or email.
                       </p>
                     )}
                     <label className="block"><span className={eb}>Full name *</span><input name="name" required maxLength={80} className="field mt-2" autoComplete="name" /></label>
@@ -120,6 +122,7 @@ export function GiveForms() {
                         <label className="block"><span className={eb}>Bank reference</span><input name="reference" maxLength={60} className="field mt-2" /></label>
                       </>
                     )}
+                    {giving && (<label className="block sm:col-span-2"><span className={eb}>How would you like to pay?</span><select name="payVia" className="field mt-2" defaultValue="EcoCash">{PAYVIA.map((x) => <option key={x}>{x}</option>)}</select></label>)}
                     <label className="block sm:col-span-2"><span className={eb}>Note or prayer point (optional)</span>
                       <textarea name="note" rows={3} maxLength={1000} className="field mt-2 resize-y" />
                     </label>
