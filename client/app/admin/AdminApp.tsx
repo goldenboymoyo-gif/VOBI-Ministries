@@ -589,6 +589,11 @@ export default function AdminApp() {
   }, []);
 
   useEffect(() => { void loadSession(); }, [loadSession]);
+  useEffect(() => {
+    const out = () => { try { navigator.sendBeacon("/api/admin/login?logout=1"); } catch {} };
+    window.addEventListener("pagehide", out);
+    return () => { window.removeEventListener("pagehide", out); out(); };
+  }, []);
   useEffect(() => { if (session?.loggedIn) void loadContent(); }, [session?.loggedIn, loadContent]);
   useEffect(() => {
     if (!dirty) return;
