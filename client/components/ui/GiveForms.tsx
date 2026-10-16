@@ -12,7 +12,7 @@ const WAYS: { id: Way; t: string; d: string }[] = [
 ];
 
 const PURPOSES = ["Tithe", "Offering", "Seed", "Outreach and charity", "The broadcast", "Building project", "Missions", "Other"];
-const CURRENCIES = ["USD", "ZAR", "BWP", "ZMW", "GBP", "EUR", "ZWL", "Other"];
+const CURRENCIES = ["USD", "ZiG"];
 const PARTNER = ["Monthly partner (prayer and giving)", "Prayer partner", "Project partner", "Business or church partner"];
 
 const eb = "eyebrow text-muted-light";
