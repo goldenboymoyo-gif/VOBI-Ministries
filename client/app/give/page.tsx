@@ -51,7 +51,7 @@ export default async function GivePage() {
           <div className="lg:col-span-6">
             <div className="relative aspect-[5/6] overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/photos/partner.jpg" alt="Church members taking notes from the Bible during a VOBI service" loading="lazy" className="h-[116%] w-full object-cover object-top" />
+              <img src="/photos/partner-v2.jpg" alt="Church members taking notes from the Bible during a VOBI service" className="h-[116%] w-full object-cover object-top" />
             </div>
           </div>
           <div className="lg:col-span-6">
